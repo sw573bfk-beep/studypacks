@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StudyPacks</title>
+<style>
+  :root {
+    --bg: #f4f6fb;
+    --surface: #ffffff;
+    --line: #e5e8f0;
+    --line-soft: #eef1f7;
+    --ink: #171a21;
+    --ink-soft: #5c6376;
+    --ink-faint: #8f96a8;
+    --radius: 14px;
+    --shadow-sm: 0 1px 2px rgba(20,25,40,.05);
+    --shadow: 0 2px 6px rgba(20,25,40,.06), 0 12px 28px rgba(20,25,40,.06);
+
+    --brand: #4f46e5;
+    --brand-dark: #4338ca;
+    --brand-soft: #eef0fe;
+    --brand-line: #c9cdfa;
+    --grad-a: #6366f1;
+    --grad-b: #8b5cf6;
+  }
+
+  [data-theme="blue"] {
+    --brand: #1d68d6; --brand-dark: #1854ae; --brand-soft: #e8f0fd; --brand-line: #bcd5f7;
+    --grad-a: #2b7fea; --grad-b: #1b5bc4;
+  }
+  [data-theme="green"] {
+    --brand: #17795a; --brand-dark: #126048; --brand-soft: #e6f4ef; --brand-line: #b6ddcd;
+    --grad-a: #1f9c73; --grad-b: #137055;
+  }
+  [data-theme="purple"] {
+    --brand: #6d3bd4; --brand-dark: #5a2fb4; --brand-soft: #f1ebfd; --brand-line: #d5c4f8;
+    --grad-a: #7c4dea; --grad-b: #5b2fbe;
+  }
+  [data-theme="orange"] {
+    --brand: #b8560f; --brand-dark: #97460b; --brand-soft: #fdefe3; --brand-line: #f5cfab;
+    --grad-a: #e0731c; --grad-b: #b0500d;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  button { font: inherit; cursor: pointer; }
+  input, textarea, select { font: inherit; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  /* ---------- top bar ---------- */
+  .topbar {
+    background: var(--surface); border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 60;
+  }
+  .topbar-in { display: flex; align-items: center; gap: 14px; height: 58px; }
+  .brandbtn {
+    display: flex; align-items: center; gap: 9px;
+    background: none; border: 0; padding: 0; color: var(--ink);
+    font-weight: 700; font-size: 17px; letter-spacing: -.3px;
+  }
+  .brandmark {
+    width: 27px; height: 27px; border-radius: 8px; color: #fff;
+    background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+    display: grid; place-items: center; font-size: 15px;
+  }
+  .spacer { flex: 1; }
+
+  .btn {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    padding: 9px 15px; border-radius: 10px; font-size: 14px; font-weight: 550;
+    transition: all .13s;
+  }
+  .btn:hover { background: var(--bg); border-color: var(--brand-line); }
+  .btn-primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .btn-primary:hover { background: var(--brand-dark); border-color: var(--brand-dark); }
+  .btn-sm { padding: 7px 12px; font-size: 13.5px; }
+  .btn-lg { padding: 12px 22px; font-size: 15.5px; }
+
+  /* ---------- library ---------- */
+  .hero { padding: 46px 0 8px; text-align: center; }
+  .hero h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.2; letter-spacing: -.8px; font-weight: 750; }
+  .hero p { margin: 0 auto; color: var(--ink-soft); max-width: 50ch; font-size: 17px; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 30px 0 20px; }
+  .search {
+    flex: 1; min-width: 220px; border: 1px solid var(--line); background: var(--surface);
+    border-radius: 11px; padding: 12px 15px; outline: none;
+  }
+  .search:focus { border-color: var(--brand-line); box-shadow: 0 0 0 3px var(--brand-soft); }
+  select.filter {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    border-radius: 11px; padding: 12px 14px; outline: none;
+  }
+
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); padding-bottom: 70px; }
+  .pcard {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    text-align: left; overflow: hidden; display: flex; flex-direction: column;
+    transition: transform .14s, box-shadow .14s;
+  }
+  .pcard:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .pcard-top { height: 6px; background: linear-gradient(90deg, var(--grad-a), var(--grad-b)); }
+  .pcard-body { padding: 20px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
+  .pcard-meta {
+    font-size: 11.5px; color: var(--ink-faint); text-transform: uppercase;
+    letter-spacing: .6px; font-weight: 700;
+  }
+  .pcard h3 { margin: 0; font-size: 19px; font-weight: 680; letter-spacing: -.3px; display: flex; align-items: center; gap: 8px; }
+  .pcard p { margin: 0; font-size: 14.5px; color: var(--ink-soft); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+  .chip {
+    font-size: 11.5px; padding: 4px 9px; border-radius: 20px;
+    background: var(--brand-soft); color: var(--brand); font-weight: 600;
+  }
+  .pcard-foot {
+    margin-top: auto; padding-top: 13px; border-top: 1px solid var(--line-soft);
+    font-size: 12.5px; color: var(--ink-faint);
+  }
+  .empty {
+    grid-column: 1/-1; text-align: center; padding: 56px 20px; color: var(--ink-soft);
+    background: var(--surface); border: 1px dashed var(--line); border-radius: var(--radius);
+  }
+
+  /* ---------- pack banner ---------- */
+  .banner {
+    background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+    color: #fff; padding: 30px 0 32px; text-align: center;
+  }
+  .banner h1 {
+    margin: 0 0 8px; font-size: 30px; font-weight: 720; letter-spacing: -.6px;
+    display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;
+  }
+  .banner .exam-line { margin: 0; opacity: .93; font-size: 15px; }
+  .backlink {
+    display: inline-block; margin-bottom: 14px; background: rgba(255,255,255,.16);
+    border: 0; color: #fff; padding: 6px 13px; border-radius: 20px; font-size: 13.5px; font-weight: 550;
+  }
+  .backlink:hover { background: rgba(255,255,255,.26); }
+
+  /* ---------- nav pills ---------- */
+  .navbar { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: 58px; z-index: 55; }
+  .navpills { display: flex; gap: 8px; padding: 12px 0; overflow-x: auto; scrollbar-width: thin; }
+  .pill {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+    padding: 9px 16px; border-radius: 22px; font-size: 14px; font-weight: 600;
+    white-space: nowrap; transition: all .13s;
+  }
+  .pill:hover { border-color: var(--brand-line); color: var(--ink); }
+  .pill.on { background: var(--brand); border-color: var(--brand); color: #fff; }
+
+  /* ---------- panels ---------- */
+  .panel { padding: 30px 0 80px; }
+  .sheet {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow-sm);
+  }
+  .kicker {
+    display: inline-block; background: var(--brand-soft); color: var(--brand);
+    font-size: 11.5px; font-weight: 750; letter-spacing: .8px; text-transform: uppercase;
+    padding: 5px 11px; border-radius: 7px; margin-bottom: 14px;
+  }
+  .sheet h2 { margin: 0 0 10px; font-size: 25px; font-weight: 700; letter-spacing: -.5px; }
+  .lead { margin: 0 0 22px; color: var(--ink-soft); font-size: 16.5px; max-width: 62ch; }
+
+  .tipbox {
+    background: #fff8ec; border: 1px solid #f3ddb8; border-radius: 12px;
+    padding: 15px 18px; margin-bottom: 22px; font-size: 15px; color: #7a5418;
+  }
+  .tipbox strong { display: block; color: #5c3f11; margin-bottom: 4px; font-weight: 700; }
+
+  .routes { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; margin-bottom: 26px; }
+  .route {
+    text-align: left; border: 1.5px solid var(--line); background: var(--surface);
+    border-radius: 12px; padding: 18px 20px; transition: all .14s;
+  }
+  .route:hover { border-color: var(--brand); transform: translateY(-2px); }
+  .route.feature { border-color: var(--brand-line); background: var(--brand-soft); }
+  .route .rk { font-size: 11.5px; font-weight: 750; letter-spacing: .7px; text-transform: uppercase; color: var(--brand); }
+  .route .rt { font-size: 18px; font-weight: 660; margin: 5px 0 4px; display: flex; align-items: center; gap: 8px; }
+  .route .rd { font-size: 14px; color: var(--ink-soft); }
+
+  .unitgrid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .unitcard {
+    text-align: left; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 12px; padding: 18px; transition: all .14s;
+  }
+  .unitcard:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+  .unitcard .un { font-size: 11.5px; font-weight: 750; letter-spacing: .7px; text-transform: uppercase; color: var(--brand); }
+  .unitcard .ut { font-size: 17px; font-weight: 660; margin: 5px 0 4px; }
+  .unitcard .ud { font-size: 13.5px; color: var(--ink-soft); }
+  .unitcard .uc { font-size: 12.5px; color: var(--ink-faint); margin-top: 10px; }
+
+  /* ---------- overview ---------- */
+  .ovblock { margin-bottom: 26px; }
+  .ovblock h3 {
+    margin: 0 0 10px; font-size: 17px; font-weight: 680;
+    display: flex; align-items: center; gap: 9px;
+  }
+  .ovblock h3 .num {
+    width: 25px; height: 25px; border-radius: 7px; background: var(--brand-soft);
+    color: var(--brand); display: grid; place-items: center; font-size: 13px; font-weight: 750;
+  }
+  .ovblock ul { margin: 0; padding-left: 20px; }
+  .ovblock li { margin-bottom: 7px; color: var(--ink-soft); }
+  .ovblock li strong { color: var(--ink); font-weight: 620; }
+
+  /* ---------- sections ---------- */
+  .sec { margin-bottom: 34px; }
+  .sec-h { display: flex; align-items: baseline; gap: 11px; margin: 0 0 12px; }
+  .sec-n {
+    flex: none; width: 27px; height: 27px; border-radius: 8px;
+    background: var(--brand); color: #fff; display: grid; place-items: center;
+    font-size: 13px; font-weight: 750; align-self: center;
+  }
+  .sec-h h3 { margin: 0; font-size: 21px; font-weight: 690; letter-spacing: -.3px; }
+  .sec-body {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 22px 24px; box-shadow: var(--shadow-sm);
+  }
+  .sec-body p { margin: 0 0 12px; }
+  .sec-body p:last-child { margin-bottom: 0; }
+  .sec-body strong { font-weight: 660; color: var(--ink); }
+
+  .diagram {
+    margin: 18px 0 6px; padding: 18px; background: var(--bg);
+    border: 1px solid var(--line-soft); border-radius: 12px; text-align: center;
+  }
+  .diagram svg { max-width: 100%; height: auto; }
+  .diagram .cap { font-size: 13px; color: var(--ink-faint); margin-top: 10px; }
+
+  /* worked example - deliberately NOT a code block */
+  /* ---- worked examples: readable steps, deliberately not code ---- */
+  .worked { margin: 20px 0 6px; border: 1px solid var(--brand-line); border-radius: 14px; overflow: hidden; }
+  .worked-head {
+    display: flex; align-items: center; gap: 8px; background: var(--brand-soft);
+    color: var(--brand); font-size: 13.5px; font-weight: 700;
+    padding: 11px 18px; border-bottom: 1px solid var(--brand-line);
+  }
+  .worked-box { background: var(--surface); padding: 6px 18px; }
+  .step { display: flex; gap: 14px; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--line-soft); }
+  .step:last-child { border-bottom: 0; }
+  .step-n {
+    flex: none; width: 24px; height: 24px; border-radius: 50%; margin-top: 2px;
+    background: var(--brand-soft); color: var(--brand);
+    display: grid; place-items: center; font-size: 12.5px; font-weight: 750;
+  }
+  .step-main { flex: 1; min-width: 0; }
+  .step-do {
+    font-size: 18px; line-height: 1.5; color: var(--ink); font-weight: 550;
+    font-variant-numeric: tabular-nums; letter-spacing: .1px;
+  }
+  .step-why { font-size: 14.5px; color: var(--ink-soft); margin-top: 3px; }
+  .step.answer .step-n { background: var(--brand); color: #fff; }
+  .step.answer .step-do { font-weight: 700; color: var(--brand); font-size: 19px; }
+  .step-art {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 17px; line-height: 1.6; white-space: pre; overflow-x: auto;
+    background: var(--brand-soft); border-radius: 10px; padding: 14px 18px;
+    margin: 4px 0 2px; color: var(--ink); font-weight: 500;
+  }
+
+  /* ---- multiple choice ---- */
+  .scorebar {
+    display: flex; align-items: center; gap: 14px; background: var(--surface);
+    border: 1px solid var(--line); border-radius: 12px; padding: 13px 18px; margin-bottom: 18px;
+    position: sticky; top: 110px; z-index: 40; box-shadow: var(--shadow-sm);
+  }
+  .scorebar .sv { font-size: 19px; font-weight: 740; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .scorebar .sl { font-size: 13.5px; color: var(--ink-soft); }
+  .mc { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; margin-bottom: 14px; }
+  .mc-n { font-size: 11.5px; font-weight: 750; letter-spacing: .6px; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 7px; }
+  .mc-q { font-size: 17px; font-weight: 600; margin-bottom: 14px; }
+  .mc-opts { display: grid; gap: 9px; }
+  .opt {
+    display: flex; align-items: center; gap: 12px; text-align: left; width: 100%;
+    border: 1.5px solid var(--line); background: var(--surface); color: var(--ink);
+    border-radius: 11px; padding: 12px 15px; font-size: 15.5px; transition: all .12s;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--brand); background: var(--brand-soft); }
+  .opt:disabled { cursor: default; }
+  .opt .mark {
+    flex: none; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--line);
+    display: grid; place-items: center; font-size: 14px; font-weight: 750; color: var(--ink-faint);
+  }
+  .opt.right { border-color: #1a8a55; background: #e8f7ef; }
+  .opt.right .mark { background: #1a8a55; border-color: #1a8a55; color: #fff; }
+  .opt.wrong { border-color: #c0392b; background: #fdecea; }
+  .opt.wrong .mark { background: #c0392b; border-color: #c0392b; color: #fff; }
+  .mc-why {
+    margin-top: 14px; padding: 13px 16px; border-radius: 10px;
+    background: var(--brand-soft); font-size: 14.5px; color: var(--ink-soft);
+  }
+  .mc-why strong { color: var(--ink); }
+
+  /* ---- typed practice ---- */
+  .pr { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; margin-bottom: 14px; }
+  .pr-q { font-size: 19px; font-weight: 600; margin: 8px 0 15px; font-variant-numeric: tabular-nums; }
+  .pr-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .pr-in {
+    flex: 1; min-width: 160px; border: 1.5px solid var(--line); border-radius: 11px;
+    padding: 12px 15px; font-size: 17px; outline: none; background: #fdfdff; color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .pr-in:focus { border-color: var(--brand-line); box-shadow: 0 0 0 3px var(--brand-soft); }
+  .pr-in.right { border-color: #1a8a55; background: #e8f7ef; }
+  .pr-in.wrong { border-color: #c0392b; background: #fdecea; }
+  .pr-verdict { margin-top: 14px; padding: 14px 17px; border-radius: 11px; font-size: 15px; }
+  .pr-verdict.ok { background: #e8f7ef; color: #14603c; }
+  .pr-verdict.no { background: #fdecea; color: #8c2c20; }
+  .pr-verdict .vh { font-weight: 700; display: block; margin-bottom: 5px; }
+  .pr-verdict .sol { color: var(--ink-soft); margin-top: 8px; font-size: 14.5px; }
+
+  table.mini { width: 100%; border-collapse: collapse; margin: 18px 0 6px; font-size: 14.5px; }
+  table.mini th, table.mini td { border: 1px solid var(--line); padding: 10px 13px; text-align: left; }
+  table.mini th { background: var(--brand-soft); color: var(--brand); font-weight: 680; }
+  table.mini tr:nth-child(even) td { background: #fafbfe; }
+
+  /* ---------- key terms ---------- */
+  .termgrid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .termcard { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 15px 17px; }
+  .termcard dt { font-weight: 670; margin-bottom: 4px; color: var(--brand); }
+  .termcard dd { margin: 0; font-size: 14.5px; color: var(--ink-soft); }
+
+  /* ---------- quick answers ---------- */
+  .qk { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+  .qk-q {
+    width: 100%; text-align: left; background: none; border: 0; padding: 15px 18px;
+    font-size: 15.5px; font-weight: 570; display: flex; gap: 12px; align-items: flex-start;
+  }
+  .qk-q:hover { background: var(--brand-soft); }
+  .qk-q .tog { flex: none; color: var(--brand); font-weight: 750; font-size: 18px; line-height: 1.3; }
+  .qk-a {
+    padding: 0 18px 16px 48px; color: var(--ink-soft); font-size: 15px;
+    border-top: 1px solid var(--line-soft); padding-top: 13px; margin-top: -1px;
+  }
+  .qk-a strong { color: var(--ink); }
+
+  /* ---------- flashcards ---------- */
+  .fc-stage { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  .fc-scene { width: 100%; max-width: 560px; height: 290px; perspective: 1300px; }
+  .fc { width: 100%; height: 100%; position: relative; transform-style: preserve-3d;
+        transition: transform .5s cubic-bezier(.4,.2,.2,1); cursor: pointer; }
+  .fc.flipped { transform: rotateY(180deg); }
+  .fc-face {
+    position: absolute; inset: 0; backface-visibility: hidden; border-radius: 16px;
+    border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 34px; text-align: center;
+  }
+  .fc-back { transform: rotateY(180deg); background: var(--brand-soft); border-color: var(--brand-line); }
+  .fc-tag {
+    position: absolute; top: 15px; left: 18px; font-size: 11px; letter-spacing: .8px;
+    text-transform: uppercase; color: var(--ink-faint); font-weight: 750;
+  }
+  .fc-text { font-size: 19px; line-height: 1.5; }
+  .fc-tip { position: absolute; bottom: 15px; font-size: 12.5px; color: var(--ink-faint); }
+  .fc-bar { display: flex; align-items: center; gap: 16px; }
+  .fc-count { font-size: 14.5px; color: var(--ink-soft); min-width: 70px; text-align: center; font-weight: 550; }
+
+  /* ---------- exam ---------- */
+  .exam-intro { text-align: center; padding: 12px 0 4px; }
+  .exam-facts { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin: 22px 0 26px; }
+  .fact { background: var(--brand-soft); border-radius: 12px; padding: 14px 22px; min-width: 118px; }
+  .fact .fv { font-size: 24px; font-weight: 740; color: var(--brand); }
+  .fact .fl { font-size: 12.5px; color: var(--ink-soft); font-weight: 560; }
+
+  .timerbar {
+    position: sticky; top: 110px; z-index: 40; background: var(--surface);
+    border: 1px solid var(--line); border-radius: 12px; padding: 12px 18px;
+    display: flex; align-items: center; gap: 14px; margin-bottom: 20px; box-shadow: var(--shadow-sm);
+  }
+  .clock { font-size: 21px; font-weight: 740; font-variant-numeric: tabular-nums; color: var(--brand); }
+  .clock.low { color: #c0392b; }
+  .timerbar .lbl { font-size: 13.5px; color: var(--ink-soft); }
+
+  .eq { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; margin-bottom: 14px; }
+  .eq-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+  .eq-n { font-size: 11.5px; font-weight: 750; letter-spacing: .6px; text-transform: uppercase; color: var(--ink-faint); }
+  .eq-marks { font-size: 12.5px; color: var(--brand); font-weight: 650; background: var(--brand-soft); padding: 3px 9px; border-radius: 12px; }
+  .eq-q { font-weight: 570; margin-bottom: 13px; }
+  .eq-in {
+    width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px;
+    outline: none; resize: vertical; background: #fdfdff; color: var(--ink); min-height: 76px;
+  }
+  .eq-in:focus { border-color: var(--brand-line); box-shadow: 0 0 0 3px var(--brand-soft); }
+  .model {
+    margin-top: 14px; padding: 14px 16px; background: var(--brand-soft);
+    border-radius: 10px; color: var(--ink-soft); font-size: 15px;
+  }
+  .model .ml {
+    display: block; font-size: 11.5px; font-weight: 750; letter-spacing: .6px;
+    text-transform: uppercase; color: var(--brand); margin-bottom: 6px;
+  }
+  .model p { margin: 0 0 9px; }
+  .model p:last-child { margin: 0; }
+  .hintbox {
+    margin-top: 11px; background: #fff6e9; border-radius: 10px;
+    padding: 11px 15px; font-size: 14.5px; color: #8a5314;
+  }
+  .hide { display: none; }
+
+  /* ---------- request form ---------- */
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+  .field .help { font-size: 13.5px; color: var(--ink-faint); margin: 0 0 8px; }
+  .field input, .field textarea {
+    width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px;
+    outline: none; background: #fdfdff; color: var(--ink); resize: vertical;
+  }
+  .field input:focus, .field textarea:focus { border-color: var(--brand-line); box-shadow: 0 0 0 3px var(--brand-soft); }
+  .checks { display: flex; flex-wrap: wrap; gap: 9px; }
+  .check {
+    display: flex; align-items: center; gap: 8px; border: 1px solid var(--line);
+    border-radius: 10px; padding: 9px 14px; font-size: 14.5px; cursor: pointer; background: #fff;
+  }
+  .check:has(input:checked) { border-color: var(--brand-line); background: var(--brand-soft); color: var(--brand); font-weight: 570; }
+  .check input { width: auto; accent-color: var(--brand); }
+  .outbox { background: var(--surface); border: 1px solid var(--brand-line); border-radius: var(--radius); padding: 22px; margin-top: 18px; }
+  .outbox pre {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 16px;
+    font-size: 13px; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word;
+    max-height: 330px; overflow: auto; margin: 0 0 14px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 32px 0 4px; }
+    .hero h1 { font-size: 27px; }
+    .banner h1 { font-size: 24px; }
+    .routes { grid-template-columns: 1fr; }
+    .sheet { padding: 20px; }
+    .sec-body { padding: 18px; }
+    .fc-scene { height: 320px; }
+    .fc-text { font-size: 17px; }
+    .navbar { top: 58px; }
+    .timerbar { top: 118px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <button class="brandbtn" onclick="go('library')">
+      <span class="brandmark">S</span> StudyPacks
+    </button>
+    <span class="spacer"></span>
+    <button class="btn btn-primary btn-sm" onclick="go('request')">Request a pack</button>
+  </div>
+</header>
+
+<div id="banner"></div>
+<div id="nav"></div>
+<main id="app" class="wrap"></main>
+
+<script src="packs.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var PACKS = window.PACKS || [];
+  var app = document.getElementById("app");
+  var bannerEl = document.getElementById("banner");
+  var navEl = document.getElementById("nav");
+
+  var S = {
+    view: "library",     // library | pack | request
+    packId: null,
+    tab: "home",         // home | overview | unit:N | quick | cards | exam
+    search: "", subject: "all", year: "all",
+    card: 0, flipped: false,
+    mc: {},
+    pr: 0, prState: null, prTyped: "", prDone: 0, prRight: 0,
+    examStarted: false, examDone: false, secondsLeft: 0, answers: {}
+  };
+  var timerId = null;
+
+  /* ---------------- helpers ---------------- */
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function rich(t) {
+    return esc(t).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .split(/\n{2,}/).map(function (b) { return "<p>" + b.replace(/\n/g, "<br>") + "</p>"; }).join("");
+  }
+  function uniq(a) {
+    var seen = {}, out = [];
+    a.forEach(function (v) { if (v && !seen[v]) { seen[v] = 1; out.push(v); } });
+    return out;
+  }
+  function pack() {
+    for (var i = 0; i < PACKS.length; i++) if (PACKS[i].id === S.packId) return PACKS[i];
+    return null;
+  }
+  // Sections carry a `unit` label. Group them, preserving author order.
+  function units(p) {
+    var order = uniq((p.notes || []).map(function (n) { return n.unit || "Notes"; }));
+    return order.map(function (name, i) {
+      var secs = (p.notes || []).filter(function (n) { return (n.unit || "Notes") === name; });
+      return { name: name, index: i, sections: secs, meta: (p.unitInfo || {})[name] || {} };
+    });
+  }
+  function examQs(p) { return (p.exam && p.exam.questions) || p.quiz || []; }
+  function examMins(p) { return (p.exam && p.exam.minutes) || 50; }
+  function totalMarks(p) {
+    return examQs(p).reduce(function (t, q) { return t + (q.marks || 2); }, 0);
+  }
+  function mmss(s) {
+    var m = Math.floor(s / 60), r = s % 60;
+    return m + ":" + (r < 10 ? "0" : "") + r;
+  }
+
+  window.go = function (view, packId, tab) {
+    stopTimer();
+    S.view = view;
+    if (packId) {
+      S.packId = packId;
+      S.tab = tab || "home";
+      S.card = 0; S.flipped = false;
+      S.mc = {};
+      S.pr = 0; S.prState = null; S.prTyped = ""; S.prDone = 0; S.prRight = 0;
+      S.examStarted = false; S.examDone = false; S.answers = {};
+    }
+    window.scrollTo(0, 0);
+    render();
+  };
+  window.tab = function (t) {
+    if (S.tab === "exam" && t !== "exam" && S.examStarted && !S.examDone) {
+      if (!window.confirm("Leave the exam? Your timer and answers will be cleared.")) return;
+    }
+    stopTimer();
+    if (t !== "exam") { S.examStarted = false; S.examDone = false; S.answers = {}; }
+    if (t !== "practice") { S.prState = null; S.prTyped = ""; }
+    S.tab = t; S.card = 0; S.flipped = false;
+    window.scrollTo(0, 0);
+    render();
+  };
+
+  function stopTimer() { if (timerId) { clearInterval(timerId); timerId = null; } }
+
+  /* ---------------- library ---------------- */
+
+  function library() {
+    document.documentElement.removeAttribute("data-theme");
+    bannerEl.innerHTML = ""; navEl.innerHTML = "";
+
+    var subjects = uniq(PACKS.map(function (p) { return p.subject; })).sort();
+    var years = uniq(PACKS.map(function (p) { return p.year; })).sort();
+    var q = S.search.toLowerCase().trim();
+
+    var shown = PACKS.filter(function (p) {
+      if (S.subject !== "all" && p.subject !== S.subject) return false;
+      if (S.year !== "all" && p.year !== S.year) return false;
+      if (!q) return true;
+      return [p.title, p.subject, p.year, p.blurb].concat(p.topics || [])
+        .join(" ").toLowerCase().indexOf(q) !== -1;
+    });
+
+    var cards = shown.map(function (p) {
+      var bits = [];
+      var nSec = (p.notes || []).length;
+      if (nSec) bits.push(nSec + " topics");
+      if ((p.cards || []).length) bits.push(p.cards.length + " flashcards");
+      if (examQs(p).length) bits.push(examQs(p).length + " exam questions");
+      return '<button class="pcard" data-theme="' + esc(p.theme || "purple") + '" onclick="go(\'pack\',\'' + esc(p.id) + '\')">' +
+        '<span class="pcard-top"></span>' +
+        '<span class="pcard-body">' +
+          '<span class="pcard-meta">' + esc(p.subject) + ' &middot; ' + esc(p.year) + '</span>' +
+          '<h3>' + esc(p.emoji || "") + ' ' + esc(p.title) + '</h3>' +
+          '<p>' + esc(p.blurb) + '</p>' +
+          '<span class="chips">' + (p.topics || []).slice(0, 4).map(function (t) {
+            return '<span class="chip">' + esc(t) + '</span>'; }).join("") + '</span>' +
+          '<span class="pcard-foot">' + bits.join(" &middot; ") + '</span>' +
+        '</span></button>';
+    }).join("");
+
+    if (!shown.length) {
+      cards = '<div class="empty">' + (PACKS.length
+        ? "Nothing matches that. Try clearing the filters."
+        : "No packs yet.") + '</div>';
+    }
+
+    app.innerHTML =
+      '<section class="hero">' +
+        '<h1>Study packs, ready when you are</h1>' +
+        '<p>Made from real class notes, matched to what is actually on the exam. Pick yours, or ask for one.</p>' +
+      '</section>' +
+      '<div class="controls">' +
+        '<input class="search" id="q" placeholder="Search a subject or topic..." value="' + esc(S.search) + '">' +
+        '<select class="filter" id="fS"><option value="all">All subjects</option>' +
+          subjects.map(function (s) { return '<option value="' + esc(s) + '"' + (S.subject === s ? " selected" : "") + '>' + esc(s) + '</option>'; }).join("") +
+        '</select>' +
+        '<select class="filter" id="fY"><option value="all">All years</option>' +
+          years.map(function (y) { return '<option value="' + esc(y) + '"' + (S.year === y ? " selected" : "") + '>' + esc(y) + '</option>'; }).join("") +
+        '</select>' +
+      '</div>' +
+      '<div class="grid">' + cards + '</div>';
+
+    var qi = document.getElementById("q");
+    qi.addEventListener("input", function () {
+      S.search = this.value; var pos = this.selectionStart;
+      render();
+      var el = document.getElementById("q"); el.focus(); el.setSelectionRange(pos, pos);
+    });
+    document.getElementById("fS").addEventListener("change", function () { S.subject = this.value; render(); });
+    document.getElementById("fY").addEventListener("change", function () { S.year = this.value; render(); });
+  }
+
+  /* ---------------- pack chrome ---------------- */
+
+  function packChrome(p) {
+    document.documentElement.setAttribute("data-theme", p.theme || "purple");
+
+    bannerEl.innerHTML =
+      '<div class="banner"><div class="wrap">' +
+        '<button class="backlink" onclick="go(\'library\')">&larr; All packs</button>' +
+        '<h1>' + (p.emoji ? '<span>' + esc(p.emoji) + '</span>' : "") + esc(p.title) + '</h1>' +
+        '<p class="exam-line">' + esc(p.examInfo || (p.subject + " · " + p.year)) + '</p>' +
+      '</div></div>';
+
+    var us = units(p);
+    var items = [{ k: "home", t: "\u{1F3E0} Home" }];
+    if ((p.overview || []).length) items.push({ k: "overview", t: "\u{1F4CB} Overview" });
+    us.forEach(function (u) { items.push({ k: "unit:" + u.index, t: (u.index + 1) + " · " + u.name }); });
+    // Practice-first subjects (maths) lead with doing; memory subjects lead with recall.
+    var doing = { k: "practice", t: "\u{270F}\u{FE0F} Practice", has: (p.practice || []).length };
+    var recall = [
+      { k: "quick", t: "⚡ Quick questions", has: (p.quick || []).length },
+      { k: "cards", t: "\u{1F0CF} Flashcards", has: (p.cards || []).length }
+    ];
+    var ordered = (p.focus === "practice") ? [doing].concat(recall) : recall.concat([doing]);
+    ordered.forEach(function (i) { if (i.has) items.push({ k: i.k, t: i.t }); });
+    if (examQs(p).length) items.push({ k: "exam", t: "\u{1F4DD} Full exam" });
+
+    navEl.innerHTML = '<div class="navbar"><div class="wrap"><nav class="navpills">' +
+      items.map(function (i) {
+        return '<button class="pill' + (S.tab === i.k ? " on" : "") + '" onclick="tab(\'' + i.k + '\')">' + i.t + '</button>';
+      }).join("") + '</nav></div></div>';
+  }
+
+  /* ---------------- pack: home ---------------- */
+
+  function home(p) {
+    var us = units(p);
+    var practiceFirst = p.focus === "practice";
+    var r = {};
+
+    if ((p.overview || []).length) {
+      r.overview = '<button class="route' + (practiceFirst ? "" : " feature") + '" onclick="tab(\'overview\')">' +
+        '<span class="rk">Fastest</span>' +
+        '<span class="rt">\u{1F4CB} Overview</span>' +
+        '<span class="rd">The whole unit in dot points. Start here if the exam is tomorrow.</span></button>';
+    }
+    if ((p.practice || []).length) {
+      r.practice = '<button class="route' + (practiceFirst ? " feature" : "") + '" onclick="tab(\'practice\')">' +
+        '<span class="rk">' + (practiceFirst ? "Start here" : "Apply it") + '</span>' +
+        '<span class="rt">\u{270F}\u{FE0F} Practice</span>' +
+        '<span class="rd">' + p.practice.length + ' questions to actually work out. Marked instantly. This is the one that moves your grade.</span></button>';
+    }
+    if ((p.quick || []).length) {
+      r.quick = '<button class="route" onclick="tab(\'quick\')">' +
+        '<span class="rk">Warm up</span>' +
+        '<span class="rt">⚡ Quick questions</span>' +
+        '<span class="rd">' + p.quick.length + ' multiple choice, marked as you go. Good for the bus.</span></button>';
+    }
+    if ((p.cards || []).length) {
+      r.cards = '<button class="route" onclick="tab(\'cards\')">' +
+        '<span class="rk">' + (practiceFirst ? "Memorise" : "Drill") + '</span>' +
+        '<span class="rt">\u{1F0CF} Flashcards</span>' +
+        '<span class="rd">' + p.cards.length + ' cards to test yourself until they stick.</span></button>';
+    }
+    if (examQs(p).length) {
+      r.exam = '<button class="route" onclick="tab(\'exam\')">' +
+        '<span class="rk">The real test</span>' +
+        '<span class="rt">\u{1F4DD} Full exam</span>' +
+        '<span class="rd">' + examMins(p) + ' minutes, ' + examQs(p).length + ' questions, timer running. Do this last.</span></button>';
+    }
+
+    var order = practiceFirst
+      ? ["practice", "overview", "quick", "cards", "exam"]
+      : ["overview", "cards", "quick", "practice", "exam"];
+    var routes = order.map(function (k) { return r[k] || ""; }).join("");
+
+    var advice = p.studyTip || (practiceFirst
+      ? "Maths does not stick from reading. Read a topic once, then go straight to Practice - you only really learn it by getting questions wrong and seeing why."
+      : "This one is mostly recall. Skim the overview, then hammer the flashcards and quick questions until the answers come without thinking.");
+
+    var cards = us.map(function (u) {
+      var n = u.sections.length;
+      return '<button class="unitcard" onclick="tab(\'unit:' + u.index + '\')">' +
+        '<span class="un">Topic ' + (u.index + 1) + '</span>' +
+        '<span class="ut">' + esc(u.name) + '</span>' +
+        '<span class="ud">' + esc(u.meta.blurb || u.sections.map(function (s) { return s.heading; }).slice(0, 2).join(", ")) + '</span>' +
+        '<span class="uc">' + n + ' section' + (n === 1 ? "" : "s") + '</span></button>';
+    }).join("");
+
+    return '<div class="sheet">' +
+      '<span class="kicker">Start here</span>' +
+      '<h2>' + esc(p.homeTitle || "Everything on the checklist, nothing extra") + '</h2>' +
+      '<p class="lead">' + esc(p.homeIntro || "Built straight from the topic list you sent, so nothing here is off-syllabus and nothing you need is missing.") + '</p>' +
+      '<div class="tipbox"><strong>How to study this one</strong>' + esc(advice) + '</div>' +
+      '<div class="routes">' + routes + '</div>' +
+      '<h2 style="font-size:19px;margin-bottom:14px">Or go topic by topic</h2>' +
+      '<div class="unitgrid">' + cards + '</div>' +
+    '</div>';
+  }
+
+  /* ---------------- pack: overview ---------------- */
+
+  function overview(p) {
+    return '<div class="sheet">' +
+      '<span class="kicker">The whole unit</span>' +
+      '<h2>Overview</h2>' +
+      '<p class="lead">Every idea you need, in dot points. If you only read one page, read this one.</p>' +
+      (p.overview || []).map(function (b, i) {
+        return '<div class="ovblock"><h3><span class="num">' + (i + 1) + '</span>' + esc(b.heading) + '</h3><ul>' +
+          b.points.map(function (pt) { return "<li>" + rich(pt).replace(/^<p>|<\/p>$/g, "") + "</li>"; }).join("") +
+        '</ul></div>';
+      }).join("") +
+    '</div>';
+  }
+
+  /* ---------------- pack: unit ---------------- */
+
+  // Steps: [{ do, why, art, answer }]. `art` is a small pre-formatted block for
+  // the rare case where column alignment carries meaning, like long division.
+  function stepsHtml(steps, title) {
+    return '<div class="worked">' +
+      '<div class="worked-head">✏️ ' + esc(title || "Worked example") + '</div>' +
+      '<div class="worked-box">' +
+        steps.map(function (s, i) {
+          var main = "";
+          if (s.art) main += '<div class="step-art">' + esc(s.art) + '</div>';
+          if (s.do) main += '<div class="step-do">' + esc(s.do) + '</div>';
+          if (s.why) main += '<div class="step-why">' + esc(s.why) + '</div>';
+          return '<div class="step' + (s.answer ? " answer" : "") + '">' +
+            '<span class="step-n">' + (s.answer ? "✓" : (i + 1)) + '</span>' +
+            '<div class="step-main">' + main + '</div></div>';
+        }).join("") +
+      '</div></div>';
+  }
+
+  function unitView(p, idx) {
+    var u = units(p)[idx];
+    if (!u) return home(p);
+
+    var body = u.sections.map(function (s, i) {
+      var extra = "";
+      if (s.diagram) {
+        extra += '<div class="diagram">' + s.diagram +
+          (s.diagramCaption ? '<div class="cap">' + esc(s.diagramCaption) + '</div>' : "") + '</div>';
+      }
+      if (s.steps) extra += stepsHtml(s.steps, s.stepsTitle);
+      if (s.table && s.table.head) {
+        extra += '<table class="mini"><thead><tr>' +
+          s.table.head.map(function (h) { return "<th>" + esc(h) + "</th>"; }).join("") +
+          '</tr></thead><tbody>' +
+          (s.table.rows || []).map(function (r) {
+            return "<tr>" + r.map(function (c) { return "<td>" + esc(c) + "</td>"; }).join("") + "</tr>";
+          }).join("") + '</tbody></table>';
+      }
+      return '<section class="sec">' +
+        '<div class="sec-h"><span class="sec-n">' + (i + 1) + '</span><h3>' + esc(s.heading) + '</h3></div>' +
+        '<div class="sec-body">' + rich(s.body) + extra + '</div></section>';
+    }).join("");
+
+    var terms = (p.terms || []).filter(function (t) { return (t.unit || "") === u.name; });
+    var termHtml = terms.length
+      ? '<h2 style="font-size:20px;margin:34px 0 14px">Key words for this topic</h2><div class="termgrid">' +
+        terms.map(function (t) {
+          return '<dl class="termcard"><dt>' + esc(t.term) + '</dt><dd>' + esc(t.definition) + '</dd></dl>';
+        }).join("") + '</div>'
+      : "";
+
+    return '<div style="margin-bottom:22px">' +
+        '<span class="kicker">Topic ' + (idx + 1) + '</span>' +
+        '<h2 style="margin:0 0 6px;font-size:26px;font-weight:720;letter-spacing:-.5px">' + esc(u.name) + '</h2>' +
+        (u.meta.blurb ? '<p class="lead" style="margin-bottom:0">' + esc(u.meta.blurb) + '</p>' : "") +
+      '</div>' + body + termHtml;
+  }
+
+  /* ---------------- pack: quick ---------------- */
+
+  /* ---------------- quick: multiple choice, marked instantly ---------------- */
+
+  function quick(p) {
+    var list = p.quick || [];
+    var answered = 0, right = 0;
+    Object.keys(S.mc).forEach(function (k) {
+      answered++;
+      if (S.mc[k] === list[k].answer) right++;
+    });
+
+    var bar = '<div class="scorebar">' +
+      '<span class="sv">' + right + ' / ' + list.length + '</span>' +
+      '<span class="sl">' + (answered
+        ? answered + " answered" + (answered === list.length ? " — that's all of them" : "")
+        : "Pick an answer and it marks itself straight away") + '</span>' +
+      '<span class="spacer"></span>' +
+      (answered ? '<button class="btn btn-sm" id="mcReset">Start over</button>' : "") +
+    '</div>';
+
+    var body = list.map(function (item, i) {
+      var chosen = S.mc.hasOwnProperty(i) ? S.mc[i] : null;
+      var opts = item.options.map(function (o, j) {
+        var cls = "opt", mark = String.fromCharCode(65 + j);
+        if (chosen !== null) {
+          if (j === item.answer) { cls += " right"; mark = "✓"; }
+          else if (j === chosen) { cls += " wrong"; mark = "✗"; }
+        }
+        return '<button class="' + cls + '" data-mc="' + i + '" data-opt="' + j + '"' +
+          (chosen !== null ? " disabled" : "") + '>' +
+          '<span class="mark">' + mark + '</span><span>' + esc(o) + '</span></button>';
+      }).join("");
+
+      var why = "";
+      if (chosen !== null) {
+        var got = chosen === item.answer;
+        why = '<div class="mc-why"><strong>' + (got ? "Correct." : "Not quite — it's " + esc(item.options[item.answer]) + ".") +
+          '</strong> ' + esc(item.why || "") + '</div>';
+      }
+
+      return '<div class="mc">' +
+        '<div class="mc-n">Question ' + (i + 1) + '</div>' +
+        '<div class="mc-q">' + esc(item.q) + '</div>' +
+        '<div class="mc-opts">' + opts + '</div>' + why +
+      '</div>';
+    }).join("");
+
+    return '<div class="sheet" style="margin-bottom:20px">' +
+        '<span class="kicker">Warm up</span><h2>Quick questions</h2>' +
+        '<p class="lead" style="margin-bottom:0">Multiple choice, marked as you go. Getting one wrong is useful — it shows you exactly what to go back to.</p>' +
+      '</div>' + bar + body;
+  }
+
+  function wireQuick() {
+    Array.prototype.forEach.call(app.querySelectorAll("[data-mc]"), function (b) {
+      b.addEventListener("click", function () {
+        var i = this.getAttribute("data-mc");
+        if (S.mc.hasOwnProperty(i)) return;
+        S.mc[i] = parseInt(this.getAttribute("data-opt"), 10);
+        var y = window.scrollY;
+        render();
+        window.scrollTo(0, y);
+      });
+    });
+    var r = document.getElementById("mcReset");
+    if (r) r.addEventListener("click", function () { S.mc = {}; window.scrollTo(0, 0); render(); });
+  }
+
+  /* ---------------- practice: type the answer, marked instantly ---------------- */
+
+  // Loose comparison so "1 5/6", "1 5 / 6" and "11/6" can all be accepted
+  // when the pack lists them - the pack author decides what counts.
+  function tidy(s) {
+    return String(s).toLowerCase().replace(/\s+/g, "")
+      .replace(/[$,]/g, "").replace(/\.$/, "")
+      .replace(/−/g, "-").replace(/×/g, "*").replace(/÷/g, "/");
+  }
+  function isRight(item, typed) {
+    var t = tidy(typed);
+    if (!t) return false;
+    var ok = [item.answer].concat(item.accept || []);
+    for (var i = 0; i < ok.length; i++) if (tidy(ok[i]) === t) return true;
+    return false;
+  }
+
+  function practice(p) {
+    var list = p.practice || [];
+    if (!list.length) return "";
+    if (S.pr >= list.length) S.pr = 0;
+    var item = list[S.pr];
+    var st = S.prState;
+
+    var verdict = "";
+    if (st) {
+      verdict = st.ok
+        ? '<div class="pr-verdict ok"><span class="vh">✓ Correct</span>' + esc(item.answer) +
+            (item.why ? '<div class="sol">' + esc(item.why) + '</div>' : "") + '</div>'
+        : '<div class="pr-verdict no"><span class="vh">✗ Not this time</span>The answer is <strong>' + esc(item.answer) + '</strong>.' +
+            (item.why ? '<div class="sol">' + esc(item.why) + '</div>' : "") + '</div>';
+    }
+
+    return '<div class="sheet" style="margin-bottom:20px">' +
+        '<span class="kicker">Do the maths</span><h2>Practice</h2>' +
+        '<p class="lead" style="margin-bottom:0">You do not learn maths by reading it. Work each one out, type the answer, and it marks you on the spot.</p>' +
+      '</div>' +
+      '<div class="scorebar">' +
+        '<span class="sv">' + S.prRight + ' / ' + S.prDone + '</span>' +
+        '<span class="sl">correct so far &middot; question ' + (S.pr + 1) + ' of ' + list.length + '</span>' +
+        '<span class="spacer"></span>' +
+        '<button class="btn btn-sm" id="prReset">Reset score</button>' +
+      '</div>' +
+      '<div class="pr">' +
+        '<div class="mc-n">' + esc(item.topic || "Question") + '</div>' +
+        '<div class="pr-q">' + esc(item.q) + '</div>' +
+        '<div class="pr-row">' +
+          '<input class="pr-in' + (st ? (st.ok ? " right" : " wrong") : "") + '" id="prIn" ' +
+            'placeholder="Type your answer" value="' + esc(S.prTyped) + '"' + (st ? " readonly" : "") + '>' +
+          (st ? '<button class="btn btn-primary" id="prNext">Next question &rarr;</button>'
+              : '<button class="btn btn-primary" id="prCheck">Check</button>' +
+                '<button class="btn" id="prSkip">Skip</button>') +
+        '</div>' + verdict +
+      '</div>';
+  }
+
+  function wirePractice(p) {
+    var list = p.practice || [];
+    var inp = document.getElementById("prIn");
+    if (!inp) return;
+
+    function check() {
+      var item = list[S.pr];
+      var ok = isRight(item, inp.value);
+      S.prTyped = inp.value;
+      S.prState = { ok: ok };
+      S.prDone++;
+      if (ok) S.prRight++;
+      render();
+    }
+    function next() {
+      S.pr = (S.pr + 1) % list.length;
+      S.prState = null; S.prTyped = "";
+      render();
+      var again = document.getElementById("prIn");
+      if (again) again.focus();
+    }
+
+    var c = document.getElementById("prCheck");
+    if (c) c.addEventListener("click", check);
+    var n = document.getElementById("prNext");
+    if (n) n.addEventListener("click", next);
+    var s = document.getElementById("prSkip");
+    if (s) s.addEventListener("click", function () {
+      S.prTyped = ""; S.prState = null;
+      S.pr = (S.pr + 1) % list.length;
+      render();
+    });
+    var r = document.getElementById("prReset");
+    if (r) r.addEventListener("click", function () {
+      S.pr = 0; S.prDone = 0; S.prRight = 0; S.prState = null; S.prTyped = "";
+      render();
+    });
+
+    inp.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      if (S.prState) next(); else check();
+    });
+    if (!S.prState) inp.focus();
+  }
+
+  /* ---------------- pack: flashcards ---------------- */
+
+  function cardsView(p) {
+    var list = p.cards || [];
+    if (!list.length) return "";
+    if (S.card >= list.length) S.card = 0;
+    var c = list[S.card];
+    return '<div class="sheet" style="margin-bottom:24px">' +
+        '<span class="kicker">Drill</span><h2>Flashcards</h2>' +
+        '<p class="lead" style="margin-bottom:0">Guess before you flip. The ones you get wrong are the ones worth repeating.</p>' +
+      '</div>' +
+      '<div class="fc-stage">' +
+        '<div class="fc-scene"><div class="fc' + (S.flipped ? " flipped" : "") + '" id="fc">' +
+          '<div class="fc-face"><span class="fc-tag">Question</span><div class="fc-text">' + esc(c.front) + '</div>' +
+            '<span class="fc-tip">Click to flip</span></div>' +
+          '<div class="fc-face fc-back"><span class="fc-tag">Answer</span><div class="fc-text">' + esc(c.back) + '</div></div>' +
+        '</div></div>' +
+        '<div class="fc-bar">' +
+          '<button class="btn" id="pv">&larr; Back</button>' +
+          '<span class="fc-count">' + (S.card + 1) + ' / ' + list.length + '</span>' +
+          '<button class="btn" id="nx">Next &rarr;</button>' +
+        '</div>' +
+        '<p style="color:var(--ink-faint);font-size:13px;margin:0">Arrow keys move, spacebar flips.</p>' +
+      '</div>';
+  }
+
+  function wireCards(p) {
+    var list = p.cards || [], el = document.getElementById("fc");
+    if (!el) return;
+    function flip() { S.flipped = !S.flipped; render(); }
+    function step(d) { S.card = (S.card + d + list.length) % list.length; S.flipped = false; render(); }
+    el.addEventListener("click", flip);
+    document.getElementById("pv").addEventListener("click", function () { step(-1); });
+    document.getElementById("nx").addEventListener("click", function () { step(1); });
+    document.onkeydown = function (e) {
+      if (S.view !== "pack" || S.tab !== "cards") return;
+      if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+      else if (e.key === " ") { e.preventDefault(); flip(); }
+    };
+  }
+
+  /* ---------------- pack: exam ---------------- */
+
+  function examView(p) {
+    var qs = examQs(p), mins = examMins(p);
+
+    if (!S.examStarted) {
+      return '<div class="sheet exam-intro">' +
+        '<span class="kicker">The real test</span>' +
+        '<h2>Full practice exam</h2>' +
+        '<p class="lead" style="margin:0 auto 4px">Sit it properly. Phone away, no notes, one go. It only tells you something if you do it honestly.</p>' +
+        '<div class="exam-facts">' +
+          '<div class="fact"><div class="fv">' + mins + '</div><div class="fl">minutes</div></div>' +
+          '<div class="fact"><div class="fv">' + qs.length + '</div><div class="fl">questions</div></div>' +
+          '<div class="fact"><div class="fv">' + totalMarks(p) + '</div><div class="fl">marks</div></div>' +
+        '</div>' +
+        '<button class="btn btn-primary btn-lg" id="startExam">Start the timer</button>' +
+        '<p style="color:var(--ink-faint);font-size:13.5px;margin:16px 0 0">You can finish early. Answers stay hidden until you do.</p>' +
+      '</div>';
+    }
+
+    var timer = S.examDone ? "" :
+      '<div class="timerbar">' +
+        '<span class="clock' + (S.secondsLeft <= 300 ? " low" : "") + '" id="clk">' + mmss(S.secondsLeft) + '</span>' +
+        '<span class="lbl">left &middot; ' + qs.length + ' questions &middot; ' + totalMarks(p) + ' marks</span>' +
+        '<span class="spacer"></span>' +
+        '<button class="btn btn-primary btn-sm" id="finish">Finish &amp; show answers</button>' +
+      '</div>';
+
+    var body = qs.map(function (q, i) {
+      return '<div class="eq">' +
+        '<div class="eq-top"><span class="eq-n">Question ' + (i + 1) + '</span>' +
+          '<span class="eq-marks">' + (q.marks || 2) + ' marks</span></div>' +
+        '<div class="eq-q">' + esc(q.q) + '</div>' +
+        '<textarea class="eq-in" data-ans="' + i + '" placeholder="Your working and answer..."' +
+          (S.examDone ? " readonly" : "") + '>' + esc(S.answers[i] || "") + '</textarea>' +
+        (q.hint && !S.examDone ? '<button class="btn btn-sm" style="margin-top:10px" data-hint="' + i + '">Stuck? Hint</button>' +
+          '<div class="hintbox hide" id="hb' + i + '">' + esc(q.hint) + '</div>' : "") +
+        (S.examDone ? '<div class="model"><span class="ml">Model answer</span>' + rich(q.a) + '</div>' : "") +
+      '</div>';
+    }).join("");
+
+    var footer = S.examDone
+      ? '<div class="sheet" style="text-align:center;margin-top:20px">' +
+          '<h2 style="font-size:20px">Mark yourself honestly</h2>' +
+          '<p class="lead" style="margin:0 auto 16px">Compare each answer to the model. Anything you missed is exactly what to revise tonight.</p>' +
+          '<button class="btn" id="again">Reset and try again</button>' +
+        '</div>'
+      : '<div style="text-align:center;margin-top:22px">' +
+          '<button class="btn btn-primary btn-lg" id="finish2">Finish &amp; show answers</button></div>';
+
+    return timer + body + footer;
+  }
+
+  function wireExam(p) {
+    var qs = examQs(p);
+    var start = document.getElementById("startExam");
+    if (start) {
+      start.addEventListener("click", function () {
+        S.examStarted = true; S.examDone = false;
+        S.secondsLeft = examMins(p) * 60;
+        render();
+        runTimer();
+      });
+      return;
+    }
+
+    Array.prototype.forEach.call(app.querySelectorAll("[data-ans]"), function (t) {
+      t.addEventListener("input", function () { S.answers[this.getAttribute("data-ans")] = this.value; });
+    });
+    Array.prototype.forEach.call(app.querySelectorAll("[data-hint]"), function (b) {
+      b.addEventListener("click", function () {
+        document.getElementById("hb" + this.getAttribute("data-hint")).classList.toggle("hide");
+      });
+    });
+
+    function finish() { stopTimer(); S.examDone = true; window.scrollTo(0, 0); render(); }
+    ["finish", "finish2"].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (b) b.addEventListener("click", finish);
+    });
+    var again = document.getElementById("again");
+    if (again) again.addEventListener("click", function () {
+      S.examStarted = false; S.examDone = false; S.answers = {}; render();
+    });
+
+    if (S.examStarted && !S.examDone && !timerId) runTimer();
+    void qs;
+  }
+
+  function runTimer() {
+    stopTimer();
+    timerId = setInterval(function () {
+      S.secondsLeft--;
+      var c = document.getElementById("clk");
+      if (c) {
+        c.textContent = mmss(Math.max(0, S.secondsLeft));
+        if (S.secondsLeft <= 300) c.classList.add("low");
+      }
+      if (S.secondsLeft <= 0) { stopTimer(); S.examDone = true; render(); }
+    }, 1000);
+  }
+
+  /* ---------------- request form ---------------- */
+
+  function requestView() {
+    document.documentElement.removeAttribute("data-theme");
+    bannerEl.innerHTML = ""; navEl.innerHTML = "";
+    return '<section class="hero" style="padding-bottom:0">' +
+        '<h1>Ask for a study pack</h1>' +
+        '<p>Tell us what is on the exam. The more you paste in, the closer the pack matches your class.</p>' +
+      '</section>' +
+      '<div class="panel"><div class="sheet">' +
+        '<div class="field"><label for="rSubject">Subject</label>' +
+          '<input id="rSubject" placeholder="Maths, Biology, Physics..."></div>' +
+        '<div class="field"><label for="rYear">Year level</label><input id="rYear" placeholder="Year 8"></div>' +
+        '<div class="field"><label for="rExam">When is the exam, and what is it worth?</label>' +
+          '<p class="help">Anything you know. "Term 3, 16 multiple choice, 10% of my grade."</p>' +
+          '<input id="rExam" placeholder="Term 3 exam, 50 minutes, 10% of final grade"></div>' +
+        '<div class="field"><label for="rTopics">What is on it?</label>' +
+          '<p class="help">The checklist your teacher gave you, or just what you remember being told.</p>' +
+          '<textarea id="rTopics" rows="4" placeholder="Fractions, decimals, percentages, intro algebra..."></textarea></div>' +
+        '<div class="field"><label for="rNotes">Paste your notes or slides</label>' +
+          '<p class="help">Class notes, textbook chapters, the text from your PowerPoints. Messy is completely fine.</p>' +
+          '<textarea id="rNotes" rows="8" placeholder="Paste everything you have..."></textarea></div>' +
+        '<div class="field"><label>What do you want in it?</label><div class="checks">' +
+          '<label class="check"><input type="checkbox" value="Overview" checked> Overview</label>' +
+          '<label class="check"><input type="checkbox" value="Topic notes" checked> Topic notes</label>' +
+          '<label class="check"><input type="checkbox" value="Diagrams" checked> Diagrams</label>' +
+          '<label class="check"><input type="checkbox" value="Quick answers" checked> Quick answers</label>' +
+          '<label class="check"><input type="checkbox" value="Flashcards" checked> Flashcards</label>' +
+          '<label class="check"><input type="checkbox" value="Full practice exam" checked> Practice exam</label>' +
+        '</div></div>' +
+        '<div class="field"><label for="rExtra">Anything you keep getting stuck on?</label>' +
+          '<input id="rExtra" placeholder="I never remember which way to flip when dividing fractions"></div>' +
+        '<button class="btn btn-primary btn-lg" id="mk">Build my request</button>' +
+      '</div><div id="out"></div></div>';
+  }
+
+  function wireRequest() {
+    var b = document.getElementById("mk");
+    if (b) b.addEventListener("click", buildReq);
+  }
+
+  function buildReq() {
+    function v(id) { var e = document.getElementById(id); return e ? (e.value || "").trim() : ""; }
+    var want = [];
+    Array.prototype.forEach.call(app.querySelectorAll(".check input:checked"), function (c) { want.push(c.value); });
+
+    var notes = v("rNotes"), extra = v("rExtra"), ex = v("rExam");
+    var text = "STUDY PACK REQUEST\n==================\n\n" +
+      "Subject: " + (v("rSubject") || "(not given)") + "\n" +
+      "Year level: " + (v("rYear") || "(not given)") + "\n" +
+      (ex ? "Exam details: " + ex + "\n" : "") +
+      "Wants: " + (want.length ? want.join(", ") : "anything useful") + "\n\n" +
+      "WHAT IS ON THE EXAM\n-------------------\n" + (v("rTopics") || "(not given)") + "\n\n" +
+      (notes ? "THEIR NOTES / SLIDES\n--------------------\n" + notes + "\n\n" : "") +
+      (extra ? "KEEPS GETTING STUCK ON\n----------------------\n" + extra + "\n" : "");
+
+    var out = document.getElementById("out");
+    out.innerHTML = '<div class="outbox"><h3 style="margin:0 0 4px">Ready to send</h3>' +
+      '<p style="margin:0 0 14px;font-size:14px;color:var(--ink-soft)">Copy this and send it over. Packs usually come back within a day.</p>' +
+      '<pre id="rt">' + esc(text) + '</pre>' +
+      '<button class="btn btn-primary" id="cp">Copy to clipboard</button></div>';
+
+    document.getElementById("cp").addEventListener("click", function () {
+      var btn = this;
+      function done() { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy to clipboard"; }, 1800); }
+      function fb() {
+        var ta = document.createElement("textarea");
+        ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); done(); } catch (e) { btn.textContent = "Select the text and copy"; }
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fb);
+      else fb();
+    });
+    if (out.scrollIntoView) out.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  /* ---------------- render ---------------- */
+
+  function render() {
+    if (S.view === "library") { library(); return; }
+    if (S.view === "request") { app.innerHTML = requestView(); wireRequest(); return; }
+
+    var p = pack();
+    if (!p) { go("library"); return; }
+    packChrome(p);
+
+    var inner;
+    if (S.tab === "home") inner = home(p);
+    else if (S.tab === "overview") inner = overview(p);
+    else if (S.tab.indexOf("unit:") === 0) inner = unitView(p, parseInt(S.tab.split(":")[1], 10));
+    else if (S.tab === "quick") inner = quick(p);
+    else if (S.tab === "practice") inner = practice(p);
+    else if (S.tab === "cards") inner = cardsView(p);
+    else if (S.tab === "exam") inner = examView(p);
+    else inner = home(p);
+
+    app.innerHTML = '<div class="panel">' + inner + '</div>';
+
+    if (S.tab === "quick") wireQuick();
+    if (S.tab === "practice") wirePractice(p);
+    if (S.tab === "cards") wireCards(p);
+    if (S.tab === "exam") wireExam(p);
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
