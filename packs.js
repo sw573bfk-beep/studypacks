@@ -783,4 +783,342 @@ window.PACKS = [
     ]
   }
 
+,
+
+{
+  id: "maths-y8-rates-stats-equations-pythagoras",
+  subject: "Maths", year: "Year 8", title: "Rates, Stats, Equations & Pythagoras",
+  blurb: "Rates and speed, handling data, solving equations, and right-angled triangles.",
+  topics: ["Rates", "Speed", "Statistics", "Equations", "Pythagoras"],
+  created: "2026-08-09", custom: true,
+  theme: "purple", focus: "practice", emoji: "📊",
+  studyTip: "Four separate topics, so do not try to cram them together. Read one topic, then do the Practice questions for it before moving on. Pythagoras and equations are the easiest marks to lock in.",
+  examInfo: "Year 8 Maths · chapters 6, 8, 7 and 4 · rates, data, equations and Pythagoras",
+  homeTitle: "Four topics, every dot point from your list",
+  homeIntro: "Rates and speed, statistics, solving equations, and Pythagoras. Built straight from your checklist, so there is nothing here you do not need.",
+
+  unitInfo: {
+    "Rates & Speed": { blurb: "Comparing two different units, and the speed formula." },
+    "Statistics": { blurb: "Collecting data, graphing it, and describing the middle and the spread." },
+    "Equations": { blurb: "Undoing operations to find the value of the letter." },
+    "Pythagoras": { blurb: "Finding missing sides in right-angled triangles." }
+  },
+
+  overview: [
+    { heading: "Rates & Speed", points: [
+      "A **rate** compares two quantities with **different units**, like km/h or $/kg.",
+      "**Simplify a rate** by dividing until the second quantity is 1.",
+      "**Average rate** = total amount ÷ total time. Not the average of the rates.",
+      "**Speed = distance ÷ time.** Rearranged: distance = speed × time, time = distance ÷ speed.",
+      "**km/h to m/s: divide by 3.6.** m/s to km/h: multiply by 3.6.",
+      "**Unitary method** - find the value of ONE unit first, then multiply up."
+    ]},
+    { heading: "Statistics", points: [
+      "A **tally** counts in groups of five. The **frequency** is that count as a number.",
+      "**Mean** = add all the scores, divide by how many. The everyday average.",
+      "**Median** = the middle score once they are in order. Even count, average the middle two.",
+      "**Mode** = the score that appears most often. There can be none, one, or several.",
+      "**Range** = highest − lowest. It measures **spread**, not centre.",
+      "**Population** is everyone. A **sample** is part of it. A **census** surveys everyone.",
+      "**Symmetric** data is balanced. **Skewed** leans one way. **Bi-modal** has two peaks."
+    ]},
+    { heading: "Equations", points: [
+      "Whatever you do to one side, **do to the other**. That keeps it balanced.",
+      "**Undo in reverse order** - remove the + or − first, then the × or ÷.",
+      "**Fractions**: multiply both sides by the denominator to clear it.",
+      "**Pronumerals on both sides**: move the smaller one across so you avoid negatives.",
+      "**Brackets**: expand first, then solve as normal.",
+      "**Always check** by substituting your answer back in."
+    ]},
+    { heading: "Pythagoras", points: [
+      "Only works in **right-angled triangles**.",
+      "The **hypotenuse** is the longest side, always **opposite the right angle**.",
+      "**a² + b² = c²**, where c is the hypotenuse.",
+      "**Finding the hypotenuse**: square both short sides, add, then square root.",
+      "**Finding a shorter side**: square the hypotenuse, **subtract**, then square root.",
+      "A **Pythagorean triple** is three whole numbers that fit, like 3, 4, 5.",
+      "To test for a right angle, check whether a² + b² actually equals c²."
+    ]}
+  ],
+
+  quick: [
+    { q: "What makes something a rate rather than a ratio?", options: ["The two quantities have different units", "It is always bigger than 1", "It uses fractions", "It compares three things"], answer: 0, why: "km/h compares kilometres to hours. A ratio compares the same kind of thing." },
+    { q: "A car travels 240 km in 3 hours. What is its speed?", options: ["80 km/h", "720 km/h", "0.0125 km/h", "120 km/h"], answer: 0, why: "Speed = distance ÷ time = 240 ÷ 3." },
+    { q: "What is the speed formula?", options: ["Speed = distance ÷ time", "Speed = time ÷ distance", "Speed = distance × time", "Speed = distance + time"], answer: 0, why: "And rearranged: distance = speed × time, time = distance ÷ speed." },
+    { q: "How do you convert 72 km/h into m/s?", options: ["Divide by 3.6", "Multiply by 3.6", "Divide by 60", "Multiply by 1000"], answer: 0, why: "72 ÷ 3.6 = 20 m/s. Going the other way, multiply by 3.6." },
+    { q: "5 pens cost $12.50. What does 1 pen cost?", options: ["$2.50", "$2.00", "$62.50", "$5.00"], answer: 0, why: "That is the unitary method - divide to find one unit first." },
+    { q: "What does the mean measure?", options: ["The centre", "The spread", "The highest score", "How often a score appears"], answer: 0, why: "Mean, median and mode are all measures of centre. Range measures spread." },
+    { q: "Find the median of 3, 4, 5, 7, 7, 9", options: ["6", "7", "5", "5.83"], answer: 0, why: "Six scores, so average the middle two: (5 + 7) ÷ 2 = 6." },
+    { q: "Find the mode of 3, 4, 5, 7, 7, 9", options: ["7", "6", "5", "3"], answer: 0, why: "7 appears twice, everything else once." },
+    { q: "How do you calculate the range?", options: ["Highest − lowest", "Add them all up", "The middle score", "The most common score"], answer: 0, why: "It tells you how spread out the data is, not where the centre is." },
+    { q: "What is a census?", options: ["A survey of the whole population", "A survey of a small sample", "A type of graph", "The middle score"], answer: 0, why: "A sample is only part of the population. A census covers everyone." },
+    { q: "Data with two clear peaks is called...", options: ["Bi-modal", "Symmetric", "Skewed", "Random"], answer: 0, why: "Two modes, so two peaks in the graph." },
+    { q: "Solve 3x + 5 = 20", options: ["x = 5", "x = 15", "x = 8.3", "x = 25"], answer: 0, why: "Take 5 off both sides to get 3x = 15, then divide by 3." },
+    { q: "In 3x + 5 = 20, what do you undo first?", options: ["The + 5", "The × 3", "Either works equally well", "The = sign"], answer: 0, why: "Undo in reverse order. Addition and subtraction come off first." },
+    { q: "Solve x/4 = 6", options: ["x = 24", "x = 1.5", "x = 10", "x = 2"], answer: 0, why: "Multiply both sides by 4 to clear the fraction." },
+    { q: "First step in solving 5x + 3 = 2x + 18?", options: ["Subtract 2x from both sides", "Subtract 5x from both sides", "Divide everything by 5", "Add 18 to both sides"], answer: 0, why: "Move the smaller x term so you keep the x positive. 5x − 2x = 3x." },
+    { q: "First step in solving 3(x − 2) = 12?", options: ["Expand the brackets", "Divide both sides by x", "Add 2 to both sides", "Square both sides"], answer: 0, why: "3(x − 2) becomes 3x − 6. You could also divide both sides by 3 first." },
+    { q: "Which side is the hypotenuse?", options: ["The one opposite the right angle", "The bottom one", "The shortest one", "The one on the left"], answer: 0, why: "It is always the longest side, and always opposite the right angle." },
+    { q: "What is Pythagoras' Theorem?", options: ["a² + b² = c²", "a + b = c", "a² − b² = c²", "a × b = c²"], answer: 0, why: "c is the hypotenuse. The two shorter sides get squared and added." },
+    { q: "Short sides 6 and 8. What is the hypotenuse?", options: ["10", "14", "48", "100"], answer: 0, why: "36 + 64 = 100, and √100 = 10." },
+    { q: "Hypotenuse 13, one short side 5. Find the other side.", options: ["12", "18", "8", "144"], answer: 0, why: "For a shorter side you SUBTRACT: 169 − 25 = 144, and √144 = 12." },
+    { q: "Is 5, 12, 13 a Pythagorean triple?", options: ["Yes", "No", "Only if it is right-angled", "Not enough information"], answer: 0, why: "25 + 144 = 169, which is 13². So yes." },
+    { q: "When finding a shorter side, you...", options: ["Subtract the squares", "Add the squares", "Multiply the squares", "Divide the squares"], answer: 0, why: "Adding is only for the hypotenuse. This is the most common mistake in the topic." }
+  ],
+
+  practice: [
+    { topic: "Rates", q: "A car travels 315 km in 3.5 hours. Speed in km/h?", answer: "90", accept: ["90km/h", "90 km/h"], why: "315 ÷ 3.5 = 90." },
+    { topic: "Rates", q: "Simplify: 450 words in 9 minutes (words per minute, number only)", answer: "50", why: "450 ÷ 9 = 50 words per minute." },
+    { topic: "Rates", q: "A tap fills 84 litres in 12 minutes. Litres per minute?", answer: "7", why: "84 ÷ 12 = 7." },
+    { topic: "Speed", q: "Convert 90 km/h to m/s", answer: "25", accept: ["25m/s", "25 m/s"], why: "Divide by 3.6. 90 ÷ 3.6 = 25." },
+    { topic: "Speed", q: "Convert 15 m/s to km/h", answer: "54", accept: ["54km/h", "54 km/h"], why: "Multiply by 3.6. 15 × 3.6 = 54." },
+    { topic: "Speed", q: "A cyclist rides at 18 km/h for 2.5 hours. Distance in km?", answer: "45", why: "distance = speed × time = 18 × 2.5." },
+    { topic: "Speed", q: "How long to travel 150 km at 60 km/h? (hours)", answer: "2.5", accept: ["2 1/2", "2.50"], why: "time = distance ÷ speed = 150 ÷ 60." },
+    { topic: "Unitary method", q: "7 identical books cost $91. What do 4 cost? (number only)", answer: "52", accept: ["$52", "52.00"], why: "One book = 91 ÷ 7 = $13. Then 13 × 4 = 52." },
+    { topic: "Unitary method", q: "3 kg of apples costs $8.40. Cost of 5 kg? (number only)", answer: "14", accept: ["$14", "14.00"], why: "One kg = 8.40 ÷ 3 = $2.80. Then 2.80 × 5 = 14." },
+    { topic: "Statistics", q: "Find the mean of 6, 9, 4, 9, 12", answer: "8", why: "Total is 40, and there are 5 scores. 40 ÷ 5 = 8." },
+    { topic: "Statistics", q: "Find the median of 6, 9, 4, 9, 12", answer: "9", why: "In order: 4, 6, 9, 9, 12. The middle one is 9." },
+    { topic: "Statistics", q: "Find the mode of 6, 9, 4, 9, 12", answer: "9", why: "9 appears twice, everything else once." },
+    { topic: "Statistics", q: "Find the range of 6, 9, 4, 9, 12", answer: "8", why: "Highest 12 minus lowest 4." },
+    { topic: "Statistics", q: "Find the median of 2, 5, 8, 11", answer: "6.5", accept: ["6 1/2", "13/2"], why: "Even number of scores, so average the middle two: (5 + 8) ÷ 2." },
+    { topic: "Equations", q: "Solve 4x + 7 = 31  (give x)", answer: "6", accept: ["x=6"], why: "Take 7 off both sides: 4x = 24. Then divide by 4." },
+    { topic: "Equations", q: "Solve 5x − 9 = 26  (give x)", answer: "7", accept: ["x=7"], why: "Add 9 to both sides: 5x = 35. Then divide by 5." },
+    { topic: "Equations", q: "Solve x/3 + 4 = 10  (give x)", answer: "18", accept: ["x=18"], why: "Take 4 off: x/3 = 6. Then multiply both sides by 3." },
+    { topic: "Equations", q: "Solve (2x + 1)/5 = 3  (give x)", answer: "7", accept: ["x=7"], why: "Multiply both sides by 5: 2x + 1 = 15. Then 2x = 14." },
+    { topic: "Equations", q: "Solve 7x + 2 = 4x + 17  (give x)", answer: "5", accept: ["x=5"], why: "Take 4x off both sides: 3x + 2 = 17. Then 3x = 15." },
+    { topic: "Equations", q: "Solve 3(x + 4) = 27  (give x)", answer: "5", accept: ["x=5"], why: "Expand: 3x + 12 = 27. Then 3x = 15." },
+    { topic: "Equations", q: "Solve 2(3x − 1) = 22  (give x)", answer: "4", accept: ["x=4"], why: "Expand: 6x − 2 = 22. Then 6x = 24." },
+    { topic: "Pythagoras", q: "Short sides 9 and 12. Find the hypotenuse.", answer: "15", why: "81 + 144 = 225, and √225 = 15." },
+    { topic: "Pythagoras", q: "Short sides 8 and 15. Find the hypotenuse.", answer: "17", why: "64 + 225 = 289, and √289 = 17." },
+    { topic: "Pythagoras", q: "Hypotenuse 25, one short side 7. Find the other short side.", answer: "24", why: "625 − 49 = 576, and √576 = 24. Subtract, because you are after a shorter side." },
+    { topic: "Pythagoras", q: "Hypotenuse 10, one short side 6. Find the other short side.", answer: "8", why: "100 − 36 = 64, and √64 = 8." },
+    { topic: "Pythagoras", q: "A ladder reaches 12 m up a wall, with its base 5 m out. How long is the ladder?", answer: "13", accept: ["13m", "13 m"], why: "The ladder is the hypotenuse. 144 + 25 = 169, and √169 = 13." }
+  ],
+
+  exam: { minutes: 50 },
+
+  notes: [
+    { heading: "Introducing rates", unit: "Rates & Speed",
+      body: "A **rate** compares two quantities that have **different units**. Speed (km/h), pay ($/hour) and price ($/kg) are all rates.\n\nThat is what separates a rate from a ratio - a ratio compares two things measured the same way.\n\nTo **simplify** a rate, divide until the second quantity is 1. That gives you the amount 'per one'.\n\n**Average rate** = total amount ÷ total time. Be careful: it is not the average of the individual rates.",
+      steps: [
+        { do: "A car uses 45 L of fuel to travel 540 km", why: "Two different units, so this is a rate." },
+        { do: "540 km ÷ 45 L = 12", why: "Divide to find how far it goes on ONE litre." },
+        { do: "12 km per litre", answer: true },
+        { do: "A runner covers 3 km in 12 min, then 5 km in 28 min", why: "Average rate question. Do not average 3/12 and 5/28." },
+        { do: "Total: 8 km in 40 min", why: "Add the distances, add the times." },
+        { do: "8 ÷ 40 = 0.2 km per minute", answer: true }
+      ] },
+    { heading: "Speed", unit: "Rates & Speed",
+      body: "**Speed = distance ÷ time.**\n\nRearranged two ways:\n- **distance = speed × time**\n- **time = distance ÷ speed**\n\nThe triangle below is the quickest way to remember all three. Cover the one you want, and what is left tells you what to do.\n\nCheck your units match. If speed is in km/h, time must be in hours.",
+      diagram: '<svg viewBox="0 0 420 220" xmlns="http://www.w3.org/2000/svg" role="img"><title>Formula triangle with distance on top, speed and time underneath</title><path d="M210 25 L360 185 L60 185 Z" fill="var(--brand-soft)" stroke="var(--brand)" stroke-width="2.5"/><line x1="110" y1="120" x2="310" y2="120" stroke="var(--brand)" stroke-width="2.5"/><line x1="210" y1="120" x2="210" y2="185" stroke="var(--brand)" stroke-width="2.5"/><text x="210" y="100" text-anchor="middle" font-size="26" font-weight="700" fill="var(--ink)">D</text><text x="155" y="165" text-anchor="middle" font-size="26" font-weight="700" fill="var(--ink)">S</text><text x="265" y="165" text-anchor="middle" font-size="26" font-weight="700" fill="var(--ink)">T</text><text x="210" y="210" text-anchor="middle" font-size="13" fill="var(--ink-soft)">Cover what you want. D = S &#215; T,  S = D &#247; T,  T = D &#247; S</text></svg>',
+      diagramCaption: "Cover the letter you are after and the triangle shows you the sum.",
+      steps: [
+        { do: "A train travels 480 km in 6 hours", why: "You want speed, so cover the D." },
+        { do: "S = D ÷ T = 480 ÷ 6", why: "What is left is D over T." },
+        { do: "80 km/h", answer: true },
+        { do: "How far in 2.5 h at 80 km/h?", why: "Now you want distance, so cover the D again - the other two sit side by side." },
+        { do: "D = S × T = 80 × 2.5 = 200 km", answer: true }
+      ] },
+    { heading: "Converting units of speed", unit: "Rates & Speed",
+      body: "The two you need are **km/h** and **m/s**.\n\n- **km/h → m/s: divide by 3.6**\n- **m/s → km/h: multiply by 3.6**\n\nThe 3.6 comes from 1000 metres in a kilometre and 3600 seconds in an hour: 3600 ÷ 1000 = 3.6.\n\nSanity check: m/s numbers are always **smaller** than the same speed in km/h.",
+      steps: [
+        { do: "Convert 72 km/h to m/s", why: "Going to the smaller unit, so divide." },
+        { do: "72 ÷ 3.6 = 20 m/s", answer: true },
+        { do: "Convert 25 m/s to km/h", why: "Going the other way, so multiply." },
+        { do: "25 × 3.6 = 90 km/h", answer: true },
+        { do: "Check it looks right", why: "90 is bigger than 25, which is what you expect." }
+      ] },
+    { heading: "The unitary method", unit: "Rates & Speed",
+      body: "The trick is always the same: **find the value of ONE unit first**, then multiply up to whatever you need.\n\nIt works for prices, rates, ratios and recipes. Two steps, every time: divide to get one, then multiply.",
+      steps: [
+        { do: "5 tickets cost $85. What do 8 cost?", why: "Do not try to jump straight there." },
+        { do: "1 ticket = 85 ÷ 5 = $17", why: "Divide down to one unit." },
+        { do: "8 tickets = 17 × 8 = $136", answer: true },
+        { do: "A machine makes 240 parts in 8 hours. How many in 5 hours?", why: "Same method." },
+        { do: "1 hour = 240 ÷ 8 = 30 parts", why: "Down to one." },
+        { do: "5 hours = 30 × 5 = 150 parts", answer: true }
+      ] },
+    { heading: "Frequency tables and tallies", unit: "Statistics",
+      body: "A **tally** records data as you collect it, in groups of five - four strokes and one through them.\n\nThe **frequency** column turns those tallies into numbers.\n\nAlways check the frequencies add up to the number of pieces of data you started with. That single check catches most mistakes.",
+      table: { head: ["Score", "Tally", "Frequency"], rows: [
+        ["1", "|||", "3"],
+        ["2", "|||| |", "6"],
+        ["3", "|||| ||||", "9"],
+        ["4", "||||", "5"],
+        ["5", "||", "2"],
+        ["Total", "", "25"]
+      ] } },
+    { heading: "Graphs of frequency tables", unit: "Statistics",
+      body: "A frequency table turns straight into a **column graph**. The scores go along the bottom, the frequency goes up the side.\n\nColumns must be the **same width** with **gaps between them**, and the vertical scale must start at zero and go up evenly.\n\nReading one is easy: the tallest column is the **mode**.",
+      diagram: '<svg viewBox="0 0 460 240" xmlns="http://www.w3.org/2000/svg" role="img"><title>Column graph of the frequency table, tallest column at score 3</title><line x1="60" y1="20" x2="60" y2="190" stroke="var(--ink-soft)" stroke-width="2"/><line x1="60" y1="190" x2="430" y2="190" stroke="var(--ink-soft)" stroke-width="2"/><g fill="var(--brand-soft)" stroke="var(--brand)" stroke-width="2"><rect x="85" y="139" width="50" height="51"/><rect x="155" y="88" width="50" height="102"/><rect x="225" y="37" width="50" height="153"/><rect x="295" y="105" width="50" height="85"/><rect x="365" y="156" width="50" height="34"/></g><g font-size="13" text-anchor="middle" fill="var(--ink)"><text x="110" y="208">1</text><text x="180" y="208">2</text><text x="250" y="208">3</text><text x="320" y="208">4</text><text x="390" y="208">5</text></g><g font-size="12" text-anchor="end" fill="var(--ink-soft)"><text x="52" y="194">0</text><text x="52" y="143">3</text><text x="52" y="92">6</text><text x="52" y="41">9</text></g><text x="245" y="228" text-anchor="middle" font-size="13" fill="var(--ink-soft)">Score</text><text x="22" y="105" text-anchor="middle" font-size="13" fill="var(--ink-soft)" transform="rotate(-90 22 105)">Frequency</text></svg>',
+      diagramCaption: "Equal widths, gaps between, and the tallest column is the mode." },
+    { heading: "Measures of centre", unit: "Statistics",
+      body: "Three different ways of describing the middle:\n\n**Mean** - add every score, divide by how many there are. The everyday average.\n\n**Median** - put them **in order**, then take the middle one. With an even number of scores, average the middle two.\n\n**Mode** - the score that appears most often. There can be no mode, one, or several.\n\nThe order-them-first step for the median is the one people forget.",
+      steps: [
+        { do: "Data: 4, 7, 3, 7, 9, 5", why: "Six scores." },
+        { do: "Mean: 4+7+3+7+9+5 = 35, then 35 ÷ 6 = 5.83", why: "Add everything, divide by 6." },
+        { do: "In order: 3, 4, 5, 7, 7, 9", why: "You must sort before finding the median." },
+        { do: "Median: (5 + 7) ÷ 2 = 6", why: "Even count, so average the middle two." },
+        { do: "Mode: 7", why: "It is the only score appearing twice." },
+        { do: "Mean 5.83, median 6, mode 7", answer: true }
+      ] },
+    { heading: "Measures of spread - range", unit: "Statistics",
+      body: "**Range = highest score − lowest score.**\n\nIt does not tell you anything about the middle. It only tells you how **spread out** the data is.\n\nTwo sets can share a mean and have wildly different ranges - which is exactly why you report both.",
+      steps: [
+        { do: "Set A: 48, 50, 52", why: "Mean is 50." },
+        { do: "Range of A: 52 − 48 = 4", why: "Tightly bunched." },
+        { do: "Set B: 10, 50, 90", why: "Mean is also 50." },
+        { do: "Range of B: 90 − 10 = 80", why: "Same centre, completely different spread." },
+        { do: "Same mean, ranges of 4 and 80", answer: true }
+      ] },
+    { heading: "Surveying and sampling", unit: "Statistics",
+      body: "**Population** - every single member of the group you are studying.\n**Sample** - a smaller part of the population that you actually ask.\n**Census** - a survey of the whole population.\n**Survey** - collecting data by asking questions.\n\nA good sample is **random** and **big enough**. A biased sample gives a wrong answer no matter how carefully you do the maths.\n\nShapes you need to name:\n- **Symmetric** - balanced either side of the middle\n- **Skewed** - bunched at one end with a tail off the other\n- **Bi-modal** - two separate peaks" },
+    { heading: "Two-step equations", unit: "Equations",
+      body: "An equation is a balance. **Whatever you do to one side, you must do to the other.**\n\nUndo operations in **reverse order**: get rid of the + or − first, then the × or ÷.\n\nAlways check by substituting your answer back into the original.",
+      diagram: '<svg viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img"><title>Balance scales showing both sides staying equal</title><line x1="60" y1="120" x2="400" y2="120" stroke="var(--ink-soft)" stroke-width="3"/><polygon points="230,120 210,165 250,165" fill="var(--ink-soft)"/><rect x="80" y="120" width="120" height="4" fill="var(--ink-soft)"/><rect x="260" y="120" width="120" height="4" fill="var(--ink-soft)"/><rect x="85" y="70" width="110" height="50" rx="8" fill="var(--brand-soft)" stroke="var(--brand)" stroke-width="2"/><rect x="265" y="70" width="110" height="50" rx="8" fill="var(--brand-soft)" stroke="var(--brand)" stroke-width="2"/><text x="140" y="102" text-anchor="middle" font-size="21" font-weight="700" fill="var(--ink)">3x + 5</text><text x="320" y="102" text-anchor="middle" font-size="21" font-weight="700" fill="var(--ink)">20</text><text x="230" y="45" text-anchor="middle" font-size="14" fill="var(--ink-soft)">Take 5 off one side, take 5 off the other</text><text x="230" y="185" text-anchor="middle" font-size="13" fill="var(--ink-soft)">The scales only stay level if you treat both sides the same</text></svg>',
+      diagramCaption: "Do the same thing to both sides and the balance holds.",
+      steps: [
+        { do: "3x + 5 = 20", why: "Two operations on the x: times 3, then add 5." },
+        { do: "3x + 5 − 5 = 20 − 5", why: "Undo the +5 first, on both sides." },
+        { do: "3x = 15", why: "Now just the multiplication is left." },
+        { do: "3x ÷ 3 = 15 ÷ 3", why: "Divide both sides by 3." },
+        { do: "x = 5", why: "Check: 3(5) + 5 = 15 + 5 = 20. Correct.", answer: true }
+      ] },
+    { heading: "Equations with fractions", unit: "Equations",
+      body: "Get rid of the fraction as early as you can - **multiply both sides by the denominator**.\n\nIf the whole side is one fraction, multiply first. If only part of it is, deal with the loose numbers first.\n\nWhen the top is a bracket-like expression such as (2x + 1)/5, multiplying by 5 clears it in one move.",
+      steps: [
+        { do: "x/4 + 2 = 7", why: "Only part of the side is the fraction." },
+        { do: "x/4 = 5", why: "Take 2 off both sides first." },
+        { do: "x = 20", why: "Now multiply both sides by 4. Check: 20/4 + 2 = 7. Correct.", answer: true },
+        { do: "(2x + 1)/3 = 5", why: "Here the whole side is one fraction." },
+        { do: "2x + 1 = 15", why: "Multiply both sides by 3 straight away." },
+        { do: "2x = 14, so x = 7", why: "Check: (14 + 1)/3 = 15/3 = 5. Correct.", answer: true }
+      ] },
+    { heading: "Pronumerals on both sides", unit: "Equations",
+      body: "When the letter appears on both sides, **collect them onto one side first**.\n\nMove the **smaller** x term across. That keeps your x positive and saves you fighting negatives later.\n\nThen it is an ordinary two-step equation.",
+      steps: [
+        { do: "5x + 3 = 2x + 18", why: "x on both sides." },
+        { do: "5x − 2x + 3 = 18", why: "2x is smaller, so subtract 2x from both sides." },
+        { do: "3x + 3 = 18", why: "Now it looks like a normal two-step equation." },
+        { do: "3x = 15", why: "Take 3 off both sides." },
+        { do: "x = 5", why: "Check: 5(5) + 3 = 28 and 2(5) + 18 = 28. Both sides match.", answer: true }
+      ] },
+    { heading: "Equations with brackets", unit: "Equations",
+      body: "**Expand the brackets first**, then solve as normal.\n\nRemember the number outside multiplies **everything** inside - a very common slip is multiplying only the first term.\n\nShortcut: if everything on that side is inside the bracket, you can just divide both sides by the outside number instead.",
+      steps: [
+        { do: "3(x − 2) = 12", why: "Expand, or divide both sides by 3. Both work." },
+        { do: "3x − 6 = 12", why: "3 times x AND 3 times −2." },
+        { do: "3x = 18", why: "Add 6 to both sides." },
+        { do: "x = 6", why: "Check: 3(6 − 2) = 3 × 4 = 12. Correct.", answer: true },
+        { do: "2(3x + 1) = 26", why: "Second example." },
+        { do: "6x + 2 = 26, so 6x = 24", why: "Expand both terms, then take 2 off." },
+        { do: "x = 4", answer: true }
+      ] },
+    { heading: "Introducing Pythagoras' Theorem", unit: "Pythagoras",
+      body: "This only works in **right-angled triangles**.\n\nThe **hypotenuse** is the longest side, and it is always **opposite the right angle**. Find the right angle first, then look straight across - that side is the hypotenuse.\n\n**a² + b² = c²**, where a and b are the short sides and c is the hypotenuse.\n\nA **Pythagorean triple** is three whole numbers that fit exactly: 3-4-5, 5-12-13, 8-15-17, 7-24-25.",
+      diagram: '<svg viewBox="0 0 460 250" xmlns="http://www.w3.org/2000/svg" role="img"><title>Right-angled triangle with squares drawn on each side, 3 4 5</title><polygon points="150,170 150,80 270,170" fill="var(--brand-soft)" stroke="var(--brand)" stroke-width="2.5"/><rect x="150" y="155" width="15" height="15" fill="none" stroke="var(--brand)" stroke-width="2"/><rect x="60" y="80" width="90" height="90" fill="none" stroke="var(--ink-faint)" stroke-width="1.5" stroke-dasharray="4 3"/><rect x="150" y="170" width="120" height="60" fill="none" stroke="var(--ink-faint)" stroke-width="1.5" stroke-dasharray="4 3"/><text x="105" y="130" text-anchor="middle" font-size="14" fill="var(--ink-soft)">3&#178; = 9</text><text x="210" y="205" text-anchor="middle" font-size="14" fill="var(--ink-soft)">4&#178; = 16</text><text x="130" y="128" text-anchor="end" font-size="15" font-weight="600" fill="var(--ink)">a = 3</text><text x="210" y="188" text-anchor="middle" font-size="15" font-weight="600" fill="var(--ink)">b = 4</text><text x="222" y="115" text-anchor="middle" font-size="15" font-weight="700" fill="var(--brand)">c = 5</text><text x="360" y="110" text-anchor="middle" font-size="15" font-weight="600" fill="var(--ink)">9 + 16 = 25</text><text x="360" y="134" text-anchor="middle" font-size="15" font-weight="700" fill="var(--brand)">&#8730;25 = 5</text><text x="230" y="245" text-anchor="middle" font-size="13" fill="var(--ink-soft)">The square on the long side equals the other two squares added</text></svg>',
+      diagramCaption: "The hypotenuse sits opposite the right angle, marked by the small box.",
+      steps: [
+        { do: "Is 9, 12, 15 a Pythagorean triple?", why: "Test the two shorter sides against the longest." },
+        { do: "9² + 12² = 81 + 144 = 225", why: "Square and add the two short sides." },
+        { do: "15² = 225", why: "Square the longest side." },
+        { do: "They match, so yes - and the triangle has a right angle", answer: true }
+      ] },
+    { heading: "Finding the hypotenuse", unit: "Pythagoras",
+      body: "When the missing side is the **longest** one, you **add**.\n\nSquare both short sides, add them, then take the square root.\n\nIf the answer is not a whole number, round as the question asks - usually to two decimal places.",
+      steps: [
+        { do: "Short sides 6 cm and 8 cm", why: "The hypotenuse is missing." },
+        { do: "c² = 6² + 8²", why: "Add, because you are after the longest side." },
+        { do: "c² = 36 + 64 = 100", why: "Square each, then add." },
+        { do: "c = √100 = 10 cm", why: "Square root at the end. Sensible - it is longer than both.", answer: true }
+      ] },
+    { heading: "Finding a shorter side", unit: "Pythagoras",
+      body: "When the missing side is a **short** one, you **subtract**.\n\nSquare the hypotenuse, subtract the square of the side you know, then take the square root.\n\nThis is the single biggest trap in the topic. Ask yourself first: **am I looking for the longest side or not?** Longest means add, otherwise subtract.\n\nYour answer must come out **smaller** than the hypotenuse. If it does not, you added when you should have subtracted.",
+      steps: [
+        { do: "Hypotenuse 13 m, one short side 5 m", why: "The missing side is a short one." },
+        { do: "a² = 13² − 5²", why: "Subtract, because you are not after the longest side." },
+        { do: "a² = 169 − 25 = 144", why: "Square the hypotenuse first, then take the other square off." },
+        { do: "a = √144 = 12 m", why: "12 is smaller than 13, so it makes sense.", answer: true },
+        { do: "A ladder 10 m long leans with its base 6 m from a wall. How far up?", why: "The ladder is the hypotenuse." },
+        { do: "h² = 100 − 36 = 64, so h = 8 m", answer: true }
+      ] }
+  ],
+
+  terms: [
+    { term: "Rate", unit: "Rates & Speed", definition: "A comparison of two quantities with different units, like km/h or $/kg." },
+    { term: "Average rate", unit: "Rates & Speed", definition: "Total amount divided by total time. Not the average of the separate rates." },
+    { term: "Speed", unit: "Rates & Speed", definition: "Distance divided by time. How much ground is covered per unit of time." },
+    { term: "Unitary method", unit: "Rates & Speed", definition: "Find the value of one unit first, then multiply up to what you need." },
+    { term: "Tally", unit: "Statistics", definition: "Marks recorded in groups of five as data is collected." },
+    { term: "Frequency", unit: "Statistics", definition: "How many times a particular score appears." },
+    { term: "Mean", unit: "Statistics", definition: "Add all the scores and divide by how many there are. The everyday average." },
+    { term: "Median", unit: "Statistics", definition: "The middle score once they are in order. Average the middle two if there is an even number." },
+    { term: "Mode", unit: "Statistics", definition: "The score that appears most often. There can be none, one, or several." },
+    { term: "Range", unit: "Statistics", definition: "Highest score minus lowest score. A measure of spread, not centre." },
+    { term: "Population", unit: "Statistics", definition: "Every member of the group being studied." },
+    { term: "Sample", unit: "Statistics", definition: "A smaller part of the population that you actually survey." },
+    { term: "Census", unit: "Statistics", definition: "A survey of the entire population." },
+    { term: "Symmetric", unit: "Statistics", definition: "Data balanced evenly either side of the middle." },
+    { term: "Skewed", unit: "Statistics", definition: "Data bunched at one end with a tail stretching off the other." },
+    { term: "Bi-modal", unit: "Statistics", definition: "Data with two separate peaks, so two modes." },
+    { term: "Equation", unit: "Equations", definition: "A statement that two expressions are equal. It has an equals sign." },
+    { term: "Solve", unit: "Equations", definition: "Find the value of the pronumeral that makes the equation true." },
+    { term: "Inverse operation", unit: "Equations", definition: "The operation that undoes another. Subtraction undoes addition, division undoes multiplication." },
+    { term: "Expand", unit: "Equations", definition: "Multiply out the brackets. 3(x + 2) becomes 3x + 6." },
+    { term: "Hypotenuse", unit: "Pythagoras", definition: "The longest side of a right-angled triangle, opposite the right angle." },
+    { term: "Pythagoras' Theorem", unit: "Pythagoras", definition: "a² + b² = c², where c is the hypotenuse." },
+    { term: "Pythagorean triple", unit: "Pythagoras", definition: "Three whole numbers that satisfy the theorem exactly, like 3, 4, 5." }
+  ],
+
+  cards: [
+    { front: "What is a rate?", back: "A comparison of two quantities with different units, like km/h or dollars per kilo." },
+    { front: "How do you find an average rate?", back: "Total amount divided by total time. Never average the separate rates." },
+    { front: "What is the speed formula?", back: "Speed = distance ÷ time. Also distance = speed × time, and time = distance ÷ speed." },
+    { front: "Convert km/h to m/s. What do you do?", back: "Divide by 3.6. Going the other way, multiply by 3.6." },
+    { front: "Convert 90 km/h to m/s.", back: "25 m/s. 90 ÷ 3.6." },
+    { front: "What is the unitary method?", back: "Find the value of one unit first, then multiply up. Divide, then multiply." },
+    { front: "What is the frequency in a frequency table?", back: "How many times that score appeared, written as a number." },
+    { front: "How do you find the mean?", back: "Add all the scores, then divide by how many there are." },
+    { front: "How do you find the median?", back: "Put the scores in order, then take the middle one. Even count, average the middle two." },
+    { front: "How do you find the mode?", back: "The score that appears most often. There can be none, one, or several." },
+    { front: "How do you find the range?", back: "Highest score minus lowest score." },
+    { front: "Does the range measure centre or spread?", back: "Spread. Mean, median and mode measure centre." },
+    { front: "Population vs sample?", back: "Population is everyone in the group. A sample is the smaller part you actually ask." },
+    { front: "What is a census?", back: "A survey of the entire population, not just a sample." },
+    { front: "What does bi-modal mean?", back: "The data has two separate peaks, so two modes." },
+    { front: "In 4x + 3 = 19, what do you undo first?", back: "The + 3. Undo addition and subtraction before multiplication and division." },
+    { front: "Solve 4x + 3 = 19", back: "x = 4. Take 3 off to get 4x = 16, then divide by 4." },
+    { front: "How do you clear a fraction from an equation?", back: "Multiply both sides by the denominator." },
+    { front: "Solve x/5 = 7", back: "x = 35. Multiply both sides by 5." },
+    { front: "5x + 2 = 3x + 12. What is the first move?", back: "Subtract 3x from both sides. Move the smaller x term so x stays positive." },
+    { front: "How do you handle 4(x + 3) = 20?", back: "Expand to 4x + 12 = 20, or just divide both sides by 4. Either works." },
+    { front: "Which side is the hypotenuse?", back: "The longest side, always opposite the right angle." },
+    { front: "State Pythagoras' Theorem.", back: "a² + b² = c², where c is the hypotenuse and a and b are the short sides." },
+    { front: "Finding the hypotenuse: add or subtract?", back: "Add. Square both short sides, add, then square root." },
+    { front: "Finding a shorter side: add or subtract?", back: "Subtract. Square the hypotenuse, take off the other square, then square root." },
+    { front: "Short sides 6 and 8. Hypotenuse?", back: "10. Because 36 + 64 = 100, and √100 = 10." },
+    { front: "Hypotenuse 13, short side 5. Other side?", back: "12. Because 169 − 25 = 144, and √144 = 12." },
+    { front: "Name three Pythagorean triples.", back: "3-4-5, 5-12-13, 8-15-17. Also 7-24-25, and any multiple like 6-8-10." },
+    { front: "How do you test if a triangle has a right angle?", back: "Check whether a² + b² equals c², using the longest side as c. If it matches, it is right-angled." }
+  ],
+
+  quiz: [
+    { q: "A car travels 405 km in 4.5 hours. Find its average speed, and state the formula you used.", a: "90 km/h.\n\nSpeed = distance ÷ time.\n\n405 ÷ 4.5 = 90 km/h.", hint: "Cover the D in the formula triangle.", marks: 2 },
+    { q: "Convert 108 km/h into m/s. Show your working.", a: "30 m/s.\n\nTo go from km/h to m/s you divide by 3.6.\n\n108 ÷ 3.6 = 30 m/s.\n\nSense check: the m/s number should be smaller, and it is.", marks: 2, hint: "Which direction is the 3.6 — divide or multiply?" },
+    { q: "A runner covers 4 km in 20 minutes, then 6 km in 40 minutes. Find the average speed in km per minute.", a: "1/6 km per minute, or about 0.167.\n\nAverage rate = total distance ÷ total time.\n\nTotal distance = 10 km. Total time = 60 minutes.\n\n10 ÷ 60 = 0.1667 km/min (which is 10 km/h).\n\nThe trap is averaging the two separate rates — that gives a different, wrong answer.", hint: "Add the distances and add the times before dividing.", marks: 3 },
+    { q: "6 identical chairs cost $270. Using the unitary method, find the cost of 10 chairs.", a: "$450.\n\nOne chair = 270 ÷ 6 = $45.\n\nTen chairs = 45 × 10 = $450.\n\nDivide down to one, then multiply up.", hint: "What does a single chair cost?", marks: 2 },
+    { q: "For the data 5, 8, 3, 8, 11, 7, find the mean, median, mode and range.", a: "Mean = 7, median = 7.5, mode = 8, range = 8.\n\nMean: 5+8+3+8+11+7 = 42, and 42 ÷ 6 = 7.\n\nIn order: 3, 5, 7, 8, 8, 11. Six scores, so median = (7 + 8) ÷ 2 = 7.5.\n\nMode: 8 appears twice.\n\nRange: 11 − 3 = 8.", hint: "Sort the data before you go looking for the median.", marks: 4 },
+    { q: "Explain the difference between a census and a sample survey, and give one reason you might choose a sample.", a: "A census surveys the entire population. A sample survey asks only part of it.\n\nYou would choose a sample when a census is too expensive, too slow, or impossible — for example testing the lifetime of every light bulb would destroy the whole stock.\n\nA sample needs to be random and large enough, or the results will be biased.", hint: "Think about cost and practicality.", marks: 3 },
+    { q: "Solve 6x − 7 = 29. Show each step and check your answer.", a: "x = 6.\n\n6x − 7 = 29\n6x = 36  (add 7 to both sides)\nx = 6  (divide both sides by 6)\n\nCheck: 6(6) − 7 = 36 − 7 = 29. Correct.", hint: "Undo the subtraction before the multiplication.", marks: 2 },
+    { q: "Solve (3x − 2)/4 = 4.", a: "x = 6.\n\nMultiply both sides by 4: 3x − 2 = 16.\n\nAdd 2: 3x = 18.\n\nDivide by 3: x = 6.\n\nCheck: (18 − 2)/4 = 16/4 = 4. Correct.", hint: "Clear the fraction first by multiplying both sides by the bottom number.", marks: 3 },
+    { q: "Solve 8x − 5 = 3x + 20.", a: "x = 5.\n\nSubtract 3x from both sides: 5x − 5 = 20.\n\nAdd 5: 5x = 25.\n\nDivide by 5: x = 5.\n\nCheck: 8(5) − 5 = 35 and 3(5) + 20 = 35. Both sides agree.", hint: "Move the smaller x term across so x stays positive.", marks: 3 },
+    { q: "Solve 5(2x − 3) = 35.", a: "x = 5.\n\nExpand: 10x − 15 = 35.\n\nAdd 15: 10x = 50.\n\nDivide by 10: x = 5.\n\nFaster route: divide both sides by 5 first to get 2x − 3 = 7, then 2x = 10.\n\nCheck: 5(10 − 3) = 5 × 7 = 35. Correct.", hint: "Expand the brackets — or divide both sides by 5 first.", marks: 3 },
+    { q: "Ben thinks of a number, multiplies it by 4 and adds 9, getting 41. Write an equation and solve it.", a: "4n + 9 = 41, and n = 8.\n\n4n + 9 = 41\n4n = 32  (take 9 off both sides)\nn = 8  (divide by 4)\n\nCheck: 4(8) + 9 = 32 + 9 = 41. Correct.", hint: "Let the number be n and translate the sentence one step at a time.", marks: 3 },
+    { q: "A right-angled triangle has short sides of 9 cm and 12 cm. Find the hypotenuse.", a: "15 cm.\n\nc² = 9² + 12² = 81 + 144 = 225.\n\nc = √225 = 15 cm.\n\nYou add, because the hypotenuse is the longest side.", hint: "Longest side missing means add the squares.", marks: 2 },
+    { q: "A right-angled triangle has a hypotenuse of 25 m and one short side of 20 m. Find the other side.", a: "15 m.\n\na² = 25² − 20² = 625 − 400 = 225.\n\na = √225 = 15 m.\n\nSubtract, because the missing side is a short one. Sense check: 15 is less than 25, as it must be.", hint: "You are not after the longest side, so which operation is it?", marks: 3 },
+    { q: "A ladder 17 m long leans against a wall with its base 8 m from the wall. How far up the wall does it reach?", a: "15 m.\n\nThe ladder is the hypotenuse, so the height is a shorter side.\n\nh² = 17² − 8² = 289 − 64 = 225.\n\nh = √225 = 15 m.", hint: "Which of the three lengths is the hypotenuse here?", marks: 3 },
+    { q: "A triangle has sides 8 cm, 15 cm and 17 cm. Show whether it is right-angled.", a: "Yes, it is right-angled.\n\nTest the two shorter sides against the longest:\n8² + 15² = 64 + 225 = 289.\n17² = 289.\n\nThey are equal, so by the converse of Pythagoras' Theorem the triangle has a right angle. 8-15-17 is a Pythagorean triple.", hint: "Square the two short sides, add, and compare with the longest squared.", marks: 3 }
+  ]
+}
+
 ];
