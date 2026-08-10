@@ -494,8 +494,8 @@
 <main id="app" class="wrap"></main>
 
 <script src="packs.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/appwrite@17.0.0"></script>
+<script src="appwrite-config.js"></script>
 <script>
 (function () {
   "use strict";
@@ -690,18 +690,107 @@
 
 
   /* ---------------- accounts, My Study and Class Game ---------------- */
-  var SUPABASE_URL = window.STUDYPACKS_SUPABASE_URL || "";
-  var SUPABASE_ANON_KEY = window.STUDYPACKS_SUPABASE_ANON_KEY || "";
-  var sb = null, currentUser = null;
-  if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
-    try { sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch (ignore) {}
+  var APPWRITE_ENDPOINT = window.STUDYPACKS_APPWRITE_ENDPOINT || "";
+  var APPWRITE_PROJECT_ID = window.STUDYPACKS_APPWRITE_PROJECT_ID || "";
+  var APPWRITE_DATABASE_ID = window.STUDYPACKS_APPWRITE_DATABASE_ID || "";
+  var APPWRITE_TABLES = window.STUDYPACKS_APPWRITE_TABLES || {};
+  var sb = null, currentUser = null, awClient = null, awAccount = null, awTables = null, authListeners = [];
+  function tableId(name) { return APPWRITE_TABLES[name] || name; }
+  function appwriteUser(u) { return u ? { id:u.$id, email:u.email, user_metadata:{ full_name:u.name || "" } } : null; }
+  function resultError(error) { return { data:null, error:{ message:(error && error.message) || "Appwrite request failed." } }; }
+  function gamePermissions(data, table) {
+    if (table === "class_games") return [Appwrite.Permission.read(Appwrite.Role.users()), Appwrite.Permission.update(Appwrite.Role.user(data.host_user_id)), Appwrite.Permission.delete(Appwrite.Role.user(data.host_user_id))];
+    if (table === "class_game_players") return [Appwrite.Permission.read(Appwrite.Role.users()), Appwrite.Permission.update(Appwrite.Role.user(data.user_id)), Appwrite.Permission.delete(Appwrite.Role.user(data.user_id))];
+    if (table === "class_game_answers") return [Appwrite.Permission.read(Appwrite.Role.users()), Appwrite.Permission.update(Appwrite.Role.user(currentUser.id)), Appwrite.Permission.delete(Appwrite.Role.user(currentUser.id))];
+    return undefined;
+  }
+  function mapRow(row) {
+    if (!row) return null;
+    var out = {}, k; for (k in row) out[k] = row[k];
+    out.id = row.$id; out.created_at = row.created_at || row.$createdAt; out.updated_at = row.updated_at || row.$updatedAt;
+    return out;
+  }
+  function AppwriteBuilder(table) { this.table=table; this.filters=[]; this.orderBy=null; this.max=null; this.operation="select"; this.payload=null; this.singleRow=false; }
+  AppwriteBuilder.prototype.select = function () { return this; };
+  AppwriteBuilder.prototype.eq = function (key,value) { this.filters.push([key,value]); return this; };
+  AppwriteBuilder.prototype.order = function (key, opts) { this.orderBy=[key,opts]; return this; };
+  AppwriteBuilder.prototype.limit = function (n) { this.max=n; return this; };
+  AppwriteBuilder.prototype.maybeSingle = function () { this.singleRow=true; return this._run(); };
+  AppwriteBuilder.prototype.single = function () { this.singleRow=true; return this._run(); };
+  AppwriteBuilder.prototype.insert = function (data) { this.operation="insert"; this.payload=data; return this; };
+  AppwriteBuilder.prototype.update = function (data) { this.operation="update"; this.payload=data; return this; };
+  AppwriteBuilder.prototype.upsert = function (data) { this.operation="upsert"; this.payload=data; return this; };
+  AppwriteBuilder.prototype.then = function (resolve,reject) { return this._run().then(resolve,reject); };
+  AppwriteBuilder.prototype._queries = function () {
+    var q=this.filters.map(function(f){return Appwrite.Query.equal(f[0],[String(f[1])]);});
+    if(this.orderBy) q.push((this.orderBy[1] && this.orderBy[1].ascending===false) ? Appwrite.Query.orderDesc(this.orderBy[0]) : Appwrite.Query.orderAsc(this.orderBy[0]));
+    if(this.max) q.push(Appwrite.Query.limit(this.max)); return q;
+  };
+  AppwriteBuilder.prototype._find = async function (filters) {
+    var q=filters || this._queries(), list=await awTables.listRows({databaseId:APPWRITE_DATABASE_ID,tableId:tableId(this.table),queries:q});
+    return (list.rows || []).map(mapRow);
+  };
+  AppwriteBuilder.prototype._run = async function () {
+    try {
+      var rows, existing, row, permissions;
+      if(this.operation==="select") { rows=await this._find(); return {data:this.singleRow?(rows[0]||null):rows,error:null}; }
+      if(this.operation==="insert") {
+        permissions=gamePermissions(this.payload,this.table);
+        row=await awTables.createRow({databaseId:APPWRITE_DATABASE_ID,tableId:tableId(this.table),rowId:Appwrite.ID.unique(),data:this.payload,permissions:permissions});
+        return {data:mapRow(row),error:null};
+      }
+      if(this.operation==="upsert") {
+        var f=[]; if(this.payload.user_id) f.push(Appwrite.Query.equal("user_id",[String(this.payload.user_id)])); if(this.payload.pack_id) f.push(Appwrite.Query.equal("pack_id",[String(this.payload.pack_id)]));
+        existing=await this._find(f);
+        if(existing[0]) row=await awTables.updateRow({databaseId:APPWRITE_DATABASE_ID,tableId:tableId(this.table),rowId:existing[0].id,data:this.payload});
+        else row=await awTables.createRow({databaseId:APPWRITE_DATABASE_ID,tableId:tableId(this.table),rowId:Appwrite.ID.unique(),data:this.payload});
+        return {data:mapRow(row),error:null};
+      }
+      rows=await this._find();
+      if(!rows[0]) return {data:null,error:{message:"Record not found."}};
+      row=await awTables.updateRow({databaseId:APPWRITE_DATABASE_ID,tableId:tableId(this.table),rowId:rows[0].id,data:this.payload});
+      return {data:mapRow(row),error:null};
+    } catch(error) { return resultError(error); }
+  };
+  function makeAppwriteAdapter() {
+    return {
+      auth:{
+        getSession:async function(){try {var u=await awAccount.get();return {data:{session:{user:appwriteUser(u)}}};}catch(e){return {data:{session:null}};}},
+        onAuthStateChange:function(cb){authListeners.push(cb);return {data:{subscription:{unsubscribe:function(){authListeners=authListeners.filter(function(x){return x!==cb;});}}}};},
+        signOut:async function(){try {await awAccount.deleteSession({sessionId:"current"});authListeners.forEach(function(cb){cb("SIGNED_OUT",null);});return {error:null};}catch(e){return {error:resultError(e).error};}},
+        signInWithPassword:async function(v){try {await awAccount.createEmailPasswordSession({email:v.email,password:v.password});var u=appwriteUser(await awAccount.get());authListeners.forEach(function(cb){cb("SIGNED_IN",{user:u});});return {error:null};}catch(e){return {error:resultError(e).error};}},
+        signUp:async function(v){try {await awAccount.create({userId:Appwrite.ID.unique(),email:v.email,password:v.password,name:(v.options&&v.options.data&&v.options.data.full_name)||""});await awAccount.createEmailPasswordSession({email:v.email,password:v.password});var u=appwriteUser(await awAccount.get());authListeners.forEach(function(cb){cb("SIGNED_IN",{user:u});});return {error:null};}catch(e){return {error:resultError(e).error};}},
+        signInWithOAuth:async function(v){try {await awAccount.createOAuth2Session({provider:Appwrite.OAuthProvider.Google,success:(v.options&&v.options.redirectTo)||window.location.href,failure:window.location.href});return {error:null};}catch(e){return {error:resultError(e).error};}}
+      },
+      from:function(name){return new AppwriteBuilder(name);},
+      channel:function(){
+        var handlers=[];
+        return {
+          on:function(_event,details,callback){handlers.push({table:details.table,callback:callback});return this;},
+          subscribe:function(){
+            var channels=handlers.map(function(h){return "tablesdb."+APPWRITE_DATABASE_ID+".tables."+tableId(h.table)+".rows";});
+            var unsubscribe=awClient.subscribe(channels,function(){handlers.forEach(function(h){h.callback();});});
+            return {unsubscribe:unsubscribe};
+          }
+        };
+      },
+      removeChannel:function(channel){if(channel&&channel.unsubscribe)channel.unsubscribe();}
+    };
+  }
+  if (APPWRITE_ENDPOINT && APPWRITE_PROJECT_ID && APPWRITE_DATABASE_ID && window.Appwrite) {
+    try {
+      awClient=new Appwrite.Client().setEndpoint(APPWRITE_ENDPOINT).setProject(APPWRITE_PROJECT_ID);
+      awAccount=new Appwrite.Account(awClient);
+      awTables=new Appwrite.TablesDB(awClient);
+      sb=makeAppwriteAdapter();
+    } catch(ignore) {}
   }
   function configured() { return !!sb; }
   function userName() {
     if (!currentUser) return "";
     return currentUser.user_metadata.full_name || currentUser.user_metadata.name || currentUser.email.split("@")[0];
   }
-  function authError() { return '<div class="auth-note">Supabase has not been connected yet. Add your project URL and anon key in <strong>supabase-config.js</strong>, then refresh this page.</div>'; }
+  function authError() { return '<div class="auth-note">Appwrite has not been connected yet. Add the endpoint, project, database and table IDs in <strong>appwrite-config.js</strong>, then refresh this page.</div>'; }
   function updateAuthArea() {
     var el = document.getElementById("authArea"); if (!el) return;
     el.innerHTML = currentUser
@@ -713,7 +802,7 @@
     if (signOut) signOut.onclick = function () { sb.auth.signOut(); };
   }
   function showAuth() {
-    if (!configured()) { window.alert("Supabase is not connected yet. Follow SUPABASE_SETUP.md first."); return; }
+    if (!configured()) { window.alert("Appwrite is not connected yet. Follow APPWRITE_SETUP.md first."); return; }
     var old = document.getElementById("authModal"); if (old) old.remove();
     var modal = document.createElement("div"); modal.id = "authModal"; modal.className = "modal-backdrop";
     modal.innerHTML = '<div class="modal" role="dialog" aria-modal="true"><button class="btn btn-sm" id="authClose" style="float:right;width:auto;margin:0">Close</button><h2>Sign in to StudyPacks</h2><p class="lead" style="font-size:14px">Save your personal study plan and join class games.</p><div class="field"><label>Name <small>(for new accounts)</small></label><input id="authName" placeholder="Your name"></div><div class="field"><label>Email</label><input id="authEmail" type="email" placeholder="you@example.com"></div><div class="field"><label>Password</label><input id="authPassword" type="password" placeholder="At least 6 characters"></div><div id="authMsg" style="font-size:13px;color:var(--ink-soft)"></div><button class="btn btn-primary" id="authLogin">Sign in</button><button class="btn" id="authCreate">Create account</button><div class="or">or</div><button class="btn" id="authGoogle">Continue with Google</button></div>';
