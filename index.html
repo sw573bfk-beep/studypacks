@@ -437,6 +437,31 @@
     border-color: var(--brand-line); box-shadow: 0 0 0 3px var(--brand-soft);
   }
 
+
+  /* ---------- My Study + Class Game ---------- */
+  .auth-note { background:var(--brand-soft); border:1px solid var(--brand-line); border-radius:12px; padding:14px 16px; color:var(--ink-soft); margin:0 0 18px; }
+  .study-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:20px 0; }
+  .study-stat { background:var(--brand-soft); border:1px solid var(--brand-line); border-radius:12px; padding:14px; }
+  .study-stat b { display:block; color:var(--brand); font-size:22px; line-height:1.15; }
+  .study-stat span { font-size:12.5px; color:var(--ink-soft); }
+  .progress { height:10px; border-radius:99px; background:var(--line-soft); overflow:hidden; margin:8px 0 18px; }
+  .progress i { display:block; height:100%; background:linear-gradient(90deg,var(--grad-a),var(--grad-b)); border-radius:inherit; }
+  .study-task { border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:12px; background:var(--surface); }
+  .study-task .task-type { color:var(--brand); font-size:12px; font-weight:750; text-transform:uppercase; letter-spacing:.7px; }
+  .weak-chip { display:inline-block; padding:5px 10px; border-radius:20px; background:#fff3e8; color:#a94f0b; font-size:13px; margin:3px; }
+  .modal-backdrop { position:fixed; inset:0; z-index:200; background:rgba(20,25,40,.42); display:grid; place-items:center; padding:20px; }
+  .modal { width:min(440px,100%); background:var(--surface); border-radius:16px; padding:26px; box-shadow:0 22px 60px rgba(0,0,0,.22); }
+  .modal h2 { margin:0 0 8px; } .modal .field { margin-bottom:12px; }
+  .modal .btn { width:100%; margin-top:8px; } .modal .or { text-align:center; color:var(--ink-faint); margin:12px 0 4px; font-size:13px; }
+  .game-code { font-size:35px; color:var(--brand); font-weight:800; letter-spacing:5px; text-align:center; margin:12px 0; }
+  .player-list { display:grid; gap:8px; margin:16px 0; }
+  .player { display:flex; justify-content:space-between; gap:12px; border:1px solid var(--line); border-radius:10px; padding:10px 13px; background:#fff; }
+  .leaderboard { list-style:none; padding:0; margin:18px 0; counter-reset:rank; }
+  .leaderboard li { counter-increment:rank; display:flex; justify-content:space-between; padding:11px 13px; border-bottom:1px solid var(--line-soft); }
+  .leaderboard li:before { content:counter(rank); color:var(--brand); font-weight:750; width:28px; }
+  .leaderboard .name { flex:1; }
+  @media (max-width:640px) { .study-grid { grid-template-columns:1fr 1fr; } .game-code { font-size:28px; } }
+
   @media (max-width: 640px) {
     .hero { padding: 32px 0 4px; }
     .hero h1 { font-size: 27px; }
@@ -459,6 +484,7 @@
       <span class="brandmark">S</span> StudyPacks
     </button>
     <span class="spacer"></span>
+    <span id="authArea"></span>
     <button class="btn btn-primary btn-sm" onclick="go('request')">Request a pack</button>
   </div>
 </header>
@@ -468,6 +494,8 @@
 <main id="app" class="wrap"></main>
 
 <script src="packs.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script>
 (function () {
   "use strict";
@@ -485,7 +513,9 @@
     card: 0, flipped: false,
     mc: {},
     pr: 0, prState: null, prTyped: "", prDone: 0, prRight: 0,
-    examStarted: false, examDone: false, secondsLeft: 0, answers: {}
+    examStarted: false, examDone: false, secondsLeft: 0, answers: {},
+    studyPlan: null, studyAttempts: [], studySession: null, studyLoaded: false,
+    game: null, gamePlayers: [], gameAnswers: [], gameMessage: "", gameChannel: null
   };
   var timerId = null;
 
@@ -648,11 +678,155 @@
     var ordered = (p.focus === "practice") ? [doing].concat(recall) : recall.concat([doing]);
     ordered.forEach(function (i) { if (i.has) items.push({ k: i.k, t: i.t }); });
     if (examQs(p).length) items.push({ k: "exam", t: "\u{1F4DD} Full exam" });
+    items.push({ k: "study", t: "🌱 My Study" });
+    items.push({ k: "play", t: "🎮 Play" });
 
     navEl.innerHTML = '<div class="navbar"><div class="wrap"><nav class="navpills">' +
       items.map(function (i) {
         return '<button class="pill' + (S.tab === i.k ? " on" : "") + '" onclick="tab(\'' + i.k + '\')">' + i.t + '</button>';
       }).join("") + '</nav></div></div>';
+  }
+
+
+
+  /* ---------------- accounts, My Study and Class Game ---------------- */
+  var SUPABASE_URL = window.STUDYPACKS_SUPABASE_URL || "";
+  var SUPABASE_ANON_KEY = window.STUDYPACKS_SUPABASE_ANON_KEY || "";
+  var sb = null, currentUser = null;
+  if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
+    try { sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); } catch (ignore) {}
+  }
+  function configured() { return !!sb; }
+  function userName() {
+    if (!currentUser) return "";
+    return currentUser.user_metadata.full_name || currentUser.user_metadata.name || currentUser.email.split("@")[0];
+  }
+  function authError() { return '<div class="auth-note">Supabase has not been connected yet. Add your project URL and anon key in <strong>supabase-config.js</strong>, then refresh this page.</div>'; }
+  function updateAuthArea() {
+    var el = document.getElementById("authArea"); if (!el) return;
+    el.innerHTML = currentUser
+      ? '<button class="btn btn-sm" id="signOut">Sign out · ' + esc(userName()) + '</button>'
+      : '<button class="btn btn-sm" id="signIn">Sign in</button>';
+    var signIn = document.getElementById("signIn");
+    if (signIn) signIn.onclick = showAuth;
+    var signOut = document.getElementById("signOut");
+    if (signOut) signOut.onclick = function () { sb.auth.signOut(); };
+  }
+  function showAuth() {
+    if (!configured()) { window.alert("Supabase is not connected yet. Follow SUPABASE_SETUP.md first."); return; }
+    var old = document.getElementById("authModal"); if (old) old.remove();
+    var modal = document.createElement("div"); modal.id = "authModal"; modal.className = "modal-backdrop";
+    modal.innerHTML = '<div class="modal" role="dialog" aria-modal="true"><button class="btn btn-sm" id="authClose" style="float:right;width:auto;margin:0">Close</button><h2>Sign in to StudyPacks</h2><p class="lead" style="font-size:14px">Save your personal study plan and join class games.</p><div class="field"><label>Name <small>(for new accounts)</small></label><input id="authName" placeholder="Your name"></div><div class="field"><label>Email</label><input id="authEmail" type="email" placeholder="you@example.com"></div><div class="field"><label>Password</label><input id="authPassword" type="password" placeholder="At least 6 characters"></div><div id="authMsg" style="font-size:13px;color:var(--ink-soft)"></div><button class="btn btn-primary" id="authLogin">Sign in</button><button class="btn" id="authCreate">Create account</button><div class="or">or</div><button class="btn" id="authGoogle">Continue with Google</button></div>';
+    document.body.appendChild(modal);
+    document.getElementById("authClose").onclick = function () { modal.remove(); };
+    function vals() { return { email: document.getElementById("authEmail").value.trim(), password: document.getElementById("authPassword").value, name: document.getElementById("authName").value.trim() }; }
+    function message(t, bad) { var e = document.getElementById("authMsg"); e.textContent = t; e.style.color = bad ? "#b42318" : "var(--ink-soft)"; }
+    document.getElementById("authLogin").onclick = async function () { var v = vals(); var r = await sb.auth.signInWithPassword({ email:v.email, password:v.password }); if (r.error) message(r.error.message,true); };
+    document.getElementById("authCreate").onclick = async function () { var v = vals(); var r = await sb.auth.signUp({ email:v.email, password:v.password, options:{ data:{ full_name:v.name }, emailRedirectTo:window.location.origin + window.location.pathname } }); message(r.error ? r.error.message : "Check your email to confirm your account.", !!r.error); };
+    document.getElementById("authGoogle").onclick = async function () { var r = await sb.auth.signInWithOAuth({ provider:"google", options:{ redirectTo:window.location.origin + window.location.pathname } }); if (r.error) message(r.error.message,true); };
+  }
+  function requireAuth() { if (currentUser) return true; showAuth(); return false; }
+  async function initialiseAuth() {
+    if (!configured()) { updateAuthArea(); return; }
+    var r = await sb.auth.getSession(); currentUser = r.data.session && r.data.session.user; updateAuthArea();
+    sb.auth.onAuthStateChange(function (_event, session) { currentUser = session && session.user; updateAuthArea(); var modal=document.getElementById("authModal"); if (currentUser && modal) modal.remove(); if (S.tab === "study" || S.tab === "play") render(); });
+  }
+  var originalTab = window.tab;
+  window.tab = function (t) { if ((t === "study" || t === "play") && !requireAuth()) return; if (t === "study") S.studyLoaded = false; originalTab(t); };
+
+  function dateOnly(d) { return new Date(d).toISOString().slice(0,10); }
+  function dayDiff(d) { return Math.max(0, Math.ceil((new Date(d + "T23:59:59") - new Date()) / 86400000)); }
+  function topicFor(p, i) { return ((p.topics || [])[i % Math.max(1,(p.topics || []).length)]) || "General"; }
+  function attemptStats() {
+    var by = {}, days = {};
+    S.studyAttempts.forEach(function (a) { var x=by[a.topic] || (by[a.topic]={n:0,bad:0}); x.n++; if (!a.correct) x.bad++; days[dateOnly(a.created_at)] = 1; });
+    var weak = Object.keys(by).filter(function (k) { return by[k].bad && by[k].bad / by[k].n >= .4; }).sort(function(a,b){return (by[b].bad/by[b].n)-(by[a].bad/by[a].n);});
+    var streak=0, d=new Date(); while (days[dateOnly(d)]) { streak++; d.setDate(d.getDate()-1); }
+    return { weak:weak, streak:streak, done:S.studyAttempts.length, by:by };
+  }
+  async function loadStudy() {
+    if (!configured() || !currentUser || !S.packId) return;
+    var plans = await sb.from("study_plans").select("*").eq("user_id",currentUser.id).eq("pack_id",S.packId).maybeSingle();
+    var attempts = await sb.from("study_attempts").select("*").eq("user_id",currentUser.id).eq("pack_id",S.packId).order("created_at",{ascending:false}).limit(250);
+    S.studyPlan = plans.data || null; S.studyAttempts = attempts.data || []; render();
+  }
+  function makeTasks(p) {
+    var n = Math.max(3, Math.min(12, Math.floor((S.studyPlan.daily_minutes || 20) / 5)));
+    var stats=attemptStats(), weak=stats.weak, tasks=[], i=0;
+    function push(kind,item,topic) { if (tasks.length<n && item) tasks.push({kind:kind,item:item,topic:topic || item.topic || topicFor(p,i++)}); }
+    (p.quick || []).filter(function(q){return weak.indexOf(q.topic)>=0;}).forEach(function(q){push("quick",q,q.topic);});
+    (p.practice || []).filter(function(q){return weak.indexOf(q.topic)>=0;}).forEach(function(q){push("practice",q,q.topic);});
+    (p.cards || []).forEach(function(c){push("card",c,topicFor(p,i));});
+    (p.quick || []).forEach(function(q){push("quick",q,q.topic);});
+    (p.practice || []).forEach(function(q){push("practice",q,q.topic);});
+    (examQs(p) || []).forEach(function(q){push("exam",q,q.topic);});
+    return tasks.slice(0,n);
+  }
+  function studyView(p) {
+    if (!configured()) return authError();
+    if (!currentUser) return '<div class="sheet"><h2>My Study</h2><p class="lead">Sign in to build your personal plan.</p><button class="btn btn-primary" id="studySignIn">Sign in to continue</button></div>';
+    if (!S.studyPlan) return '<div class="sheet"><span class="kicker">Your plan</span><h2>Let us choose what you study</h2><p class="lead">Tell us your exam date and how much time you have. We will make each daily session from this pack and adjust it as you go.</p><div class="field"><label for="examDate">What date is your exam?</label><input id="examDate" type="date" min="' + dateOnly(new Date()) + '"></div><div class="field"><label for="dailyMinutes">How many minutes can you study each day?</label><select class="filter" id="dailyMinutes"><option value="10">10 minutes</option><option value="20" selected>20 minutes</option><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option></select></div><button class="btn btn-primary btn-lg" id="savePlan">Create my study plan</button></div>';
+    if (S.studySession) return studySessionView(p);
+    var st=attemptStats(), days=dayDiff(S.studyPlan.exam_date), total=(p.cards||[]).length+(p.quick||[]).length+(p.practice||[]).length+examQs(p).length, progress=Math.min(100,Math.round(100*st.done/Math.max(1,total)));
+    return '<div class="sheet"><span class="kicker">My Study</span><h2>Your next best study session</h2><p class="lead">A ' + S.studyPlan.daily_minutes + '-minute session, chosen from the parts of this pack that will help you most.</p><div class="study-grid"><div class="study-stat"><b>' + days + '</b><span>days to exam</span></div><div class="study-stat"><b>' + dayDiff(S.studyPlan.exam_date) + '</b><span>exam countdown</span></div><div class="study-stat"><b>' + st.streak + '</b><span>day streak</span></div><div class="study-stat"><b>' + progress + '%</b><span>overall progress</span></div></div><h3 style="margin:0">Overall progress</h3><div class="progress"><i style="width:' + progress + '%"></i></div><div class="tipbox"><strong>Weak topics</strong>' + (st.weak.length ? st.weak.slice(0,4).map(function(x){return '<span class="weak-chip">' + esc(x) + '</span>';}).join("") : 'Keep answering questions and we will spot the topics that need more attention.') + '</div><div class="study-task"><span class="task-type">Today</span><br>Your session has ' + makeTasks(p).length + ' short tasks. We will mix notes to recall, flashcards, practice and exam questions.</div><button class="btn btn-primary btn-lg" id="startStudy">START TODAY&#39;S STUDY</button></div>';
+  }
+  function studySessionView(p) {
+    var s=S.studySession, t=s.tasks[s.index]; if (!t) return '<div class="sheet"><h2>Today is complete 🎉</h2><p class="lead">Nice work. Your results have been saved and tomorrow’s session will give extra attention to anything you missed.</p><button class="btn btn-primary" id="finishStudy">Back to My Study</button></div>';
+    var body='', buttons='';
+    if (t.kind === "card") { body='<div class="fc-stage"><div class="study-task"><span class="task-type">Flashcard · ' + esc(t.topic) + '</span><p class="pr-q">' + esc(t.item.front) + '</p><details><summary>Show answer</summary><p>' + esc(t.item.back) + '</p></details></div></div>'; buttons='<button class="btn" data-study-result="0">Need more practice</button><button class="btn btn-primary" data-study-result="1">I knew it</button>'; }
+    else if (t.kind === "quick") { body='<div class="study-task"><span class="task-type">Quick question · ' + esc(t.topic) + '</span><p class="pr-q">' + esc(t.item.q) + '</p><div class="mc-opts">' + t.item.options.map(function(o,i){return '<button class="opt" data-study-opt="' + i + '"><span class="mark">' + String.fromCharCode(65+i) + '</span><span>' + esc(o) + '</span></button>';}).join("") + '</div></div>'; }
+    else if (t.kind === "practice") { body='<div class="study-task"><span class="task-type">Practice · ' + esc(t.topic) + '</span><p class="pr-q">' + esc(t.item.q) + '</p><div class="pr-row"><input class="pr-in" id="studyAnswer" placeholder="Type your answer"><button class="btn btn-primary" id="checkStudy">Check answer</button></div></div>'; }
+    else { body='<div class="study-task"><span class="task-type">Exam question · ' + esc(t.topic) + '</span><p class="pr-q">' + esc(t.item.q) + '</p><details><summary>Show model answer after trying</summary><p>' + rich(t.item.a || t.item.answer || "") + '</p></details></div>'; buttons='<button class="btn" data-study-result="0">I need to revisit this</button><button class="btn btn-primary" data-study-result="1">I got it</button>'; }
+    return '<div class="sheet"><span class="kicker">Today’s study · ' + (s.index+1) + ' of ' + s.tasks.length + '</span><div class="progress"><i style="width:' + (100*s.index/s.tasks.length) + '%"></i></div><h2>One step at a time</h2>' + body + '<div class="pr-row" style="margin-top:16px">' + buttons + '</div></div>';
+  }
+  async function recordStudy(t, correct) {
+    var row={user_id:currentUser.id,pack_id:S.packId,topic:t.topic,activity_type:t.kind,content_key:String(S.studySession.index),correct:!!correct};
+    S.studyAttempts.unshift(Object.assign({created_at:new Date().toISOString()},row));
+    if (configured()) await sb.from("study_attempts").insert(row);
+    S.studySession.index++; render();
+  }
+  function wireStudy(p) {
+    if (!currentUser) { var a=document.getElementById("studySignIn"); if(a)a.onclick=showAuth; return; }
+    if (!S.studyPlan) { var save=document.getElementById("savePlan"); if(save) save.onclick=async function(){var date=document.getElementById("examDate").value, mins=document.getElementById("dailyMinutes").value; if(!date){window.alert("Please choose your exam date.");return;} var r=await sb.from("study_plans").upsert({user_id:currentUser.id,pack_id:S.packId,exam_date:date,daily_minutes:+mins},{onConflict:"user_id,pack_id"}).select().single(); if(r.error) window.alert(r.error.message); else {S.studyPlan=r.data;render();}}; return; }
+    if (S.studySession) { var done=document.getElementById("finishStudy"); if(done) done.onclick=function(){S.studySession=null;render();}; Array.prototype.forEach.call(app.querySelectorAll("[data-study-result]"),function(b){b.onclick=function(){recordStudy(S.studySession.tasks[S.studySession.index],b.getAttribute("data-study-result")==="1");};}); Array.prototype.forEach.call(app.querySelectorAll("[data-study-opt]"),function(b){b.onclick=function(){var t=S.studySession.tasks[S.studySession.index];recordStudy(t,+b.getAttribute("data-study-opt")===t.item.answer);};}); var check=document.getElementById("checkStudy"); if(check) check.onclick=function(){var t=S.studySession.tasks[S.studySession.index];recordStudy(t,isRight(t.item,document.getElementById("studyAnswer").value));}; return; }
+    var start=document.getElementById("startStudy"); if(start) start.onclick=function(){S.studySession={tasks:makeTasks(p),index:0};render();};
+    if (!S.studyLoaded) { S.studyLoaded = true; loadStudy(); }
+  }
+
+  function code() { return String(Math.floor(100000 + Math.random()*900000)); }
+  function me() { return S.gamePlayers.filter(function(x){return x.user_id===currentUser.id;})[0]; }
+  function rank(players) { return players.slice().sort(function(a,b){return b.score-a.score;}); }
+  async function loadGame(id) {
+    if (!configured() || !id) return;
+    var g=await sb.from("class_games").select("*").eq("id",id).single();
+    var pl=await sb.from("class_game_players").select("*").eq("game_id",id).order("score",{ascending:false});
+    var an=await sb.from("class_game_answers").select("*").eq("game_id",id);
+    if(!g.error) S.game=g.data; S.gamePlayers=pl.data||[]; S.gameAnswers=an.data||[]; render();
+  }
+  function listenGame(id) {
+    if(S.gameChannel) sb.removeChannel(S.gameChannel);
+    S.gameChannel=sb.channel("class-game-"+id).on("postgres_changes",{event:"*",schema:"public",table:"class_games",filter:"id=eq."+id},function(){loadGame(id);}).on("postgres_changes",{event:"*",schema:"public",table:"class_game_players",filter:"game_id=eq."+id},function(){loadGame(id);}).on("postgres_changes",{event:"*",schema:"public",table:"class_game_answers",filter:"game_id=eq."+id},function(){loadGame(id);}).subscribe();
+  }
+  function gameView(p) {
+    if(!configured()) return authError();
+    if(!currentUser) return '<div class="sheet"><h2>Class Game</h2><p class="lead">Sign in to host or join a live game.</p><button class="btn btn-primary" id="playSignIn">Sign in to continue</button></div>';
+    if(!S.game) return '<div class="sheet"><span class="kicker">Class Game</span><h2>Play this pack together</h2><p class="lead">Host a live game for your class, or join with a six-digit code. Everyone gets the same multiple-choice questions.</p><div class="routes"><div class="route feature"><span class="rt">Host a game</span><span class="rd">Create a code, wait for players, then start.</span><button class="btn btn-primary" style="margin-top:14px" id="hostGame">Host game</button></div><div class="route"><span class="rt">Join a game</span><span class="rd">Ask the host for the six-digit code.</span><div class="field" style="margin:14px 0 6px"><input id="joinCode" inputmode="numeric" maxlength="6" placeholder="Game code"><input id="nickname" maxlength="24" placeholder="Nickname" value="' + esc(userName()) + '" style="margin-top:8px"></div><button class="btn" id="joinGame">Join game</button></div></div>' + (S.gameMessage?'<p style="color:#b42318">'+esc(S.gameMessage)+'</p>':'') + '</div>';
+    var game=S.game, mine=me(), host=game.host_user_id===currentUser.id, q=(p.quick||[])[game.question_index], answered=S.gameAnswers.filter(function(a){return mine&&a.player_id===mine.id&&a.question_index===game.question_index;})[0];
+    if(game.status==="lobby") return '<div class="sheet"><span class="kicker">Game lobby</span><h2>Share this code with your class</h2><div class="game-code">'+esc(game.code)+'</div><p class="lead" style="text-align:center">Players can join from the Play tab in this study pack.</p><div class="player-list">'+S.gamePlayers.map(function(x){return '<div class="player"><span>'+esc(x.nickname)+(x.user_id===game.host_user_id?' · Host':'')+'</span><span>'+x.score+' pts</span></div>';}).join("")+'</div>'+(host?'<button class="btn btn-primary btn-lg" id="startGame" '+((p.quick||[]).length?'':'disabled')+'>Start game</button>':'<p class="auth-note">You are in! Wait for the host to start.</p>')+'</div>';
+    if(game.status==="finished") { var r=rank(S.gamePlayers); return '<div class="sheet"><span class="kicker">Final rankings</span><h2>'+(r[0]?'🏆 '+esc(r[0].nickname)+' wins!':'Game complete')+'</h2><ol class="leaderboard">'+r.map(function(x){return '<li><span class="name">'+esc(x.nickname)+'</span><b>'+x.score+' pts</b></li>';}).join("")+'</ol><button class="btn" id="leaveGame">Leave game</button></div>'; }
+    if(!q) return '<div class="sheet"><h2>No multiple-choice questions in this pack yet.</h2></div>';
+    var seconds=Math.max(0,Math.ceil((new Date(game.question_started_at).getTime()+20000-Date.now())/1000));
+    var opts=q.options.map(function(o,i){return '<button class="opt" data-game-opt="'+i+'" '+(answered||seconds===0?'disabled':'')+'><span class="mark">'+String.fromCharCode(65+i)+'</span><span>'+esc(o)+'</span></button>';}).join("");
+    return '<div class="sheet"><div class="scorebar"><span class="sv">'+seconds+'s</span><span class="sl">Question '+(game.question_index+1)+' of '+p.quick.length+'</span><span class="spacer"></span><span class="sl">'+(mine?mine.score:0)+' pts</span></div><span class="kicker">Live question</span><h2>'+esc(q.q)+'</h2><div class="mc-opts">'+opts+'</div>'+(answered?'<div class="mc-why"><strong>'+(answered.correct?'Correct!':'Answer locked in.')+'</strong> '+(answered.correct?'Great speed.':'The leaderboard will update after this round.')+'</div>':'')+'<ol class="leaderboard">'+rank(S.gamePlayers).slice(0,5).map(function(x){return '<li><span class="name">'+esc(x.nickname)+'</span><b>'+x.score+'</b></li>';}).join("")+'</ol>'+(host?'<button class="btn btn-primary" id="nextQuestion">'+(game.question_index+1>=p.quick.length?'Finish game':'Next question')+'</button>':'')+'</div>';
+  }
+  function wirePlay(p) {
+    if(!currentUser){var a=document.getElementById("playSignIn");if(a)a.onclick=showAuth;return;}
+    if(!S.game){var h=document.getElementById("hostGame");if(h)h.onclick=async function(){var c=code(), r=await sb.from("class_games").insert({code:c,pack_id:S.packId,host_user_id:currentUser.id,status:"lobby"}).select().single();if(r.error){S.gameMessage=r.error.message;render();return;}var pl=await sb.from("class_game_players").insert({game_id:r.data.id,user_id:currentUser.id,nickname:userName(),score:0});S.game=r.data;listenGame(r.data.id);loadGame(r.data.id);};var j=document.getElementById("joinGame");if(j)j.onclick=async function(){var c=document.getElementById("joinCode").value.trim(),n=document.getElementById("nickname").value.trim();if(!/^\d{6}$/.test(c)||!n){S.gameMessage="Enter the six-digit code and a nickname.";render();return;}var g=await sb.from("class_games").select("*").eq("code",c).eq("pack_id",S.packId).maybeSingle();if(!g.data||g.data.status!=="lobby"){S.gameMessage="That game cannot be joined. Check the code.";render();return;}var ex=await sb.from("class_game_players").select("id").eq("game_id",g.data.id).eq("user_id",currentUser.id).maybeSingle();if(!ex.data){var add=await sb.from("class_game_players").insert({game_id:g.data.id,user_id:currentUser.id,nickname:n,score:0});if(add.error){S.gameMessage=add.error.message;render();return;}}S.game=g.data;listenGame(g.data.id);loadGame(g.data.id);};return;}
+    var game=S.game, host=game.host_user_id===currentUser.id;
+    var start=document.getElementById("startGame");if(start)start.onclick=async function(){await sb.from("class_games").update({status:"question",question_index:0,question_started_at:new Date().toISOString()}).eq("id",game.id);};
+    Array.prototype.forEach.call(app.querySelectorAll("[data-game-opt]"),function(b){b.onclick=async function(){var mine=me(),i=+b.getAttribute("data-game-opt"),q=(p.quick||[])[game.question_index],elapsed=Math.max(0,Date.now()-new Date(game.question_started_at).getTime()),correct=i===q.answer,points=correct?Math.max(100,1000-Math.floor(elapsed/20)):0;var add=await sb.from("class_game_answers").insert({game_id:game.id,player_id:mine.id,question_index:game.question_index,answer_index:i,correct:correct,points:points});if(!add.error&&points)await sb.from("class_game_players").update({score:mine.score+points}).eq("id",mine.id);loadGame(game.id);};});
+    var next=document.getElementById("nextQuestion");if(next)next.onclick=async function(){if(game.question_index+1>=p.quick.length)await sb.from("class_games").update({status:"finished"}).eq("id",game.id);else await sb.from("class_games").update({question_index:game.question_index+1,question_started_at:new Date().toISOString()}).eq("id",game.id);};
+    var leave=document.getElementById("leaveGame");if(leave)leave.onclick=function(){if(S.gameChannel)sb.removeChannel(S.gameChannel);S.game=null;S.gamePlayers=[];S.gameAnswers=[];render();};
   }
 
   /* ---------------- pack: home ---------------- */
@@ -1278,6 +1452,8 @@
     else if (S.tab === "practice") inner = practice(p);
     else if (S.tab === "cards") inner = cardsView(p);
     else if (S.tab === "exam") inner = examView(p);
+    else if (S.tab === "study") inner = studyView(p);
+    else if (S.tab === "play") inner = gameView(p);
     else inner = home(p);
 
     app.innerHTML = '<div class="panel">' + inner + '</div>';
@@ -1286,8 +1462,11 @@
     if (S.tab === "practice") wirePractice(p);
     if (S.tab === "cards") wireCards(p);
     if (S.tab === "exam") wireExam(p);
+    if (S.tab === "study") wireStudy(p);
+    if (S.tab === "play") wirePlay(p);
   }
 
+  initialiseAuth();
   render();
 })();
 </script>
