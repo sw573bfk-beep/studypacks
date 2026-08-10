@@ -514,7 +514,7 @@
     mc: {},
     pr: 0, prState: null, prTyped: "", prDone: 0, prRight: 0,
     examStarted: false, examDone: false, secondsLeft: 0, answers: {},
-    studyPlan: null, studyAttempts: [], studySession: null,
+    studyPlan: null, studyAttempts: [], studySession: null, studyLoaded: false,
     game: null, gamePlayers: [], gameAnswers: [], gameMessage: "", gameChannel: null
   };
   var timerId = null;
@@ -732,7 +732,7 @@
     sb.auth.onAuthStateChange(function (_event, session) { currentUser = session && session.user; updateAuthArea(); var modal=document.getElementById("authModal"); if (currentUser && modal) modal.remove(); if (S.tab === "study" || S.tab === "play") render(); });
   }
   var originalTab = window.tab;
-  window.tab = function (t) { if ((t === "study" || t === "play") && !requireAuth()) return; originalTab(t); };
+  window.tab = function (t) { if ((t === "study" || t === "play") && !requireAuth()) return; if (t === "study") S.studyLoaded = false; originalTab(t); };
 
   function dateOnly(d) { return new Date(d).toISOString().slice(0,10); }
   function dayDiff(d) { return Math.max(0, Math.ceil((new Date(d + "T23:59:59") - new Date()) / 86400000)); }
@@ -790,7 +790,7 @@
     if (!S.studyPlan) { var save=document.getElementById("savePlan"); if(save) save.onclick=async function(){var date=document.getElementById("examDate").value, mins=document.getElementById("dailyMinutes").value; if(!date){window.alert("Please choose your exam date.");return;} var r=await sb.from("study_plans").upsert({user_id:currentUser.id,pack_id:S.packId,exam_date:date,daily_minutes:+mins},{onConflict:"user_id,pack_id"}).select().single(); if(r.error) window.alert(r.error.message); else {S.studyPlan=r.data;render();}}; return; }
     if (S.studySession) { var done=document.getElementById("finishStudy"); if(done) done.onclick=function(){S.studySession=null;render();}; Array.prototype.forEach.call(app.querySelectorAll("[data-study-result]"),function(b){b.onclick=function(){recordStudy(S.studySession.tasks[S.studySession.index],b.getAttribute("data-study-result")==="1");};}); Array.prototype.forEach.call(app.querySelectorAll("[data-study-opt]"),function(b){b.onclick=function(){var t=S.studySession.tasks[S.studySession.index];recordStudy(t,+b.getAttribute("data-study-opt")===t.item.answer);};}); var check=document.getElementById("checkStudy"); if(check) check.onclick=function(){var t=S.studySession.tasks[S.studySession.index];recordStudy(t,isRight(t.item,document.getElementById("studyAnswer").value));}; return; }
     var start=document.getElementById("startStudy"); if(start) start.onclick=function(){S.studySession={tasks:makeTasks(p),index:0};render();};
-    loadStudy();
+    if (!S.studyLoaded) { S.studyLoaded = true; loadStudy(); }
   }
 
   function code() { return String(Math.floor(100000 + Math.random()*900000)); }
