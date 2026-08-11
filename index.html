@@ -429,38 +429,6 @@
     max-height: 330px; overflow: auto; margin: 0 0 14px;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
-  .admin-section {
-    display: flex; align-items: center; gap: 8px; margin-top: 12px; padding-top: 12px;
-    border-top: 1px solid var(--line-soft);
-  }
-  .admin-section input:focus {
-    border-color: var(--brand-line); box-shadow: 0 0 0 3px var(--brand-soft);
-  }
-
-
-  /* ---------- My Study + Class Game ---------- */
-  .auth-note { background:var(--brand-soft); border:1px solid var(--brand-line); border-radius:12px; padding:14px 16px; color:var(--ink-soft); margin:0 0 18px; }
-  .study-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:20px 0; }
-  .study-stat { background:var(--brand-soft); border:1px solid var(--brand-line); border-radius:12px; padding:14px; }
-  .study-stat b { display:block; color:var(--brand); font-size:22px; line-height:1.15; }
-  .study-stat span { font-size:12.5px; color:var(--ink-soft); }
-  .progress { height:10px; border-radius:99px; background:var(--line-soft); overflow:hidden; margin:8px 0 18px; }
-  .progress i { display:block; height:100%; background:linear-gradient(90deg,var(--grad-a),var(--grad-b)); border-radius:inherit; }
-  .study-task { border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:12px; background:var(--surface); }
-  .study-task .task-type { color:var(--brand); font-size:12px; font-weight:750; text-transform:uppercase; letter-spacing:.7px; }
-  .weak-chip { display:inline-block; padding:5px 10px; border-radius:20px; background:#fff3e8; color:#a94f0b; font-size:13px; margin:3px; }
-  .modal-backdrop { position:fixed; inset:0; z-index:200; background:rgba(20,25,40,.42); display:grid; place-items:center; padding:20px; }
-  .modal { width:min(440px,100%); background:var(--surface); border-radius:16px; padding:26px; box-shadow:0 22px 60px rgba(0,0,0,.22); }
-  .modal h2 { margin:0 0 8px; } .modal .field { margin-bottom:12px; }
-  .modal .btn { width:100%; margin-top:8px; } .modal .or { text-align:center; color:var(--ink-faint); margin:12px 0 4px; font-size:13px; }
-  .game-code { font-size:35px; color:var(--brand); font-weight:800; letter-spacing:5px; text-align:center; margin:12px 0; }
-  .player-list { display:grid; gap:8px; margin:16px 0; }
-  .player { display:flex; justify-content:space-between; gap:12px; border:1px solid var(--line); border-radius:10px; padding:10px 13px; background:#fff; }
-  .leaderboard { list-style:none; padding:0; margin:18px 0; counter-reset:rank; }
-  .leaderboard li { counter-increment:rank; display:flex; justify-content:space-between; padding:11px 13px; border-bottom:1px solid var(--line-soft); }
-  .leaderboard li:before { content:counter(rank); color:var(--brand); font-weight:750; width:28px; }
-  .leaderboard .name { flex:1; }
-  @media (max-width:640px) { .study-grid { grid-template-columns:1fr 1fr; } .game-code { font-size:28px; } }
 
   @media (max-width: 640px) {
     .hero { padding: 32px 0 4px; }
@@ -474,6 +442,49 @@
     .navbar { top: 58px; }
     .timerbar { top: 118px; }
   }
+/* ---- My Study ---- */
+.studywrap{max-width:640px}
+.sec-title{margin:0 0 10px;font-size:25px;font-weight:700;letter-spacing:-.5px}
+.countdown{background:var(--brand-soft);border-radius:14px;padding:18px 20px;
+  font-size:17px;color:var(--ink);margin:14px 0 6px}
+.countdown strong{font-size:34px;display:inline-block;margin-right:8px;color:var(--brand)}
+.todaybox{border:2px solid var(--brand);border-radius:16px;padding:20px;margin-top:18px;background:#fff}
+.tasks{list-style:none;margin:0 0 16px;padding:0}
+.tasks li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.tasks li:last-child{border-bottom:0}
+.tk{flex:1;font-size:15px}
+.tkm{font-size:13px;color:var(--ink-soft);white-space:nowrap}
+.donenote{margin:0;color:#1a8a55;font-weight:600}
+.previewbox{position:relative;border:1px solid var(--line);border-radius:16px;
+  padding:20px;background:#fbfbfd;opacity:.92}
+.previewtag{position:absolute;top:-10px;left:16px;background:var(--ink-soft);color:#fff;
+  font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:999px}
+.planlist{display:flex;flex-direction:column;gap:8px}
+.planday{display:flex;gap:14px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff}
+.pd-when{font-size:13px;color:var(--ink-soft);min-width:78px}
+.pd-what{font-size:14px;line-height:1.5}
+
+/* ---- sign-in area ---- */
+.autharea{display:flex;align-items:center;gap:10px;margin-right:4px}
+.whoami{font-size:13px;color:var(--ink-soft);max-width:180px;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.linkbtn{background:none;border:0;padding:0;font:inherit;font-size:13px;
+  color:var(--brand);cursor:pointer;text-decoration:underline}
+.linkbtn:hover{opacity:.75}
+.authcard{max-width:420px;margin:0 auto}
+.authtabs{display:flex;gap:6px;margin-bottom:18px}
+.authtabs button{flex:1;padding:10px;border:1px solid var(--line);background:#fff;
+  border-radius:10px;cursor:pointer;font:inherit;font-size:14px;color:var(--ink-soft)}
+.authtabs button.on{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.authmsg{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:14px;line-height:1.5}
+.authmsg.bad{background:#fdecec;border:1px solid #f3c6c6;color:#8f2f2f}
+.authmsg.good{background:#eaf7ef;border:1px solid #bfe3cd;color:#256b41}
+.reqrow{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;background:#fff}
+.reqrow h4{margin:0 0 4px;font-size:15px}
+.reqmeta{font-size:13px;color:var(--ink-soft);margin-bottom:8px}
+.pill{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;
+  background:#eef0fe;color:#3b3a6b;margin-left:6px}
+.pill.done{background:#eaf7ef;color:#256b41}
 </style>
 </head>
 <body>
@@ -484,7 +495,7 @@
       <span class="brandmark">S</span> StudyPacks
     </button>
     <span class="spacer"></span>
-    <span id="authArea"></span>
+    <span id="authArea" class="autharea"></span>
     <button class="btn btn-primary btn-sm" onclick="go('request')">Request a pack</button>
   </div>
 </header>
@@ -494,11 +505,22 @@
 <main id="app" class="wrap"></main>
 
 <script src="packs.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/appwrite@17.0.0"></script>
-<script src="appwrite-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script>
 (function () {
   "use strict";
+
+  // Where student requests get emailed. Free key from web3forms.com.
+  // Leave blank and the form falls back to copy-and-paste.
+  var FORM_KEY = "f8ccf3a8-7f8f-4e4f-8c5e-a8114fe491af";
+
+  // One free request every 3 days. Paying skips the wait.
+  // NOTE: this is stored on the student's own device, so it is a speed bump,
+  // not a real lock - clearing site data or using another phone resets it.
+  var COOLDOWN_DAYS = 3;
+  var PAY_LINK = "";              // paste the Stripe payment link here
+  var PAY_PRICE = "$2";
 
   var PACKS = window.PACKS || [];
   var app = document.getElementById("app");
@@ -506,16 +528,23 @@
   var navEl = document.getElementById("nav");
 
   var S = {
-    view: "library",     // library | pack | request
+    view: "library",     // library | pack | request | auth | admin
+    user: null,          // the signed-in student, or null
+    authTab: "signin",   // signin | signup
+    authMsg: null,
+    afterAuth: null,     // where to go once they are signed in
+    lastRequestAt: null, // their most recent free request, straight from the server
+    adminRows: null,
+    study: null,         // their plan for the pack they are looking at
+    progress: [],        // per-topic right/wrong, drives weak topics
+    studyPackId: null,   // which pack the two above belong to
     packId: null,
     tab: "home",         // home | overview | unit:N | quick | cards | exam
     search: "", subject: "all", year: "all",
     card: 0, flipped: false,
     mc: {},
     pr: 0, prState: null, prTyped: "", prDone: 0, prRight: 0,
-    examStarted: false, examDone: false, secondsLeft: 0, answers: {},
-    studyPlan: null, studyAttempts: [], studySession: null, studyLoaded: false,
-    game: null, gamePlayers: [], gameAnswers: [], gameMessage: "", gameChannel: null
+    examStarted: false, examDone: false, secondsLeft: 0, answers: {}
   };
   var timerId = null;
 
@@ -570,6 +599,13 @@
     }
     window.scrollTo(0, 0);
     render();
+    // Check with the server how long is left before their next free pack.
+    if (view === "request" && SB && S.user) loadCooldown(function () { render(); });
+    // Pull their plan and their weak topics for whichever pack they opened.
+    if (view === "pack" && SB && S.user && S.studyPackId !== S.packId) {
+      S.studyPackId = S.packId; S.study = null; S.progress = [];
+      loadStudy(pack(), function () { render(); });
+    }
   };
   window.tab = function (t) {
     if (S.tab === "exam" && t !== "exam" && S.examStarted && !S.examDone) {
@@ -667,6 +703,7 @@
 
     var us = units(p);
     var items = [{ k: "home", t: "\u{1F3E0} Home" }];
+    items.push({ k: "study", t: "\u{1F331} My Study" });
     if ((p.overview || []).length) items.push({ k: "overview", t: "\u{1F4CB} Overview" });
     us.forEach(function (u) { items.push({ k: "unit:" + u.index, t: (u.index + 1) + " · " + u.name }); });
     // Practice-first subjects (maths) lead with doing; memory subjects lead with recall.
@@ -678,244 +715,11 @@
     var ordered = (p.focus === "practice") ? [doing].concat(recall) : recall.concat([doing]);
     ordered.forEach(function (i) { if (i.has) items.push({ k: i.k, t: i.t }); });
     if (examQs(p).length) items.push({ k: "exam", t: "\u{1F4DD} Full exam" });
-    items.push({ k: "study", t: "🌱 My Study" });
-    items.push({ k: "play", t: "🎮 Play" });
 
     navEl.innerHTML = '<div class="navbar"><div class="wrap"><nav class="navpills">' +
       items.map(function (i) {
         return '<button class="pill' + (S.tab === i.k ? " on" : "") + '" onclick="tab(\'' + i.k + '\')">' + i.t + '</button>';
       }).join("") + '</nav></div></div>';
-  }
-
-
-
-  /* ---------------- accounts, My Study and Class Game ---------------- */
-  var APPWRITE_ENDPOINT = window.STUDYPACKS_APPWRITE_ENDPOINT || "";
-  var APPWRITE_PROJECT_ID = window.STUDYPACKS_APPWRITE_PROJECT_ID || "";
-  var APPWRITE_DATABASE_ID = window.STUDYPACKS_APPWRITE_DATABASE_ID || "";
-  var APPWRITE_TABLES = window.STUDYPACKS_APPWRITE_TABLES || {};
-  var sb = null, currentUser = null, awClient = null, awAccount = null, awTables = null, authListeners = [];
-  function tableId(name) { return APPWRITE_TABLES[name] || name; }
-  function appwriteUser(u) { return u ? { id:u.$id, email:u.email, user_metadata:{ full_name:u.name || "" } } : null; }
-  function resultError(error) { return { data:null, error:{ message:(error && error.message) || "Appwrite request failed." } }; }
-  function gamePermissions(data, table) {
-    if (table === "class_games") return [Appwrite.Permission.read(Appwrite.Role.users()), Appwrite.Permission.update(Appwrite.Role.user(data.host_user_id)), Appwrite.Permission.delete(Appwrite.Role.user(data.host_user_id))];
-    if (table === "class_game_players") return [Appwrite.Permission.read(Appwrite.Role.users()), Appwrite.Permission.update(Appwrite.Role.user(data.user_id)), Appwrite.Permission.delete(Appwrite.Role.user(data.user_id))];
-    if (table === "class_game_answers") return [Appwrite.Permission.read(Appwrite.Role.users()), Appwrite.Permission.update(Appwrite.Role.user(currentUser.id)), Appwrite.Permission.delete(Appwrite.Role.user(currentUser.id))];
-    return undefined;
-  }
-  function mapRow(row) {
-    if (!row) return null;
-    var out = {}, k; for (k in row) out[k] = row[k];
-    out.id = row.$id; out.created_at = row.created_at || row.$createdAt; out.updated_at = row.updated_at || row.$updatedAt;
-    return out;
-  }
-  function AppwriteBuilder(table) { this.table=table; this.filters=[]; this.orderBy=null; this.max=null; this.operation="select"; this.payload=null; this.singleRow=false; }
-  AppwriteBuilder.prototype.select = function () { return this; };
-  AppwriteBuilder.prototype.eq = function (key,value) { this.filters.push([key,value]); return this; };
-  AppwriteBuilder.prototype.order = function (key, opts) { this.orderBy=[key,opts]; return this; };
-  AppwriteBuilder.prototype.limit = function (n) { this.max=n; return this; };
-  AppwriteBuilder.prototype.maybeSingle = function () { this.singleRow=true; return this._run(); };
-  AppwriteBuilder.prototype.single = function () { this.singleRow=true; return this._run(); };
-  AppwriteBuilder.prototype.insert = function (data) { this.operation="insert"; this.payload=data; return this; };
-  AppwriteBuilder.prototype.update = function (data) { this.operation="update"; this.payload=data; return this; };
-  AppwriteBuilder.prototype.upsert = function (data) { this.operation="upsert"; this.payload=data; return this; };
-  AppwriteBuilder.prototype.then = function (resolve,reject) { return this._run().then(resolve,reject); };
-  AppwriteBuilder.prototype._queries = function () {
-    var q=this.filters.map(function(f){return Appwrite.Query.equal(f[0],[String(f[1])]);});
-    if(this.orderBy) q.push((this.orderBy[1] && this.orderBy[1].ascending===false) ? Appwrite.Query.orderDesc(this.orderBy[0]) : Appwrite.Query.orderAsc(this.orderBy[0]));
-    if(this.max) q.push(Appwrite.Query.limit(this.max)); return q;
-  };
-  AppwriteBuilder.prototype._find = async function (filters) {
-    var q=filters || this._queries(), list=await awTables.listRows({databaseId:APPWRITE_DATABASE_ID,tableId:tableId(this.table),queries:q});
-    return (list.rows || []).map(mapRow);
-  };
-  AppwriteBuilder.prototype._run = async function () {
-    try {
-      var rows, existing, row, permissions;
-      if(this.operation==="select") { rows=await this._find(); return {data:this.singleRow?(rows[0]||null):rows,error:null}; }
-      if(this.operation==="insert") {
-        permissions=gamePermissions(this.payload,this.table);
-        row=await awTables.createRow({databaseId:APPWRITE_DATABASE_ID,tableId:tableId(this.table),rowId:Appwrite.ID.unique(),data:this.payload,permissions:permissions});
-        return {data:mapRow(row),error:null};
-      }
-      if(this.operation==="upsert") {
-        var f=[]; if(this.payload.user_id) f.push(Appwrite.Query.equal("user_id",[String(this.payload.user_id)])); if(this.payload.pack_id) f.push(Appwrite.Query.equal("pack_id",[String(this.payload.pack_id)]));
-        existing=await this._find(f);
-        if(existing[0]) row=await awTables.updateRow({databaseId:APPWRITE_DATABASE_ID,tableId:tableId(this.table),rowId:existing[0].id,data:this.payload});
-        else row=await awTables.createRow({databaseId:APPWRITE_DATABASE_ID,tableId:tableId(this.table),rowId:Appwrite.ID.unique(),data:this.payload});
-        return {data:mapRow(row),error:null};
-      }
-      rows=await this._find();
-      if(!rows[0]) return {data:null,error:{message:"Record not found."}};
-      row=await awTables.updateRow({databaseId:APPWRITE_DATABASE_ID,tableId:tableId(this.table),rowId:rows[0].id,data:this.payload});
-      return {data:mapRow(row),error:null};
-    } catch(error) { return resultError(error); }
-  };
-  function makeAppwriteAdapter() {
-    return {
-      auth:{
-        getSession:async function(){try {var u=await awAccount.get();return {data:{session:{user:appwriteUser(u)}}};}catch(e){return {data:{session:null}};}},
-        onAuthStateChange:function(cb){authListeners.push(cb);return {data:{subscription:{unsubscribe:function(){authListeners=authListeners.filter(function(x){return x!==cb;});}}}};},
-        signOut:async function(){try {await awAccount.deleteSession({sessionId:"current"});authListeners.forEach(function(cb){cb("SIGNED_OUT",null);});return {error:null};}catch(e){return {error:resultError(e).error};}},
-        signInWithPassword:async function(v){try {await awAccount.createEmailPasswordSession({email:v.email,password:v.password});var u=appwriteUser(await awAccount.get());authListeners.forEach(function(cb){cb("SIGNED_IN",{user:u});});return {error:null};}catch(e){return {error:resultError(e).error};}},
-        signUp:async function(v){try {await awAccount.create({userId:Appwrite.ID.unique(),email:v.email,password:v.password,name:(v.options&&v.options.data&&v.options.data.full_name)||""});await awAccount.createEmailPasswordSession({email:v.email,password:v.password});var u=appwriteUser(await awAccount.get());authListeners.forEach(function(cb){cb("SIGNED_IN",{user:u});});return {error:null};}catch(e){return {error:resultError(e).error};}},
-        signInWithOAuth:async function(v){try {await awAccount.createOAuth2Session({provider:Appwrite.OAuthProvider.Google,success:(v.options&&v.options.redirectTo)||window.location.href,failure:window.location.href});return {error:null};}catch(e){return {error:resultError(e).error};}}
-      },
-      from:function(name){return new AppwriteBuilder(name);},
-      channel:function(){
-        var handlers=[];
-        return {
-          on:function(_event,details,callback){handlers.push({table:details.table,callback:callback});return this;},
-          subscribe:function(){
-            var channels=handlers.map(function(h){return "tablesdb."+APPWRITE_DATABASE_ID+".tables."+tableId(h.table)+".rows";});
-            var unsubscribe=awClient.subscribe(channels,function(){handlers.forEach(function(h){h.callback();});});
-            return {unsubscribe:unsubscribe};
-          }
-        };
-      },
-      removeChannel:function(channel){if(channel&&channel.unsubscribe)channel.unsubscribe();}
-    };
-  }
-  if (APPWRITE_ENDPOINT && APPWRITE_PROJECT_ID && APPWRITE_DATABASE_ID && window.Appwrite) {
-    try {
-      awClient=new Appwrite.Client().setEndpoint(APPWRITE_ENDPOINT).setProject(APPWRITE_PROJECT_ID);
-      awAccount=new Appwrite.Account(awClient);
-      awTables=new Appwrite.TablesDB(awClient);
-      sb=makeAppwriteAdapter();
-    } catch(ignore) {}
-  }
-  function configured() { return !!sb; }
-  function userName() {
-    if (!currentUser) return "";
-    return currentUser.user_metadata.full_name || currentUser.user_metadata.name || currentUser.email.split("@")[0];
-  }
-  function authError() { return '<div class="auth-note">Appwrite has not been connected yet. Add the endpoint, project, database and table IDs in <strong>appwrite-config.js</strong>, then refresh this page.</div>'; }
-  function updateAuthArea() {
-    var el = document.getElementById("authArea"); if (!el) return;
-    el.innerHTML = currentUser
-      ? '<button class="btn btn-sm" id="signOut">Sign out · ' + esc(userName()) + '</button>'
-      : '<button class="btn btn-sm" id="signIn">Sign in</button>';
-    var signIn = document.getElementById("signIn");
-    if (signIn) signIn.onclick = showAuth;
-    var signOut = document.getElementById("signOut");
-    if (signOut) signOut.onclick = function () { sb.auth.signOut(); };
-  }
-  function showAuth() {
-    if (!configured()) { window.alert("Appwrite is not connected yet. Follow APPWRITE_SETUP.md first."); return; }
-    var old = document.getElementById("authModal"); if (old) old.remove();
-    var modal = document.createElement("div"); modal.id = "authModal"; modal.className = "modal-backdrop";
-    modal.innerHTML = '<div class="modal" role="dialog" aria-modal="true"><button class="btn btn-sm" id="authClose" style="float:right;width:auto;margin:0">Close</button><h2>Sign in to StudyPacks</h2><p class="lead" style="font-size:14px">Save your personal study plan and join class games.</p><div class="field"><label>Name <small>(for new accounts)</small></label><input id="authName" placeholder="Your name"></div><div class="field"><label>Email</label><input id="authEmail" type="email" placeholder="you@example.com"></div><div class="field"><label>Password</label><input id="authPassword" type="password" placeholder="At least 6 characters"></div><div id="authMsg" style="font-size:13px;color:var(--ink-soft)"></div><button class="btn btn-primary" id="authLogin">Sign in</button><button class="btn" id="authCreate">Create account</button><div class="or">or</div><button class="btn" id="authGoogle">Continue with Google</button></div>';
-    document.body.appendChild(modal);
-    document.getElementById("authClose").onclick = function () { modal.remove(); };
-    function vals() { return { email: document.getElementById("authEmail").value.trim(), password: document.getElementById("authPassword").value, name: document.getElementById("authName").value.trim() }; }
-    function message(t, bad) { var e = document.getElementById("authMsg"); e.textContent = t; e.style.color = bad ? "#b42318" : "var(--ink-soft)"; }
-    document.getElementById("authLogin").onclick = async function () { var v = vals(); var r = await sb.auth.signInWithPassword({ email:v.email, password:v.password }); if (r.error) message(r.error.message,true); };
-    document.getElementById("authCreate").onclick = async function () { var v = vals(); var r = await sb.auth.signUp({ email:v.email, password:v.password, options:{ data:{ full_name:v.name }, emailRedirectTo:window.location.origin + window.location.pathname } }); message(r.error ? r.error.message : "Check your email to confirm your account.", !!r.error); };
-    document.getElementById("authGoogle").onclick = async function () { var r = await sb.auth.signInWithOAuth({ provider:"google", options:{ redirectTo:window.location.origin + window.location.pathname } }); if (r.error) message(r.error.message,true); };
-  }
-  function requireAuth() { if (currentUser) return true; showAuth(); return false; }
-  async function initialiseAuth() {
-    if (!configured()) { updateAuthArea(); return; }
-    var r = await sb.auth.getSession(); currentUser = r.data.session && r.data.session.user; updateAuthArea();
-    sb.auth.onAuthStateChange(function (_event, session) { currentUser = session && session.user; updateAuthArea(); var modal=document.getElementById("authModal"); if (currentUser && modal) modal.remove(); if (S.tab === "study" || S.tab === "play") render(); });
-  }
-  var originalTab = window.tab;
-  window.tab = function (t) { if ((t === "study" || t === "play") && !requireAuth()) return; if (t === "study") S.studyLoaded = false; originalTab(t); };
-
-  function dateOnly(d) { return new Date(d).toISOString().slice(0,10); }
-  function dayDiff(d) { return Math.max(0, Math.ceil((new Date(d + "T23:59:59") - new Date()) / 86400000)); }
-  function topicFor(p, i) { return ((p.topics || [])[i % Math.max(1,(p.topics || []).length)]) || "General"; }
-  function attemptStats() {
-    var by = {}, days = {};
-    S.studyAttempts.forEach(function (a) { var x=by[a.topic] || (by[a.topic]={n:0,bad:0}); x.n++; if (!a.correct) x.bad++; days[dateOnly(a.created_at)] = 1; });
-    var weak = Object.keys(by).filter(function (k) { return by[k].bad && by[k].bad / by[k].n >= .4; }).sort(function(a,b){return (by[b].bad/by[b].n)-(by[a].bad/by[a].n);});
-    var streak=0, d=new Date(); while (days[dateOnly(d)]) { streak++; d.setDate(d.getDate()-1); }
-    return { weak:weak, streak:streak, done:S.studyAttempts.length, by:by };
-  }
-  async function loadStudy() {
-    if (!configured() || !currentUser || !S.packId) return;
-    var plans = await sb.from("study_plans").select("*").eq("user_id",currentUser.id).eq("pack_id",S.packId).maybeSingle();
-    var attempts = await sb.from("study_attempts").select("*").eq("user_id",currentUser.id).eq("pack_id",S.packId).order("created_at",{ascending:false}).limit(250);
-    S.studyPlan = plans.data || null; S.studyAttempts = attempts.data || []; render();
-  }
-  function makeTasks(p) {
-    var n = Math.max(3, Math.min(12, Math.floor((S.studyPlan.daily_minutes || 20) / 5)));
-    var stats=attemptStats(), weak=stats.weak, tasks=[], i=0;
-    function push(kind,item,topic) { if (tasks.length<n && item) tasks.push({kind:kind,item:item,topic:topic || item.topic || topicFor(p,i++)}); }
-    (p.quick || []).filter(function(q){return weak.indexOf(q.topic)>=0;}).forEach(function(q){push("quick",q,q.topic);});
-    (p.practice || []).filter(function(q){return weak.indexOf(q.topic)>=0;}).forEach(function(q){push("practice",q,q.topic);});
-    (p.cards || []).forEach(function(c){push("card",c,topicFor(p,i));});
-    (p.quick || []).forEach(function(q){push("quick",q,q.topic);});
-    (p.practice || []).forEach(function(q){push("practice",q,q.topic);});
-    (examQs(p) || []).forEach(function(q){push("exam",q,q.topic);});
-    return tasks.slice(0,n);
-  }
-  function studyView(p) {
-    if (!configured()) return authError();
-    if (!currentUser) return '<div class="sheet"><h2>My Study</h2><p class="lead">Sign in to build your personal plan.</p><button class="btn btn-primary" id="studySignIn">Sign in to continue</button></div>';
-    if (!S.studyPlan) return '<div class="sheet"><span class="kicker">Your plan</span><h2>Let us choose what you study</h2><p class="lead">Tell us your exam date and how much time you have. We will make each daily session from this pack and adjust it as you go.</p><div class="field"><label for="examDate">What date is your exam?</label><input id="examDate" type="date" min="' + dateOnly(new Date()) + '"></div><div class="field"><label for="dailyMinutes">How many minutes can you study each day?</label><select class="filter" id="dailyMinutes"><option value="10">10 minutes</option><option value="20" selected>20 minutes</option><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option></select></div><button class="btn btn-primary btn-lg" id="savePlan">Create my study plan</button></div>';
-    if (S.studySession) return studySessionView(p);
-    var st=attemptStats(), days=dayDiff(S.studyPlan.exam_date), total=(p.cards||[]).length+(p.quick||[]).length+(p.practice||[]).length+examQs(p).length, progress=Math.min(100,Math.round(100*st.done/Math.max(1,total)));
-    return '<div class="sheet"><span class="kicker">My Study</span><h2>Your next best study session</h2><p class="lead">A ' + S.studyPlan.daily_minutes + '-minute session, chosen from the parts of this pack that will help you most.</p><div class="study-grid"><div class="study-stat"><b>' + days + '</b><span>days to exam</span></div><div class="study-stat"><b>' + dayDiff(S.studyPlan.exam_date) + '</b><span>exam countdown</span></div><div class="study-stat"><b>' + st.streak + '</b><span>day streak</span></div><div class="study-stat"><b>' + progress + '%</b><span>overall progress</span></div></div><h3 style="margin:0">Overall progress</h3><div class="progress"><i style="width:' + progress + '%"></i></div><div class="tipbox"><strong>Weak topics</strong>' + (st.weak.length ? st.weak.slice(0,4).map(function(x){return '<span class="weak-chip">' + esc(x) + '</span>';}).join("") : 'Keep answering questions and we will spot the topics that need more attention.') + '</div><div class="study-task"><span class="task-type">Today</span><br>Your session has ' + makeTasks(p).length + ' short tasks. We will mix notes to recall, flashcards, practice and exam questions.</div><button class="btn btn-primary btn-lg" id="startStudy">START TODAY&#39;S STUDY</button></div>';
-  }
-  function studySessionView(p) {
-    var s=S.studySession, t=s.tasks[s.index]; if (!t) return '<div class="sheet"><h2>Today is complete 🎉</h2><p class="lead">Nice work. Your results have been saved and tomorrow’s session will give extra attention to anything you missed.</p><button class="btn btn-primary" id="finishStudy">Back to My Study</button></div>';
-    var body='', buttons='';
-    if (t.kind === "card") { body='<div class="fc-stage"><div class="study-task"><span class="task-type">Flashcard · ' + esc(t.topic) + '</span><p class="pr-q">' + esc(t.item.front) + '</p><details><summary>Show answer</summary><p>' + esc(t.item.back) + '</p></details></div></div>'; buttons='<button class="btn" data-study-result="0">Need more practice</button><button class="btn btn-primary" data-study-result="1">I knew it</button>'; }
-    else if (t.kind === "quick") { body='<div class="study-task"><span class="task-type">Quick question · ' + esc(t.topic) + '</span><p class="pr-q">' + esc(t.item.q) + '</p><div class="mc-opts">' + t.item.options.map(function(o,i){return '<button class="opt" data-study-opt="' + i + '"><span class="mark">' + String.fromCharCode(65+i) + '</span><span>' + esc(o) + '</span></button>';}).join("") + '</div></div>'; }
-    else if (t.kind === "practice") { body='<div class="study-task"><span class="task-type">Practice · ' + esc(t.topic) + '</span><p class="pr-q">' + esc(t.item.q) + '</p><div class="pr-row"><input class="pr-in" id="studyAnswer" placeholder="Type your answer"><button class="btn btn-primary" id="checkStudy">Check answer</button></div></div>'; }
-    else { body='<div class="study-task"><span class="task-type">Exam question · ' + esc(t.topic) + '</span><p class="pr-q">' + esc(t.item.q) + '</p><details><summary>Show model answer after trying</summary><p>' + rich(t.item.a || t.item.answer || "") + '</p></details></div>'; buttons='<button class="btn" data-study-result="0">I need to revisit this</button><button class="btn btn-primary" data-study-result="1">I got it</button>'; }
-    return '<div class="sheet"><span class="kicker">Today’s study · ' + (s.index+1) + ' of ' + s.tasks.length + '</span><div class="progress"><i style="width:' + (100*s.index/s.tasks.length) + '%"></i></div><h2>One step at a time</h2>' + body + '<div class="pr-row" style="margin-top:16px">' + buttons + '</div></div>';
-  }
-  async function recordStudy(t, correct) {
-    var row={user_id:currentUser.id,pack_id:S.packId,topic:t.topic,activity_type:t.kind,content_key:String(S.studySession.index),correct:!!correct};
-    S.studyAttempts.unshift(Object.assign({created_at:new Date().toISOString()},row));
-    if (configured()) await sb.from("study_attempts").insert(row);
-    S.studySession.index++; render();
-  }
-  function wireStudy(p) {
-    if (!currentUser) { var a=document.getElementById("studySignIn"); if(a)a.onclick=showAuth; return; }
-    if (!S.studyPlan) { var save=document.getElementById("savePlan"); if(save) save.onclick=async function(){var date=document.getElementById("examDate").value, mins=document.getElementById("dailyMinutes").value; if(!date){window.alert("Please choose your exam date.");return;} var r=await sb.from("study_plans").upsert({user_id:currentUser.id,pack_id:S.packId,exam_date:date,daily_minutes:+mins},{onConflict:"user_id,pack_id"}).select().single(); if(r.error) window.alert(r.error.message); else {S.studyPlan=r.data;render();}}; return; }
-    if (S.studySession) { var done=document.getElementById("finishStudy"); if(done) done.onclick=function(){S.studySession=null;render();}; Array.prototype.forEach.call(app.querySelectorAll("[data-study-result]"),function(b){b.onclick=function(){recordStudy(S.studySession.tasks[S.studySession.index],b.getAttribute("data-study-result")==="1");};}); Array.prototype.forEach.call(app.querySelectorAll("[data-study-opt]"),function(b){b.onclick=function(){var t=S.studySession.tasks[S.studySession.index];recordStudy(t,+b.getAttribute("data-study-opt")===t.item.answer);};}); var check=document.getElementById("checkStudy"); if(check) check.onclick=function(){var t=S.studySession.tasks[S.studySession.index];recordStudy(t,isRight(t.item,document.getElementById("studyAnswer").value));}; return; }
-    var start=document.getElementById("startStudy"); if(start) start.onclick=function(){S.studySession={tasks:makeTasks(p),index:0};render();};
-    if (!S.studyLoaded) { S.studyLoaded = true; loadStudy(); }
-  }
-
-  function code() { return String(Math.floor(100000 + Math.random()*900000)); }
-  function me() { return S.gamePlayers.filter(function(x){return x.user_id===currentUser.id;})[0]; }
-  function rank(players) { return players.slice().sort(function(a,b){return b.score-a.score;}); }
-  async function loadGame(id) {
-    if (!configured() || !id) return;
-    var g=await sb.from("class_games").select("*").eq("id",id).single();
-    var pl=await sb.from("class_game_players").select("*").eq("game_id",id).order("score",{ascending:false});
-    var an=await sb.from("class_game_answers").select("*").eq("game_id",id);
-    if(!g.error) S.game=g.data; S.gamePlayers=pl.data||[]; S.gameAnswers=an.data||[]; render();
-  }
-  function listenGame(id) {
-    if(S.gameChannel) sb.removeChannel(S.gameChannel);
-    S.gameChannel=sb.channel("class-game-"+id).on("postgres_changes",{event:"*",schema:"public",table:"class_games",filter:"id=eq."+id},function(){loadGame(id);}).on("postgres_changes",{event:"*",schema:"public",table:"class_game_players",filter:"game_id=eq."+id},function(){loadGame(id);}).on("postgres_changes",{event:"*",schema:"public",table:"class_game_answers",filter:"game_id=eq."+id},function(){loadGame(id);}).subscribe();
-  }
-  function gameView(p) {
-    if(!configured()) return authError();
-    if(!currentUser) return '<div class="sheet"><h2>Class Game</h2><p class="lead">Sign in to host or join a live game.</p><button class="btn btn-primary" id="playSignIn">Sign in to continue</button></div>';
-    if(!S.game) return '<div class="sheet"><span class="kicker">Class Game</span><h2>Play this pack together</h2><p class="lead">Host a live game for your class, or join with a six-digit code. Everyone gets the same multiple-choice questions.</p><div class="routes"><div class="route feature"><span class="rt">Host a game</span><span class="rd">Create a code, wait for players, then start.</span><button class="btn btn-primary" style="margin-top:14px" id="hostGame">Host game</button></div><div class="route"><span class="rt">Join a game</span><span class="rd">Ask the host for the six-digit code.</span><div class="field" style="margin:14px 0 6px"><input id="joinCode" inputmode="numeric" maxlength="6" placeholder="Game code"><input id="nickname" maxlength="24" placeholder="Nickname" value="' + esc(userName()) + '" style="margin-top:8px"></div><button class="btn" id="joinGame">Join game</button></div></div>' + (S.gameMessage?'<p style="color:#b42318">'+esc(S.gameMessage)+'</p>':'') + '</div>';
-    var game=S.game, mine=me(), host=game.host_user_id===currentUser.id, q=(p.quick||[])[game.question_index], answered=S.gameAnswers.filter(function(a){return mine&&a.player_id===mine.id&&a.question_index===game.question_index;})[0];
-    if(game.status==="lobby") return '<div class="sheet"><span class="kicker">Game lobby</span><h2>Share this code with your class</h2><div class="game-code">'+esc(game.code)+'</div><p class="lead" style="text-align:center">Players can join from the Play tab in this study pack.</p><div class="player-list">'+S.gamePlayers.map(function(x){return '<div class="player"><span>'+esc(x.nickname)+(x.user_id===game.host_user_id?' · Host':'')+'</span><span>'+x.score+' pts</span></div>';}).join("")+'</div>'+(host?'<button class="btn btn-primary btn-lg" id="startGame" '+((p.quick||[]).length?'':'disabled')+'>Start game</button>':'<p class="auth-note">You are in! Wait for the host to start.</p>')+'</div>';
-    if(game.status==="finished") { var r=rank(S.gamePlayers); return '<div class="sheet"><span class="kicker">Final rankings</span><h2>'+(r[0]?'🏆 '+esc(r[0].nickname)+' wins!':'Game complete')+'</h2><ol class="leaderboard">'+r.map(function(x){return '<li><span class="name">'+esc(x.nickname)+'</span><b>'+x.score+' pts</b></li>';}).join("")+'</ol><button class="btn" id="leaveGame">Leave game</button></div>'; }
-    if(!q) return '<div class="sheet"><h2>No multiple-choice questions in this pack yet.</h2></div>';
-    var seconds=Math.max(0,Math.ceil((new Date(game.question_started_at).getTime()+20000-Date.now())/1000));
-    var opts=q.options.map(function(o,i){return '<button class="opt" data-game-opt="'+i+'" '+(answered||seconds===0?'disabled':'')+'><span class="mark">'+String.fromCharCode(65+i)+'</span><span>'+esc(o)+'</span></button>';}).join("");
-    return '<div class="sheet"><div class="scorebar"><span class="sv">'+seconds+'s</span><span class="sl">Question '+(game.question_index+1)+' of '+p.quick.length+'</span><span class="spacer"></span><span class="sl">'+(mine?mine.score:0)+' pts</span></div><span class="kicker">Live question</span><h2>'+esc(q.q)+'</h2><div class="mc-opts">'+opts+'</div>'+(answered?'<div class="mc-why"><strong>'+(answered.correct?'Correct!':'Answer locked in.')+'</strong> '+(answered.correct?'Great speed.':'The leaderboard will update after this round.')+'</div>':'')+'<ol class="leaderboard">'+rank(S.gamePlayers).slice(0,5).map(function(x){return '<li><span class="name">'+esc(x.nickname)+'</span><b>'+x.score+'</b></li>';}).join("")+'</ol>'+(host?'<button class="btn btn-primary" id="nextQuestion">'+(game.question_index+1>=p.quick.length?'Finish game':'Next question')+'</button>':'')+'</div>';
-  }
-  function wirePlay(p) {
-    if(!currentUser){var a=document.getElementById("playSignIn");if(a)a.onclick=showAuth;return;}
-    if(!S.game){var h=document.getElementById("hostGame");if(h)h.onclick=async function(){var c=code(), r=await sb.from("class_games").insert({code:c,pack_id:S.packId,host_user_id:currentUser.id,status:"lobby"}).select().single();if(r.error){S.gameMessage=r.error.message;render();return;}var pl=await sb.from("class_game_players").insert({game_id:r.data.id,user_id:currentUser.id,nickname:userName(),score:0});S.game=r.data;listenGame(r.data.id);loadGame(r.data.id);};var j=document.getElementById("joinGame");if(j)j.onclick=async function(){var c=document.getElementById("joinCode").value.trim(),n=document.getElementById("nickname").value.trim();if(!/^\d{6}$/.test(c)||!n){S.gameMessage="Enter the six-digit code and a nickname.";render();return;}var g=await sb.from("class_games").select("*").eq("code",c).eq("pack_id",S.packId).maybeSingle();if(!g.data||g.data.status!=="lobby"){S.gameMessage="That game cannot be joined. Check the code.";render();return;}var ex=await sb.from("class_game_players").select("id").eq("game_id",g.data.id).eq("user_id",currentUser.id).maybeSingle();if(!ex.data){var add=await sb.from("class_game_players").insert({game_id:g.data.id,user_id:currentUser.id,nickname:n,score:0});if(add.error){S.gameMessage=add.error.message;render();return;}}S.game=g.data;listenGame(g.data.id);loadGame(g.data.id);};return;}
-    var game=S.game, host=game.host_user_id===currentUser.id;
-    var start=document.getElementById("startGame");if(start)start.onclick=async function(){await sb.from("class_games").update({status:"question",question_index:0,question_started_at:new Date().toISOString()}).eq("id",game.id);};
-    Array.prototype.forEach.call(app.querySelectorAll("[data-game-opt]"),function(b){b.onclick=async function(){var mine=me(),i=+b.getAttribute("data-game-opt"),q=(p.quick||[])[game.question_index],elapsed=Math.max(0,Date.now()-new Date(game.question_started_at).getTime()),correct=i===q.answer,points=correct?Math.max(100,1000-Math.floor(elapsed/20)):0;var add=await sb.from("class_game_answers").insert({game_id:game.id,player_id:mine.id,question_index:game.question_index,answer_index:i,correct:correct,points:points});if(!add.error&&points)await sb.from("class_game_players").update({score:mine.score+points}).eq("id",mine.id);loadGame(game.id);};});
-    var next=document.getElementById("nextQuestion");if(next)next.onclick=async function(){if(game.question_index+1>=p.quick.length)await sb.from("class_games").update({status:"finished"}).eq("id",game.id);else await sb.from("class_games").update({question_index:game.question_index+1,question_started_at:new Date().toISOString()}).eq("id",game.id);};
-    var leave=document.getElementById("leaveGame");if(leave)leave.onclick=function(){if(S.gameChannel)sb.removeChannel(S.gameChannel);S.game=null;S.gamePlayers=[];S.gameAnswers=[];render();};
   }
 
   /* ---------------- pack: home ---------------- */
@@ -1196,6 +1000,7 @@
       S.prState = { ok: ok };
       S.prDone++;
       if (ok) S.prRight++;
+      recordProgress(p, item.topic, ok);
       render();
     }
     function next() {
@@ -1376,20 +1181,99 @@
 
   /* ---------------- request form ---------------- */
 
+  /* ---- request cooldown (device-local, deliberately simple) ---- */
+
+  var LAST_KEY = "sp_last_request";
+
+  function store(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function recall(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+
+  // The real limit lives in the database, so clearing site data or swapping
+  // phones does nothing. This is only so the page can say how long is left
+  // before the student bothers filling the whole form in.
+  function cooldownLeft() {
+    if (!S.lastRequestAt) return 0;
+    var last = new Date(S.lastRequestAt).getTime();
+    if (!last) return 0;
+    var ms = COOLDOWN_DAYS * 86400000 - (Date.now() - last);
+    return ms > 0 ? ms : 0;
+  }
+
+  // Ask the server when they last had a free pack.
+  function loadCooldown(then) {
+    if (!SB || !S.user) { S.lastRequestAt = null; if (then) then(); return; }
+    SB.from("requests").select("created_at")
+      .eq("user_id", S.user.id).eq("paid", false)
+      .order("created_at", { ascending: false }).limit(1)
+      .then(function (res) {
+        var rows = (res && res.data) || [];
+        S.lastRequestAt = rows.length ? rows[0].created_at : null;
+        if (then) then();
+      })["catch"](function () { if (then) then(); });
+  }
+  function humanLeft(ms) {
+    var h = Math.ceil(ms / 3600000);
+    if (h >= 48) return Math.ceil(h / 24) + " days";
+    if (h >= 24) return "about a day";
+    if (h > 1) return h + " hours";
+    return "under an hour";
+  }
+  // Coming back from a successful payment clears the wait.
+  function checkPaidReturn() {
+    if (/[?&]paid=1/.test(location.search)) {
+      store(LAST_KEY, null);
+      store("sp_paid", "1");
+      try { history.replaceState({}, "", location.pathname); } catch (e) {}
+      return true;
+    }
+    return false;
+  }
+
+  function cooldownNotice() {
+    var left = cooldownLeft();
+    if (!left) return "";
+    return '<div class="tipbox" style="background:#eef0fe;border-color:#c9cdfa;color:#3b3a6b">' +
+      '<strong>You have already had your free pack this week</strong>' +
+      'Your next free request unlocks in ' + humanLeft(left) + '. ' +
+      (PAY_LINK
+        ? 'In a hurry? You can request another one now for ' + esc(PAY_PRICE) + '.'
+        : 'Come back then and it will let you through.') +
+      (PAY_LINK ? '<div style="margin-top:12px"><a class="btn btn-primary" href="' + esc(PAY_LINK) +
+        '">Request another now &middot; ' + esc(PAY_PRICE) + '</a></div>' : "") +
+    '</div>';
+  }
+
   function requestView() {
     document.documentElement.removeAttribute("data-theme");
     bannerEl.innerHTML = ""; navEl.innerHTML = "";
+
+    // Requests are tied to an account, otherwise the free limit means nothing
+    // and there is no way to get the pack back to the right person.
+    if (SB && !S.user) {
+      return '<section class="hero" style="padding-bottom:0">' +
+          '<h1>Ask for a study pack</h1>' +
+          '<p>First, a quick account - it is how your pack finds its way back to you.</p>' +
+        '</section>' +
+        '<div class="panel"><div class="sheet authcard">' +
+          '<p style="margin:0 0 16px;font-size:15px;line-height:1.6">' +
+            'Signing in keeps your requests, your study plan and your streak together, ' +
+            'and it means one free pack every ' + COOLDOWN_DAYS + ' days per person rather than per device.</p>' +
+          '<button class="btn btn-primary btn-lg" onclick="goAuth(\'request\')">Sign in or create an account</button>' +
+        '</div></div>';
+    }
+
     return '<section class="hero" style="padding-bottom:0">' +
         '<h1>Ask for a study pack</h1>' +
         '<p>Tell us what is on the exam. The more you paste in, the closer the pack matches your class.</p>' +
       '</section>' +
-      '<div class="panel"><div class="sheet">' +
+      '<div class="panel">' + cooldownNotice() + '<div class="sheet">' +
         '<div class="field"><label for="rName">Your name</label>' +
-          '<input id="rName" required placeholder="Your first name"></div>' +
-        '<div class="field"><label for="rEmail">Your email</label>' +
-          '<input id="rEmail" type="email" required placeholder="you@example.com"></div>' +
+          '<input id="rName" placeholder="So I know whose pack this is"></div>' +
+        '<div class="field"><label for="rContact">How do I get it back to you?</label>' +
+          '<p class="help">Email, Instagram, phone number - whatever you actually check.</p>' +
+          '<input id="rContact" placeholder="you@example.com or @yourhandle"></div>' +
         '<div class="field"><label for="rSubject">Subject</label>' +
-          '<input id="rSubject" required placeholder="Maths, Biology, Physics..."></div>' +
+          '<input id="rSubject" placeholder="Maths, Biology, Physics..."></div>' +
         '<div class="field"><label for="rYear">Year level</label><input id="rYear" placeholder="Year 8"></div>' +
         '<div class="field"><label for="rExam">When is the exam, and what is it worth?</label>' +
           '<p class="help">Anything you know. "Term 3, 16 multiple choice, 10% of my grade."</p>' +
@@ -1410,122 +1294,650 @@
         '</div></div>' +
         '<div class="field"><label for="rExtra">Anything you keep getting stuck on?</label>' +
           '<input id="rExtra" placeholder="I never remember which way to flip when dividing fractions"></div>' +
-        '<button class="btn btn-primary btn-lg" id="mk">Send request</button>' +
+        '<button class="btn btn-primary btn-lg" id="mk">' + (SB ? "Send my request" : "Build my request") + '</button>' +
       '</div><div id="out"></div></div>';
   }
 
   function wireRequest() {
     var b = document.getElementById("mk");
-    if (b) b.addEventListener("click", buildReq);
+    if (b) b.addEventListener("click", submitRequest);
   }
 
-  function buildReq() {
-    var WEB3FORMS_ACCESS_KEY = "f8ccf3a8-7f8f-4e4f-8c5e-a8114fe491af";
-
-    function v(id) {
-      var e = document.getElementById(id);
-      return e ? (e.value || "").trim() : "";
-    }
-
+  function requestText() {
+    function v(id) { var e = document.getElementById(id); return e ? (e.value || "").trim() : ""; }
     var want = [];
-    Array.prototype.forEach.call(app.querySelectorAll(".check input:checked"), function (c) {
-      want.push(c.value);
-    });
+    Array.prototype.forEach.call(app.querySelectorAll(".check input:checked"), function (c) { want.push(c.value); });
+    var notes = v("rNotes"), extra = v("rExtra"), ex = v("rExam");
+    return {
+      name: v("rName"),
+      contact: v("rContact"),
+      subject: v("rSubject"),
+      year: v("rYear"),
+      exam: ex,
+      topics: v("rTopics"),
+      notes: notes,
+      extra: extra,
+      wants: want,
+      body: "STUDY PACK REQUEST\n==================\n\n" +
+        "From: " + (v("rName") || "(no name given)") + "\n" +
+        "Contact: " + (v("rContact") || "(none given)") + "\n" +
+        "Subject: " + (v("rSubject") || "(not given)") + "\n" +
+        "Year level: " + (v("rYear") || "(not given)") + "\n" +
+        (ex ? "Exam details: " + ex + "\n" : "") +
+        "Wants: " + (want.length ? want.join(", ") : "anything useful") + "\n\n" +
+        "WHAT IS ON THE EXAM\n-------------------\n" + (v("rTopics") || "(not given)") + "\n\n" +
+        (notes ? "THEIR NOTES / SLIDES\n--------------------\n" + notes + "\n\n" : "") +
+        (extra ? "KEEPS GETTING STUCK ON\n----------------------\n" + extra + "\n" : "")
+    };
+  }
 
-    var name = v("rName");
-    var email = v("rEmail");
-    var subject = v("rSubject");
-    var year = v("rYear");
-    var exam = v("rExam");
-    var topics = v("rTopics");
-    var notes = v("rNotes");
-    var extra = v("rExtra");
+  function submitRequest() {
+    var r = requestText();
     var out = document.getElementById("out");
-    var button = document.getElementById("mk");
+    var btn = document.getElementById("mk");
 
-    if (!name || !email || !subject) {
-      out.innerHTML = '<div class="outbox"><h3 style="margin:0 0 4px;color:#c0392b">Please fill in your name, email and subject.</h3></div>';
+    if (!r.subject && !r.year) {
+      out.innerHTML = '<div class="outbox" style="border-color:#e4c9ac;background:#fff8ec">' +
+        '<strong>Fill in at least the subject and year level</strong>' +
+        '<p style="margin:6px 0 0;font-size:14px;color:var(--ink-soft)">Otherwise there is not enough to build a pack from.</p></div>';
+      return;
+    }
+
+    var left = cooldownLeft();
+    if (left) {
+      out.innerHTML = '<div class="outbox" style="border-color:#c9cdfa;background:#eef0fe">' +
+        '<h3 style="margin:0 0 4px;color:#3b3a6b">Not yet</h3>' +
+        '<p style="margin:0;font-size:15px;color:#3b3a6b">Your next free request unlocks in ' + humanLeft(left) + '.' +
+        (PAY_LINK ? ' Or request another now for ' + esc(PAY_PRICE) + '.' : '') + '</p>' +
+        (PAY_LINK ? '<div style="margin-top:12px"><a class="btn btn-primary" href="' + esc(PAY_LINK) + '">Request another now</a></div>' : '') +
+      '</div>';
       if (out.scrollIntoView) out.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      out.innerHTML = '<div class="outbox"><h3 style="margin:0 0 4px;color:#c0392b">Please enter a valid email address.</h3></div>';
-      if (out.scrollIntoView) out.scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
-    }
+    if (!SB || !S.user) { showCopyBox(out, r.body); return; }
 
-    var text = "STUDY PACK REQUEST\n==================\n\n" +
-      "Student: " + name + "\n" +
-      "Email: " + email + "\n" +
-      "Subject: " + subject + "\n" +
-      "Year level: " + (year || "(not given)") + "\n" +
-      (exam ? "Exam details: " + exam + "\n" : "") +
-      "Wants: " + (want.length ? want.join(", ") : "anything useful") + "\n\n" +
-      "WHAT IS ON THE EXAM\n-------------------\n" + (topics || "(not given)") + "\n\n" +
-      (notes ? "THEIR NOTES / SLIDES\n--------------------\n" + notes + "\n\n" : "") +
-      (extra ? "KEEPS GETTING STUCK ON\n----------------------\n" + extra + "\n" : "");
+    btn.disabled = true;
+    btn.textContent = "Sending...";
 
-    button.disabled = true;
-    button.textContent = "Sending...";
-    out.innerHTML = '<div class="outbox"><p style="margin:0;color:var(--ink-soft)">Sending your request...</p></div>';
+    SB.from("requests").insert({
+      user_id: S.user.id,
+      name: r.name || null,
+      contact: r.contact || null,
+      subject: r.subject || null,
+      year_level: r.year || null,
+      exam_info: r.exam || null,
+      topics: r.topics || null,
+      notes: r.notes || null,
+      stuck_on: r.extra || null,
+      wants: r.wants && r.wants.length ? r.wants : null,
+      paid: false
+    }).select().then(function (res) {
+      btn.disabled = false;
+      btn.textContent = "Send my request";
 
-    var formData = new FormData();
-    formData.append("access_key", WEB3FORMS_ACCESS_KEY);
-    formData.append("subject", "StudyPack Request - " + subject + (year ? " " + year : ""));
-    formData.append("from_name", "StudyPacks Website");
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("message", text);
-    formData.append("student_name", name);
-    formData.append("year_level", year || "(not given)");
-    formData.append("exam_details", exam || "(not given)");
-    formData.append("topics", topics || "(not given)");
-    formData.append("requested_features", want.length ? want.join(", ") : "anything useful");
-    formData.append("notes", notes || "(not given)");
-    formData.append("extra_help", extra || "(not given)");
-    formData.append("botcheck", "");
-
-    fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData
-    })
-    .then(function (response) {
-      return response.json().then(function (data) {
-        return { ok: response.ok, data: data };
-      });
-    })
-    .then(function (result) {
-      if (!result.ok || !result.data.success) {
-        throw new Error(result.data.message || "The request could not be sent.");
+      if (res && res.error) {
+        // The database enforces the 3-day limit, so this can fire even if the
+        // page thought the student was clear.
+        if (/RATE_LIMIT/i.test(res.error.message || "")) {
+          loadCooldown(function () {
+            var l = cooldownLeft();
+            out.innerHTML = '<div class="outbox" style="border-color:#c9cdfa;background:#eef0fe">' +
+              '<h3 style="margin:0 0 4px;color:#3b3a6b">You have already had your free pack</h3>' +
+              '<p style="margin:0;font-size:15px;color:#3b3a6b">Your next free request unlocks in ' +
+              (l ? humanLeft(l) : "a few days") + '.</p></div>';
+            if (out.scrollIntoView) out.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+          return;
+        }
+        showCopyBox(out, r.body,
+          "Saving did not work just then, so here is your request to copy and send over manually.");
+        return;
       }
 
-      out.innerHTML = '<div class="outbox">' +
-        '<h3 style="margin:0 0 6px;color:#1a8a55">✓ Request sent!</h3>' +
-        '<p style="margin:0;color:var(--ink-soft)">Thanks, ' + esc(name) + '. Your study pack request was sent successfully.</p>' +
-      '</div>';
+      var rows = (res && res.data) || [];
+      S.lastRequestAt = rows.length ? rows[0].created_at : new Date().toISOString();
 
-      ["rName","rEmail","rSubject","rYear","rExam","rTopics","rNotes","rExtra"].forEach(function (id) {
-        var el = document.getElementById(id);
-        if (el) el.value = "";
+      out.innerHTML = '<div class="outbox" style="border-color:#1a8a55;background:#e8f7ef">' +
+        '<h3 style="margin:0 0 4px;color:#14603c">&#10003; Sent</h3>' +
+        '<p style="margin:0;font-size:15px;color:#14603c">Your request is in. Packs usually come back within a day' +
+        (r.contact ? ", and I will get it to you on " + esc(r.contact) : "") + '.</p></div>';
+
+      ["rName","rContact","rSubject","rYear","rExam","rTopics","rNotes","rExtra"].forEach(function (id) {
+        var e = document.getElementById(id); if (e) e.value = "";
       });
-    })
-    .catch(function (error) {
-      out.innerHTML = '<div class="outbox">' +
-        '<h3 style="margin:0 0 6px;color:#c0392b">Could not send the request</h3>' +
-        '<p style="margin:0;color:var(--ink-soft)">' + esc(error.message || "Please try again.") + '</p>' +
-      '</div>';
-    })
-    .finally(function () {
-      button.disabled = false;
-      button.textContent = "Send request";
-      if (out.scrollIntoView) out.scrollIntoView({ behavior: "smooth", block: "start" });
+    })["catch"](function () {
+      btn.disabled = false;
+      btn.textContent = "Send my request";
+      showCopyBox(out, r.body,
+        "Could not reach the server - here is your request to copy and send over manually.");
     });
+  }
+
+  function showCopyBox(out, text, note) {
+    out.innerHTML = '<div class="outbox"><h3 style="margin:0 0 4px">Ready to send</h3>' +
+      '<p style="margin:0 0 14px;font-size:14px;color:var(--ink-soft)">' +
+      esc(note || "Copy this and send it over. Packs usually come back within a day.") + '</p>' +
+      '<pre id="rt">' + esc(text) + '</pre>' +
+      '<button class="btn btn-primary" id="cp">Copy to clipboard</button></div>';
+
+    document.getElementById("cp").addEventListener("click", function () {
+      var b = this;
+      function done() { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy to clipboard"; }, 1800); }
+      function fb() {
+        var ta = document.createElement("textarea");
+        ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); done(); } catch (e) { b.textContent = "Select the text and copy"; }
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fb);
+      else fb();
+    });
+    if (out.scrollIntoView) out.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   /* ---------------- render ---------------- */
 
+  /* ---------------- My Study ---------------- */
+
+  // Rough minutes each kind of task takes a student.
+  var COST = { read: 5, quick: 0.5, cards: 0.25, practice: 1.5 };
+  var MIN_CHOICES = [10, 20, 30, 45, 60];
+
+  function dayStr(d) {
+    d = d || new Date();
+    return d.getFullYear() + "-" +
+      ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+  }
+  function daysUntil(iso) {
+    if (!iso) return null;
+    var a = new Date(dayStr() + "T00:00:00"), b = new Date(iso + "T00:00:00");
+    if (isNaN(b.getTime())) return null;
+    return Math.round((b - a) / 86400000);
+  }
+
+  // Topics they keep getting wrong, worst first.
+  function weakTopics(p) {
+    var rows = (S.progress || []).filter(function (r) { return r.pack_id === p.id && r.attempts >= 3; });
+    return rows.map(function (r) {
+      return { unit: r.unit, rate: r.correct / r.attempts };
+    }).filter(function (r) { return r.rate < 0.6; })
+      .sort(function (a, b) { return a.rate - b.rate; });
+  }
+
+  // Build a day-by-day plan from today to the exam. Recomputed each time so it
+  // keeps adapting as they get better or worse at things.
+  function buildPlan(p, examDate, minutes) {
+    var left = daysUntil(examDate);
+    if (left === null) return [];
+    var days = Math.max(1, Math.min(left, 60));
+    var us = units(p);
+    if (!us.length) return [];
+
+    var weak = weakTopics(p).map(function (w) { return w.unit; });
+    var order = [];
+    for (var d = 0; d < days; d++) {
+      // Last quarter of the run goes to whatever they are worst at.
+      var useWeak = weak.length && d >= Math.floor(days * 0.75);
+      if (useWeak) {
+        var wu = us.filter(function (u) { return weak.indexOf(u.name) >= 0; });
+        order.push(wu.length ? wu[d % wu.length] : us[d % us.length]);
+      } else {
+        order.push(us[d % us.length]);
+      }
+    }
+
+    var hasQuick = (p.quick || []).length, hasCards = (p.cards || []).length,
+        hasPractice = (p.practice || []).length;
+
+    return order.map(function (u, i) {
+      var budget = minutes, tasks = [];
+      tasks.push({ kind: "read", tab: "unit:" + u.index,
+        text: "Read through " + u.name, mins: COST.read });
+      budget -= COST.read;
+
+      // Closer to the exam, spend some of each day on whatever they keep
+      // getting wrong. Practice topics are finer-grained than unit names, so
+      // this is named explicitly rather than matched against a unit.
+      if (weak.length && i >= Math.floor(days * 0.75) && hasPractice && budget > 4) {
+        tasks.push({ kind: "practice", tab: "practice",
+          text: "Go again at " + weak[i % weak.length], mins: 4 });
+        budget -= 4;
+      }
+
+      // Maths-style packs lead with doing; memory packs lead with recall.
+      var wants = p.focus === "practice"
+        ? [["practice", hasPractice], ["quick", hasQuick], ["cards", hasCards]]
+        : [["quick", hasQuick], ["cards", hasCards], ["practice", hasPractice]];
+
+      wants.forEach(function (w) {
+        var kind = w[0], available = w[1];
+        if (!available || budget <= 0) return;
+        var share = budget / 2;
+        var n = Math.max(1, Math.min(available, Math.floor(share / COST[kind])));
+        if (n < 1) return;
+        var label = kind === "practice" ? " practice questions"
+                  : kind === "quick" ? " quick questions" : " flashcards";
+        tasks.push({ kind: kind, tab: kind, text: n + label, mins: n * COST[kind], n: n });
+        budget -= n * COST[kind];
+      });
+
+      var date = new Date();
+      date.setDate(date.getDate() + i);
+      return { day: i, date: dayStr(date), unit: u.name, tasks: tasks };
+    });
+  }
+
+  function loadStudy(p, then) {
+    if (!SB || !S.user) { if (then) then(); return; }
+    var got = 0;
+    function done() { if (++got === 2 && then) then(); }
+    SB.from("study_plans").select("*")
+      .eq("user_id", S.user.id).eq("pack_id", p.id).limit(1)
+      .then(function (res) {
+        var rows = (res && res.data) || [];
+        S.study = rows.length ? rows[0] : null;
+        done();
+      })["catch"](done);
+    SB.from("topic_progress").select("*")
+      .eq("user_id", S.user.id).eq("pack_id", p.id)
+      .then(function (res) { S.progress = (res && res.data) || []; done(); })["catch"](done);
+  }
+
+  function saveStudy(p, fields, then) {
+    if (!SB || !S.user) { if (then) then(); return; }
+    var row = { user_id: S.user.id, pack_id: p.id };
+    for (var k in fields) if (fields.hasOwnProperty(k)) row[k] = fields[k];
+    SB.from("study_plans").upsert(row, { onConflict: "user_id,pack_id" }).select()
+      .then(function (res) {
+        var rows = (res && res.data) || [];
+        if (rows.length) S.study = rows[0];
+        if (then) then();
+      })["catch"](function () { if (then) then(); });
+  }
+
+  // Called every time they answer a practice question.
+  function recordProgress(p, topic, ok) {
+    if (!SB || !S.user || !topic) return;
+    var found = null;
+    (S.progress || []).forEach(function (r) {
+      if (r.pack_id === p.id && r.unit === topic) found = r;
+    });
+    var row = {
+      user_id: S.user.id, pack_id: p.id, unit: topic,
+      attempts: (found ? found.attempts : 0) + 1,
+      correct: (found ? found.correct : 0) + (ok ? 1 : 0),
+      last_seen: new Date().toISOString()
+    };
+    if (!found) { S.progress = S.progress || []; S.progress.push(row); }
+    else { found.attempts = row.attempts; found.correct = row.correct; }
+    SB.from("topic_progress").upsert(row, { onConflict: "user_id,pack_id,unit" })
+      .then(function () {})["catch"](function () {});
+  }
+
+  function streakLine(st) {
+    var n = (st && st.streak) || 0;
+    if (!n) return "Do today's tasks to start a streak.";
+    if (n === 1) return "\u{1F525} 1 day streak - come back tomorrow to keep it.";
+    return "\u{1F525} " + n + " day streak. Do not break it now.";
+  }
+
+  function taskList(day, live) {
+    return '<ul class="tasks">' + day.tasks.map(function (t) {
+      return '<li><span class="tk">' + esc(t.text) + '</span>' +
+        '<span class="tkm">' + Math.round(t.mins) + ' min</span>' +
+        (live ? '<button class="linkbtn" onclick="tab(\'' + t.tab + '\')">Go</button>' : '') +
+      '</li>';
+    }).join("") + '</ul>';
+  }
+
+  function studyView(p) {
+    // Guests get to see what they would be getting before being asked to join.
+    if (!S.user) {
+      var demoUnits = units(p);
+      var demo = {
+        day: 0, unit: (demoUnits[0] && demoUnits[0].name) || "your first topic",
+        tasks: [
+          { text: "Read through " + ((demoUnits[0] && demoUnits[0].name) || "topic one"), mins: 5, tab: "home" },
+          { text: "12 quick questions", mins: 6, tab: "home" },
+          { text: "20 flashcards", mins: 5, tab: "home" }
+        ]
+      };
+      return '<div class="studywrap">' +
+        '<h2 class="sec-title">\u{1F331} My Study</h2>' +
+        '<p class="lead">Tell it when your exam is and how long you can study each day. ' +
+          'It splits this pack across the days you have left, gives you a short list each day, ' +
+          'and spends more time on whatever you keep getting wrong.</p>' +
+        '<div class="previewbox">' +
+          '<div class="previewtag">Example</div>' +
+          '<div class="countdown"><strong>14</strong> days until your exam</div>' +
+          '<h3 style="margin:16px 0 6px">Today &middot; ' + esc(demo.unit) + '</h3>' +
+          taskList(demo, false) +
+          '<p class="help" style="margin-top:10px">' + streakLine({ streak: 3 }) + '</p>' +
+        '</div>' +
+        '<div class="tipbox" style="margin-top:18px">' +
+          '<strong>Why an account?</strong>' +
+          'A plan is only useful if it remembers. Signing in keeps your plan, your streak and ' +
+          'your weak topics the same on your phone and your laptop - a guest version would lose ' +
+          'the lot the moment you cleared your browser.' +
+          '<div style="margin-top:14px">' +
+            '<button class="btn btn-primary" onclick="goAuth(\'pack\')">Sign in to start my plan</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    var st = S.study;
+    if (!st || !st.exam_date) {
+      return '<div class="studywrap">' +
+        '<h2 class="sec-title">\u{1F331} My Study</h2>' +
+        '<p class="lead">Two questions and you are set up.</p>' +
+        '<div class="sheet" style="max-width:420px">' +
+          '<div class="field"><label for="sDate">When is your exam?</label>' +
+            '<input id="sDate" type="date" min="' + dayStr() + '"></div>' +
+          '<div class="field"><label for="sMins">How long can you study a day?</label>' +
+            '<select id="sMins">' + MIN_CHOICES.map(function (m) {
+              return '<option value="' + m + '"' + (m === 20 ? " selected" : "") + '>' + m + ' minutes</option>';
+            }).join("") + '</select></div>' +
+          '<button class="btn btn-primary btn-lg" id="sGo">Build my plan</button>' +
+          '<p class="help" style="margin-top:10px">You can change both later.</p>' +
+        '</div></div>';
+    }
+
+    var left = daysUntil(st.exam_date);
+    if (left !== null && left < 0) {
+      return '<div class="studywrap"><h2 class="sec-title">\u{1F331} My Study</h2>' +
+        '<div class="tipbox"><strong>That exam has been and gone</strong>' +
+        'Hope it went well. Set a new date when the next one comes round.' +
+        '<div style="margin-top:14px"><button class="btn" id="sReset">Set a new exam date</button></div></div></div>';
+    }
+
+    var plan = buildPlan(p, st.exam_date, st.minutes_a_day || 20);
+    var today = plan[0];
+    var doneToday = st.last_studied === dayStr();
+    var weak = weakTopics(p);
+
+    return '<div class="studywrap">' +
+      '<h2 class="sec-title">\u{1F331} My Study</h2>' +
+      '<div class="countdown"><strong>' + (left === 0 ? "Today" : left) + '</strong>' +
+        (left === 0 ? " is the day" : (left === 1 ? " day until your exam" : " days until your exam")) + '</div>' +
+      '<p class="help">' + streakLine(st) + '</p>' +
+
+      (today ? '<div class="todaybox">' +
+        '<h3 style="margin:0 0 4px">Today &middot; ' + esc(today.unit) + '</h3>' +
+        '<p class="help" style="margin:0 0 12px">About ' +
+          Math.round(today.tasks.reduce(function (a, t) { return a + t.mins; }, 0)) + ' minutes.</p>' +
+        taskList(today, true) +
+        (doneToday
+          ? '<p class="donenote">✓ Done for today. See you tomorrow.</p>'
+          : '<button class="btn btn-primary btn-lg" id="sStart">Start today\'s study</button>') +
+      '</div>' : "") +
+
+      (weak.length ? '<div class="tipbox" style="margin-top:18px"><strong>Worth extra time</strong>' +
+        'You are getting these wrong more often than not: ' +
+        esc(weak.slice(0, 3).map(function (w) { return w.unit; }).join(", ")) +
+        '. They get more of your last few days automatically.</div>' : "") +
+
+      (plan.length > 1 ? '<h3 style="margin:22px 0 8px">The rest of your plan</h3>' +
+        '<div class="planlist">' + plan.slice(1, 8).map(function (d) {
+          return '<div class="planday"><div class="pd-when">In ' + (d.day) +
+            (d.day === 1 ? " day" : " days") + '</div>' +
+            '<div class="pd-what"><strong>' + esc(d.unit) + '</strong><br>' +
+            esc(d.tasks.map(function (t) { return t.text; }).join(" &middot; ").replace(/&middot;/g, "·")) +
+            '</div></div>';
+        }).join("") + '</div>' : "") +
+
+      '<p style="margin-top:18px"><button class="linkbtn" id="sReset">Change exam date or study time</button></p>' +
+    '</div>';
+  }
+
+  function wireStudy(p) {
+    var go1 = document.getElementById("sGo");
+    if (go1) go1.addEventListener("click", function () {
+      var d = val("sDate");
+      var mEl = document.getElementById("sMins");
+      var mins = mEl ? parseInt(mEl.value, 10) : 20;
+      if (!d) { window.alert("Pick the date of your exam first."); return; }
+      go1.disabled = true; go1.textContent = "Building...";
+      saveStudy(p, { exam_date: d, minutes_a_day: mins, streak: 0, last_studied: null },
+        function () { render(); });
+    });
+
+    var start = document.getElementById("sStart");
+    if (start) start.addEventListener("click", function () {
+      var st = S.study || {};
+      var today = dayStr();
+      var yest = new Date(); yest.setDate(yest.getDate() - 1);
+      var streak = (st.last_studied === dayStr(yest)) ? (st.streak || 0) + 1 : 1;
+      var plan = buildPlan(p, st.exam_date, st.minutes_a_day || 20);
+      var first = plan[0] && plan[0].tasks[0];
+      saveStudy(p, { last_studied: today, streak: streak }, function () {
+        if (first) window.tab(first.tab); else render();
+      });
+    });
+
+    var reset = document.getElementById("sReset");
+    if (reset) reset.addEventListener("click", function () {
+      saveStudy(p, { exam_date: null }, function () { render(); });
+    });
+  }
+
+  /* ---------------- accounts ---------------- */
+
+  var SB = null;
+  try {
+    if (window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+      SB = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    }
+  } catch (e) { SB = null; }
+
+  function val(id) { var e = document.getElementById(id); return e ? (e.value || "").trim() : ""; }
+
+  function isAdmin() {
+    return !!(S.user && window.ADMIN_EMAIL &&
+      String(S.user.email).toLowerCase() === String(window.ADMIN_EMAIL).toLowerCase());
+  }
+
+  function updateAuthArea() {
+    var el = document.getElementById("authArea");
+    if (!el) return;
+    if (!SB) { el.innerHTML = ""; return; }
+    if (S.user) {
+      el.innerHTML = '<span class="whoami" title="' + esc(S.user.email) + '">' + esc(S.user.email) + '</span>' +
+        (isAdmin() ? '<button class="linkbtn" onclick="go(\'admin\')">Requests</button>' : '') +
+        '<button class="linkbtn" onclick="signOut()">Sign out</button>';
+    } else {
+      el.innerHTML = '<span class="whoami">Guest</span>' +
+        '<button class="linkbtn" onclick="go(\'auth\')">Sign in</button>';
+    }
+  }
+
+  window.signOut = function () {
+    if (!SB) return;
+    SB.auth.signOut().then(function () {
+      S.user = null; S.authMsg = null; S.lastRequestAt = null;
+      go("library");
+    });
+  };
+
+  window.authTab = function (which) {
+    S.authTab = which; S.authMsg = null; render();
+  };
+
+  // Send them to sign in, remembering where they were headed.
+  window.goAuth = function (next) {
+    S.afterAuth = next || "library";
+    S.authTab = "signin"; S.authMsg = null;
+    go("auth");
+  };
+
+  // Supabase phrases these for developers. Students need plain English.
+  function friendlyAuthError(msg) {
+    var m = String(msg || "").toLowerCase();
+    if (m.indexOf("invalid login") >= 0)
+      return "That email and password do not match. Check for typos, or create an account if you have not yet.";
+    if (m.indexOf("already registered") >= 0 || m.indexOf("already been registered") >= 0)
+      return "There is already an account with that email. Try signing in instead.";
+    if (m.indexOf("password") >= 0 && m.indexOf("6") >= 0)
+      return "Your password needs to be at least 6 characters.";
+    if (m.indexOf("email") >= 0 && m.indexOf("valid") >= 0)
+      return "That does not look like a real email address.";
+    if (m.indexOf("confirm") >= 0)
+      return "Confirm your email first - check your inbox for the link.";
+    if (m.indexOf("rate") >= 0 || m.indexOf("many") >= 0)
+      return "Too many tries just now. Wait a minute and go again.";
+    return "Something went wrong: " + msg;
+  }
+
+  function authView() {
+    document.documentElement.removeAttribute("data-theme");
+    bannerEl.innerHTML = ""; navEl.innerHTML = "";
+    var signup = S.authTab === "signup";
+    return '<section class="hero" style="padding-bottom:0">' +
+        '<h1>' + (signup ? "Make an account" : "Welcome back") + '</h1>' +
+        '<p>' + (signup
+          ? "So your packs, your study plan and your streak follow you from your phone to your laptop."
+          : "Sign in to pick up where you left off.") + '</p>' +
+      '</section>' +
+      '<div class="panel"><div class="sheet authcard">' +
+        '<div class="authtabs">' +
+          '<button id="tabIn" class="' + (signup ? "" : "on") + '">Sign in</button>' +
+          '<button id="tabUp" class="' + (signup ? "on" : "") + '">Create account</button>' +
+        '</div>' +
+        (signup ? '<div class="field"><label for="aName">Your name</label>' +
+          '<input id="aName" placeholder="What should I call you?"></div>' : "") +
+        '<div class="field"><label for="aEmail">Email</label>' +
+          '<input id="aEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>' +
+        '<div class="field"><label for="aPass">Password</label>' +
+          (signup ? '<p class="help">At least 6 characters.</p>' : "") +
+          '<input id="aPass" type="password" autocomplete="' +
+            (signup ? "new-password" : "current-password") + '" placeholder="Your password"></div>' +
+        '<button class="btn btn-primary btn-lg" id="aGo">' +
+          (signup ? "Create my account" : "Sign in") + '</button>' +
+        (S.authMsg ? '<div class="authmsg ' + (S.authMsg.ok ? "good" : "bad") + '">' +
+          esc(S.authMsg.text) + '</div>' : "") +
+      '</div></div>';
+  }
+
+  function wireAuth() {
+    var i = document.getElementById("tabIn"), u = document.getElementById("tabUp");
+    if (i) i.addEventListener("click", function () { window.authTab("signin"); });
+    if (u) u.addEventListener("click", function () { window.authTab("signup"); });
+    var b = document.getElementById("aGo");
+    if (b) b.addEventListener("click", submitAuth);
+    var pass = document.getElementById("aPass");
+    if (pass) pass.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") submitAuth();
+    });
+  }
+
+  function submitAuth() {
+    if (!SB) {
+      S.authMsg = { ok: false, text: "Accounts are not connected yet." };
+      render(); return;
+    }
+    var email = val("aEmail"), pass = val("aPass"), name = val("aName");
+    if (!email || !pass) {
+      S.authMsg = { ok: false, text: "Fill in your email and your password." };
+      render(); return;
+    }
+    var signup = S.authTab === "signup";
+    var btn = document.getElementById("aGo");
+    if (btn) { btn.disabled = true; btn.textContent = "One moment..."; }
+
+    var p = signup
+      ? SB.auth.signUp({ email: email, password: pass, options: { data: { full_name: name } } })
+      : SB.auth.signInWithPassword({ email: email, password: pass });
+
+    p.then(function (res) {
+      if (res.error) {
+        S.authMsg = { ok: false, text: friendlyAuthError(res.error.message) };
+        render(); return;
+      }
+      if (res.data && res.data.session) {
+        S.user = res.data.session.user;
+        S.authMsg = null;
+        var next = S.afterAuth || "library";
+        S.afterAuth = null;
+        go(next);
+      } else {
+        S.authMsg = { ok: true,
+          text: "Almost there - check your email for a confirmation link, then come back and sign in." };
+        render();
+      }
+    })["catch"](function () {
+      S.authMsg = { ok: false, text: "Could not reach the server. Check your connection and try again." };
+      render();
+    });
+  }
+
+  /* ---------------- your requests, for you only ---------------- */
+
+  function adminView() {
+    document.documentElement.removeAttribute("data-theme");
+    bannerEl.innerHTML = ""; navEl.innerHTML = "";
+    if (!isAdmin()) {
+      return '<div class="panel"><div class="sheet"><div class="authmsg bad">' +
+        'This page is only for the account that runs StudyPacks.</div></div></div>';
+    }
+    var rows = S.adminRows;
+    var body;
+    if (rows === null || rows === undefined) body = '<p class="help">Loading requests...</p>';
+    else if (!rows.length) body = '<p class="help">No requests yet. They will show up here as students send them.</p>';
+    else body = rows.map(function (r) {
+      var when = "";
+      try { when = new Date(r.created_at).toLocaleString(); } catch (e) {}
+      return '<div class="reqrow">' +
+        '<h4>' + esc(r.subject || "(no subject)") + " &middot; " + esc(r.year_level || "?") +
+          '<span class="pill' + (r.status === "done" ? " done" : "") + '">' + esc(r.status || "new") + '</span></h4>' +
+        '<div class="reqmeta">' + esc(r.name || "(no name)") +
+          (r.contact ? " &middot; " + esc(r.contact) : "") +
+          (when ? " &middot; " + esc(when) : "") + '</div>' +
+        '<details><summary class="linkbtn">See what they asked for</summary>' +
+          '<div style="margin-top:10px;font-size:14px;white-space:pre-wrap">' +
+            esc((r.exam_info ? "Exam: " + r.exam_info + "\n\n" : "") +
+                "On the exam:\n" + (r.topics || "(not given)") +
+                (r.stuck_on ? "\n\nStuck on:\n" + r.stuck_on : "") +
+                (r.notes ? "\n\nTheir notes:\n" + r.notes : "")) +
+          '</div></details>' +
+        (r.status === "done" ? "" :
+          '<div style="margin-top:10px"><button class="btn btn-sm markdone" data-id="' +
+            esc(r.id) + '">Mark as done</button></div>') +
+      '</div>';
+    }).join("");
+
+    return '<section class="hero" style="padding-bottom:0"><h1>Pack requests</h1>' +
+      '<p>Everything students have sent in, newest first.</p></section>' +
+      '<div class="panel"><div class="sheet">' + body + '</div></div>';
+  }
+
+  function wireAdmin() {
+    Array.prototype.forEach.call(document.querySelectorAll(".markdone"), function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-id");
+        b.disabled = true; b.textContent = "Saving...";
+        SB.from("requests").update({ status: "done" }).eq("id", id).then(function () {
+          loadAdmin();
+        });
+      });
+    });
+    if (S.adminRows === null || S.adminRows === undefined) loadAdmin();
+  }
+
+  function loadAdmin() {
+    if (!SB || !isAdmin()) return;
+    SB.from("requests").select("*").order("created_at", { ascending: false }).limit(200)
+      .then(function (res) {
+        S.adminRows = (res && res.data) || [];
+        if (S.view === "admin") { app.innerHTML = adminView(); wireAdmin(); }
+      });
+  }
+
   function render() {
+    updateAuthArea();
+    if (S.view === "auth") { app.innerHTML = authView(); wireAuth(); return; }
+    if (S.view === "admin") { app.innerHTML = adminView(); wireAdmin(); return; }
     if (S.view === "library") { library(); return; }
     if (S.view === "request") { app.innerHTML = requestView(); wireRequest(); return; }
 
@@ -1535,28 +1947,42 @@
 
     var inner;
     if (S.tab === "home") inner = home(p);
+    else if (S.tab === "study") inner = studyView(p);
     else if (S.tab === "overview") inner = overview(p);
     else if (S.tab.indexOf("unit:") === 0) inner = unitView(p, parseInt(S.tab.split(":")[1], 10));
     else if (S.tab === "quick") inner = quick(p);
     else if (S.tab === "practice") inner = practice(p);
     else if (S.tab === "cards") inner = cardsView(p);
     else if (S.tab === "exam") inner = examView(p);
-    else if (S.tab === "study") inner = studyView(p);
-    else if (S.tab === "play") inner = gameView(p);
     else inner = home(p);
 
     app.innerHTML = '<div class="panel">' + inner + '</div>';
 
+    if (S.tab === "study") wireStudy(p);
     if (S.tab === "quick") wireQuick();
     if (S.tab === "practice") wirePractice(p);
     if (S.tab === "cards") wireCards(p);
     if (S.tab === "exam") wireExam(p);
-    if (S.tab === "study") wireStudy(p);
-    if (S.tab === "play") wirePlay(p);
   }
 
-  initialiseAuth();
+  checkPaidReturn();
   render();
+
+  // Pick the session back up on load, so a signed-in student stays signed in.
+  if (SB) {
+    SB.auth.getSession().then(function (res) {
+      var sess = res && res.data && res.data.session;
+      S.user = sess ? sess.user : null;
+      if (S.user) loadCooldown(function () { render(); });
+      else render();
+    })["catch"](function () { render(); });
+
+    SB.auth.onAuthStateChange(function (_event, sess) {
+      var was = S.user && S.user.id;
+      S.user = sess ? sess.user : null;
+      if ((S.user && S.user.id) !== was) { S.adminRows = null; updateAuthArea(); }
+    });
+  }
 })();
 </script>
 </body>
