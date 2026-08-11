@@ -464,6 +464,43 @@
 .pd-when{font-size:13px;color:var(--ink-soft);min-width:78px}
 .pd-what{font-size:14px;line-height:1.5}
 
+/* ---- class game ---- */
+.joinrow{display:flex;gap:10px;flex-wrap:wrap}
+.joinrow input{flex:1;min-width:130px}
+.gamecode{font-size:52px;font-weight:800;letter-spacing:10px;text-align:center;
+  background:var(--brand-soft);color:var(--brand);border-radius:16px;
+  padding:20px 10px;margin:14px 0}
+.gamehead{display:flex;justify-content:space-between;font-size:13px;
+  color:var(--ink-soft);margin-bottom:14px}
+.hostpicks{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.hostpick{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;
+  padding:14px 16px;cursor:pointer;font:inherit}
+.hostpick:hover:not(:disabled){border-color:var(--brand);background:var(--brand-soft)}
+.hostpick:disabled{opacity:.45;cursor:not-allowed}
+.hostpick span{font-size:13px;color:var(--ink-soft);white-space:nowrap}
+.board{list-style:none;margin:0;padding:0;counter-reset:b}
+.board li{display:flex;align-items:center;gap:12px;padding:10px 12px;
+  border-bottom:1px solid var(--line);font-size:15px}
+.board li:last-child{border-bottom:0}
+.board li.me{background:var(--brand-soft);border-radius:10px;font-weight:600}
+.bpos{width:24px;color:var(--ink-soft);font-size:13px}
+.bname{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bscore{font-weight:700;color:var(--brand)}
+
+/* ---- guided session ---- */
+.sessbar{margin-bottom:20px}
+.sessprog{height:8px;background:var(--line);border-radius:999px;overflow:hidden}
+.sessprog span{display:block;height:100%;background:var(--brand);
+  border-radius:999px;transition:width .3s ease}
+.sessmeta{display:flex;align-items:center;justify-content:space-between;
+  margin-top:8px;font-size:13px;color:var(--ink-soft)}
+.sessfoot{display:flex;gap:10px;align-items:center;margin-top:22px}
+.donecard{text-align:center;border:2px solid var(--brand);border-radius:18px;
+  padding:34px 24px;background:#fff}
+.donetick{width:58px;height:58px;line-height:58px;margin:0 auto 14px;border-radius:50%;
+  background:var(--brand);color:#fff;font-size:30px}
+
 /* ---- sign-in area ---- */
 .autharea{display:flex;align-items:center;gap:10px;margin-right:4px}
 .whoami{font-size:13px;color:var(--ink-soft);max-width:180px;overflow:hidden;
@@ -495,6 +532,7 @@
       <span class="brandmark">S</span> StudyPacks
     </button>
     <span class="spacer"></span>
+    <button class="btn btn-sm" onclick="go('game')">&#127918; Class game</button>
     <span id="authArea" class="autharea"></span>
     <button class="btn btn-primary btn-sm" onclick="go('request')">Request a pack</button>
   </div>
@@ -535,6 +573,9 @@
     afterAuth: null,     // where to go once they are signed in
     lastRequestAt: null, // their most recent free request, straight from the server
     adminRows: null,
+    session: null,       // the guided run they are part way through
+    game: null,          // the class game they are hosting or playing
+    gameMsg: null,
     study: null,         // their plan for the pack they are looking at
     progress: [],        // per-topic right/wrong, drives weak topics
     studyPackId: null,   // which pack the two above belong to
@@ -588,6 +629,8 @@
 
   window.go = function (view, packId, tab) {
     stopTimer();
+    if (view !== "game") stopGamePoll();
+    if (view !== "pack") S.session = null;
     S.view = view;
     if (packId) {
       S.packId = packId;
@@ -1439,6 +1482,277 @@
 
   /* ---------------- render ---------------- */
 
+  /* ---------------- class game ---------------- */
+  /* Host needs an account. Players just need the code and a nickname, the same
+     way Kahoot works - a class of 25 cannot all stop and sign up. */
+
+  var GAME_QS = 10;          // questions per game
+  var POINTS_RIGHT = 100;
+  var gamePollId = null;
+
+  function stopGamePoll() { if (gamePollId) { clearInterval(gamePollId); gamePollId = null; } }
+
+  function gamePack() {
+    var g = S.game; if (!g) return null;
+    for (var i = 0; i < PACKS.length; i++) if (PACKS[i].id === g.packId) return PACKS[i];
+    return null;
+  }
+  function gameQuestion() {
+    var g = S.game, p = gamePack();
+    if (!g || !p || !g.questions) return null;
+    var idx = g.questions[g.questionNo];
+    return (p.quick || [])[idx] || null;
+  }
+
+  function startGamePoll() {
+    stopGamePoll();
+    gamePollId = setInterval(function () {
+      var g = S.game;
+      if (!g || !g.id) return;
+      SB.from("games").select("status,question_no").eq("id", g.id).limit(1)
+        .then(function (res) {
+          var row = res && res.data && res.data[0];
+          if (!row) return;
+          var moved = (row.status !== g.status) || (row.question_no !== g.questionNo);
+          g.status = row.status;
+          if (row.question_no !== g.questionNo) {
+            g.questionNo = row.question_no;
+            g.chosen = null; g.scored = false;
+          }
+          SB.from("game_players").select("id,nickname,score,answered")
+            .eq("game_id", g.id).order("score", { ascending: false })
+            .then(function (r2) {
+              g.players = (r2 && r2.data) || [];
+              if (S.view === "game") render();
+            });
+          if (moved && S.view === "game") render();
+        })["catch"](function () {});
+    }, 2000);
+  }
+
+  window.hostGame = function (packId) {
+    var p = null;
+    for (var i = 0; i < PACKS.length; i++) if (PACKS[i].id === packId) p = PACKS[i];
+    if (!p) return;
+    var pool = (p.quick || []).map(function (_, i) { return i; });
+    // shuffle, then take up to GAME_QS
+    for (var k = pool.length - 1; k > 0; k--) {
+      var j = Math.floor(Math.random() * (k + 1)); var t = pool[k]; pool[k] = pool[j]; pool[j] = t;
+    }
+    pool = pool.slice(0, Math.min(GAME_QS, pool.length));
+    S.gameMsg = null;
+    SB.rpc("create_game", { p_pack_id: packId, p_question_ids: pool }).then(function (res) {
+      if (res.error) { S.gameMsg = "Could not start a game just then. Try again."; render(); return; }
+      var row = res.data && res.data[0];
+      S.game = { role: "host", id: row.game_id, code: row.code, packId: packId,
+                 status: "lobby", questionNo: 0, questions: pool, players: [],
+                 chosen: null, scored: false };
+      startGamePoll();
+      render();
+    })["catch"](function () { S.gameMsg = "Could not reach the server."; render(); });
+  };
+
+  window.joinGame = function () {
+    var code = (val("gCode") || "").replace(/\D/g, "");
+    var nick = val("gNick");
+    if (code.length !== 6) { S.gameMsg = "The code is 6 numbers."; render(); return; }
+    if (!nick) { S.gameMsg = "Pick a nickname so people know who you are."; render(); return; }
+    var b = document.getElementById("gJoin");
+    if (b) { b.disabled = true; b.textContent = "Joining..."; }
+    S.gameMsg = null;
+    SB.rpc("join_game", { p_code: code, p_nick: nick }).then(function (res) {
+      if (res.error) {
+        var m = String(res.error.message || "");
+        S.gameMsg = /NO_SUCH_GAME/.test(m) ? "No game with that code. Check it and try again."
+                  : /NICKNAME_TAKEN/.test(m) ? "Someone in this game already has that name."
+                  : /NICKNAME_REQUIRED/.test(m) ? "Pick a nickname."
+                  : "Could not join just then.";
+        render(); return;
+      }
+      var row = res.data && res.data[0];
+      var p = null;
+      for (var i = 0; i < PACKS.length; i++) if (PACKS[i].id === row.pack_id) p = PACKS[i];
+      S.game = { role: "player", id: row.game_id, code: code, packId: row.pack_id,
+                 playerId: row.player_id, token: row.player_token, nickname: nick,
+                 status: row.status, questionNo: 0, questions: null, players: [],
+                 chosen: null, scored: false };
+      // players need the question order too
+      SB.from("games").select("question_ids,question_no,status").eq("id", row.game_id).limit(1)
+        .then(function (r2) {
+          var g2 = r2 && r2.data && r2.data[0];
+          if (g2) {
+            S.game.questions = g2.question_ids || [];
+            S.game.questionNo = g2.question_no || 0;
+            S.game.status = g2.status;
+          }
+          startGamePoll();
+          render();
+        });
+    })["catch"](function () { S.gameMsg = "Could not reach the server."; render(); });
+  };
+
+  window.gameAnswer = function (j) {
+    var g = S.game, q = gameQuestion();
+    if (!g || !q || g.chosen !== null) return;
+    g.chosen = j;
+    var right = (j === q.answer);
+    if (right && g.role === "player" && !g.scored) {
+      g.scored = true;
+      SB.rpc("score_answer", { p_player: g.playerId, p_token: g.token, p_points: POINTS_RIGHT })
+        .then(function () {})["catch"](function () {});
+    }
+    render();
+  };
+
+  window.gameAdvance = function (status) {
+    var g = S.game; if (!g || g.role !== "host") return;
+    var next = status === "next" ? g.questionNo + 1 : g.questionNo;
+    var st = status === "next"
+      ? (next >= g.questions.length ? "finished" : "playing")
+      : status;
+    SB.rpc("set_game_state", { p_game: g.id, p_status: st, p_question_no: next })
+      .then(function () {
+        g.status = st; g.questionNo = next; g.chosen = null; g.scored = false;
+        render();
+      })["catch"](function () {});
+  };
+
+  window.leaveGame = function () {
+    stopGamePoll(); S.game = null; S.gameMsg = null; go("library");
+  };
+
+  function board(g, limit) {
+    var rows = (g.players || []).slice(0, limit || 99);
+    if (!rows.length) return '<p class="help">Nobody yet.</p>';
+    return '<ol class="board">' + rows.map(function (pl, i) {
+      var me = (g.role === "player" && pl.id === g.playerId);
+      return '<li' + (me ? ' class="me"' : '') + '><span class="bpos">' + (i + 1) + '</span>' +
+        '<span class="bname">' + esc(pl.nickname) + (me ? " (you)" : "") + '</span>' +
+        '<span class="bscore">' + pl.score + '</span></li>';
+    }).join("") + '</ol>';
+  }
+
+  function gameView() {
+    document.documentElement.removeAttribute("data-theme");
+    bannerEl.innerHTML = ""; navEl.innerHTML = "";
+    var g = S.game;
+    var msg = S.gameMsg ? '<div class="authmsg bad">' + esc(S.gameMsg) + '</div>' : "";
+
+    /* ---- not in a game yet ---- */
+    if (!g) {
+      var hostBlock;
+      if (!S.user) {
+        hostBlock = '<div class="sheet"><span class="kicker">Run one</span><h2>Host a game</h2>' +
+          '<p class="lead">You need an account to host, because the game is tied to you. ' +
+          'Joining one needs nothing at all.</p>' +
+          '<button class="btn btn-primary" onclick="goAuth(\'game\')">Sign in to host</button></div>';
+      } else {
+        hostBlock = '<div class="sheet"><span class="kicker">Run one</span><h2>Host a game</h2>' +
+          '<p class="lead">Pick a pack. Everyone answers the same questions and the scores go up live.</p>' +
+          '<div class="hostpicks">' + PACKS.map(function (p) {
+            var n = (p.quick || []).length;
+            return '<button class="hostpick" onclick="hostGame(\'' + esc(p.id) + '\')"' +
+              (n < 2 ? " disabled" : "") + '>' +
+              '<strong>' + esc(p.emoji || "") + " " + esc(p.title) + '</strong>' +
+              '<span>' + n + ' questions</span></button>';
+          }).join("") + '</div></div>';
+      }
+
+      return '<section class="hero" style="padding-bottom:0"><h1>Class game</h1>' +
+          '<p>Everyone on the same questions at once, scores climbing live. Good for the last ten minutes of a lesson.</p>' +
+        '</section>' +
+        '<div class="panel">' + msg +
+          '<div class="sheet" style="margin-bottom:18px"><span class="kicker">Join one</span>' +
+            '<h2>Got a code?</h2>' +
+            '<div class="joinrow">' +
+              '<input id="gCode" inputmode="numeric" maxlength="6" placeholder="6-digit code">' +
+              '<input id="gNick" maxlength="20" placeholder="Your nickname">' +
+              '<button class="btn btn-primary" id="gJoin">Join</button>' +
+            '</div>' +
+            '<p class="help" style="margin-top:10px">No account needed.</p>' +
+          '</div>' + hostBlock +
+        '</div>';
+    }
+
+    /* ---- lobby ---- */
+    if (g.status === "lobby") {
+      return '<div class="panel"><div class="sheet">' + msg +
+        (g.role === "host"
+          ? '<span class="kicker">Waiting to start</span><h2>Everyone go to this site and enter</h2>' +
+            '<div class="gamecode">' + esc(g.code) + '</div>' +
+            '<p class="lead">' + (g.players.length || 0) + ' in so far.</p>' +
+            board(g) +
+            '<div style="margin-top:18px">' +
+              '<button class="btn btn-primary btn-lg" onclick="gameAdvance(\'playing\')"' +
+                (g.players.length ? "" : " disabled") + '>Start the game</button> ' +
+              '<button class="btn" onclick="leaveGame()">Cancel</button>' +
+            '</div>'
+          : '<span class="kicker">You are in</span><h2>Hang tight, ' + esc(g.nickname) + '</h2>' +
+            '<p class="lead">Waiting for whoever is running it to start.</p>' +
+            board(g) +
+            '<div style="margin-top:18px"><button class="btn" onclick="leaveGame()">Leave</button></div>') +
+      '</div></div>';
+    }
+
+    /* ---- finished ---- */
+    if (g.status === "finished") {
+      var top = (g.players || [])[0];
+      var mine = null;
+      (g.players || []).forEach(function (pl, i) { if (pl.id === g.playerId) mine = { pos: i + 1, score: pl.score }; });
+      return '<div class="panel"><div class="sheet" style="text-align:center">' +
+        '<span class="kicker">That is it</span><h2>Final scores</h2>' +
+        (top ? '<p class="lead">' + esc(top.nickname) + ' takes it with ' + top.score + '.</p>' : "") +
+        (mine ? '<p class="lead">You came ' + mine.pos + ' with ' + mine.score + '.</p>' : "") +
+        board(g) +
+        '<div style="margin-top:18px"><button class="btn btn-primary" onclick="leaveGame()">Done</button></div>' +
+      '</div></div>';
+    }
+
+    /* ---- playing ---- */
+    var q = gameQuestion();
+    if (!q) {
+      return '<div class="panel"><div class="sheet"><p class="lead">Waiting for the next question...</p>' +
+        '<div style="margin-top:16px"><button class="btn" onclick="leaveGame()">Leave</button></div></div></div>';
+    }
+    var opts = q.options.map(function (o, j) {
+      var cls = "opt";
+      if (g.chosen !== null) {
+        if (j === q.answer) cls += " right";
+        else if (j === g.chosen) cls += " wrong";
+      }
+      return '<button class="' + cls + '" onclick="gameAnswer(' + j + ')"' +
+        (g.chosen !== null ? " disabled" : "") + '>' +
+        '<span class="mark">' + String.fromCharCode(65 + j) + '</span><span>' + esc(o) + '</span></button>';
+    }).join("");
+
+    return '<div class="panel">' +
+      '<div class="gamehead"><span>Question ' + (g.questionNo + 1) + ' of ' + g.questions.length + '</span>' +
+        '<span>Code ' + esc(g.code) + '</span></div>' +
+      '<div class="mc"><div class="mc-q">' + esc(q.q) + '</div>' +
+        '<div class="mc-opts">' + opts + '</div>' +
+        (g.chosen !== null
+          ? '<div class="mc-why"><strong>' +
+              (g.chosen === q.answer ? "Correct." : "Not quite — it's " + esc(q.options[q.answer]) + ".") +
+            '</strong> ' + esc(q.why || "") + '</div>'
+          : "") +
+      '</div>' +
+      '<div class="sheet" style="margin-top:18px"><h2 style="font-size:19px">Scores</h2>' + board(g, 8) + '</div>' +
+      (g.role === "host"
+        ? '<div class="sessfoot"><button class="btn btn-primary btn-lg" onclick="gameAdvance(\'next\')">' +
+            (g.questionNo + 1 >= g.questions.length ? "Finish and show scores" : "Next question") + '</button></div>'
+        : '<p class="help" style="margin-top:16px">Waiting for the next question.</p>') +
+    '</div>';
+  }
+
+  function wireGame() {
+    var b = document.getElementById("gJoin");
+    if (b) b.addEventListener("click", window.joinGame);
+    var nick = document.getElementById("gNick");
+    if (nick) nick.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") window.joinGame();
+    });
+  }
+
   /* ---------------- My Study ---------------- */
 
   // Rough minutes each kind of task takes a student.
@@ -1592,6 +1906,239 @@
     }).join("") + '</ul>';
   }
 
+  /* ---------------- the guided session ---------------- */
+  /* The point of My Study is that a student who does not know what to do is
+     told exactly what to do, one thing at a time, and never has to choose. */
+
+  // Take n items, shifted along each day so they do not see the same ones.
+  function pickN(list, n, offset) {
+    if (!list || !list.length) return [];
+    n = Math.min(n || 1, list.length);
+    var out = [];
+    for (var k = 0; k < n; k++) out.push(list[((offset * n) + k) % list.length]);
+    return out;
+  }
+
+  window.startSession = function () {
+    var p = pack();
+    var st = S.study || {};
+    var plan = buildPlan(p, st.exam_date, st.minutes_a_day || 20);
+    var today = plan[0];
+    if (!today) return;
+
+    // shift the questions along based on how many days they have studied
+    var offset = (st.streak || 0);
+    var steps = [];
+    today.tasks.forEach(function (t) {
+      if (t.kind === "read") {
+        steps.push({ kind: "read", unit: parseInt(t.tab.split(":")[1], 10), text: t.text });
+      } else if (t.kind === "quick") {
+        steps.push({ kind: "quick", items: pickN(p.quick, t.n, offset), text: t.text });
+      } else if (t.kind === "cards") {
+        steps.push({ kind: "cards", items: pickN(p.cards, t.n, offset), text: t.text });
+      } else if (t.kind === "practice") {
+        steps.push({ kind: "practice", items: pickN(p.practice, t.n, offset), text: t.text });
+      }
+    });
+    steps = steps.filter(function (s) { return s.kind === "read" || (s.items && s.items.length); });
+    if (!steps.length) return;
+
+    S.session = { steps: steps, step: 0, i: 0, chosen: null, typed: "", state: null,
+                  flipped: false, right: 0, asked: 0 };
+    window.scrollTo(0, 0);
+    render();
+  };
+
+  window.quitSession = function () {
+    S.session = null; window.scrollTo(0, 0); render();
+  };
+
+  // Move to the next item, or the next step, or finish.
+  window.sessNext = function () {
+    var z = S.session; if (!z) return;
+    var step = z.steps[z.step];
+    var len = step.items ? step.items.length : 1;
+    if (z.i + 1 < len && step.kind !== "read") {
+      z.i++; z.chosen = null; z.typed = ""; z.state = null; z.flipped = false;
+    } else {
+      z.step++; z.i = 0; z.chosen = null; z.typed = ""; z.state = null; z.flipped = false;
+      if (z.step >= z.steps.length) { finishSession(); return; }
+    }
+    window.scrollTo(0, 0);
+    render();
+  };
+
+  function finishSession() {
+    var p = pack(), st = S.study || {};
+    var today = dayStr();
+    var yest = new Date(); yest.setDate(yest.getDate() - 1);
+    var streak = (st.last_studied === today) ? (st.streak || 0)
+               : (st.last_studied === dayStr(yest)) ? (st.streak || 0) + 1 : 1;
+    S.session.finished = true;
+    saveStudy(p, { last_studied: today, streak: streak }, function () { render(); });
+  }
+
+  function sessionDoneView(p) {
+    var z = S.session, st = S.study || {};
+    var left = daysUntil(st.exam_date);
+    var score = z.asked ? Math.round(z.right / z.asked * 100) : null;
+    return '<div class="studywrap"><div class="donecard">' +
+      '<div class="donetick">✓</div>' +
+      '<h2 style="margin:0 0 6px">Done for today</h2>' +
+      '<p class="lead" style="margin:0 0 14px">' +
+        (score === null ? "Nice work getting through it."
+          : score >= 80 ? "You got " + score + "% of those right. That is exam-ready."
+          : score >= 50 ? "You got " + score + "% right. The ones you missed are the ones worth another look tomorrow."
+          : "You got " + score + "% right. That is exactly why you are doing this now and not the night before.") +
+      '</p>' +
+      '<p class="help">' + streakLine(st) + '</p>' +
+      (left !== null && left > 0
+        ? '<p class="help">' + left + (left === 1 ? " day" : " days") + ' until your exam. Come back tomorrow and I will have the next bit ready.</p>'
+        : "") +
+      '<div style="margin-top:16px">' +
+        '<button class="btn btn-primary" onclick="quitSession()">Back to My Study</button>' +
+      '</div>' +
+    '</div></div>';
+  }
+
+  function sessionView(p) {
+    var z = S.session;
+    if (z.finished) return sessionDoneView(p);
+
+    var step = z.steps[z.step];
+    if (!step) return sessionDoneView(p);
+
+    var pct = Math.round((z.step / z.steps.length) * 100);
+    var head = '<div class="sessbar">' +
+        '<div class="sessprog"><span style="width:' + pct + '%"></span></div>' +
+        '<div class="sessmeta"><span>Step ' + (z.step + 1) + ' of ' + z.steps.length + '</span>' +
+          '<button class="linkbtn" onclick="quitSession()">Stop for now</button></div>' +
+      '</div>';
+
+    var body = "";
+
+    if (step.kind === "read") {
+      body = '<div class="sheet" style="margin-bottom:16px"><span class="kicker">First</span>' +
+          '<h2>' + esc(step.text) + '</h2>' +
+          '<p class="lead" style="margin-bottom:0">Read it once, properly. You do not have to remember it all now.</p>' +
+        '</div>' + unitView(p, step.unit) +
+        '<div class="sessfoot"><button class="btn btn-primary btn-lg" onclick="sessNext()">I have read it</button></div>';
+
+    } else if (step.kind === "quick") {
+      var q = step.items[z.i];
+      var opts = q.options.map(function (o, j) {
+        var cls = "opt", mark = String.fromCharCode(65 + j);
+        if (z.chosen !== null) {
+          if (j === q.answer) { cls += " right"; mark = "✓"; }
+          else if (j === z.chosen) { cls += " wrong"; mark = "✗"; }
+        }
+        return '<button class="' + cls + '" data-sq="' + j + '"' +
+          (z.chosen !== null ? " disabled" : "") + '>' +
+          '<span class="mark">' + mark + '</span><span>' + esc(o) + '</span></button>';
+      }).join("");
+      var why = "";
+      if (z.chosen !== null) {
+        var got = z.chosen === q.answer;
+        why = '<div class="mc-why"><strong>' +
+          (got ? "Correct." : "Not quite — it's " + esc(q.options[q.answer]) + ".") +
+          '</strong> ' + esc(q.why || "") + '</div>';
+      }
+      body = '<div class="mc"><div class="mc-n">Question ' + (z.i + 1) + ' of ' + step.items.length + '</div>' +
+          '<div class="mc-q">' + esc(q.q) + '</div>' +
+          '<div class="mc-opts">' + opts + '</div>' + why + '</div>' +
+        (z.chosen !== null ? '<div class="sessfoot"><button class="btn btn-primary btn-lg" onclick="sessNext()">Next</button></div>' : "");
+
+    } else if (step.kind === "cards") {
+      var c = step.items[z.i];
+      body = '<div class="mc-n" style="margin-bottom:10px">Card ' + (z.i + 1) + ' of ' + step.items.length + '</div>' +
+        '<div class="fc-stage"><div class="fc-scene">' +
+          '<div class="fc' + (z.flipped ? " flipped" : "") + '" id="sessCard">' +
+            '<div class="fc-face"><span class="fc-tag">Question</span>' +
+              '<div class="fc-text">' + esc(c.front) + '</div>' +
+              '<span class="fc-tip">Click to flip</span></div>' +
+            '<div class="fc-face fc-back"><span class="fc-tag">Answer</span>' +
+              '<div class="fc-text">' + esc(c.back) + '</div></div>' +
+          '</div></div></div>' +
+        '<div class="sessfoot">' +
+          (z.flipped
+            ? '<button class="btn btn-primary btn-lg" onclick="sessNext()">Next card</button>'
+            : '<button class="btn btn-lg" id="sessFlip">Flip it over</button>') +
+        '</div>';
+
+    } else if (step.kind === "practice") {
+      var it = step.items[z.i];
+      var verdict = "";
+      if (z.state) {
+        verdict = '<div class="mc-why"><strong>' +
+          (z.state.ok ? "Correct." : "Not quite — the answer is " + esc(it.answer) + ".") +
+          '</strong> ' + esc(it.why || "") + '</div>';
+      }
+      body = '<div class="mc"><div class="mc-n">Question ' + (z.i + 1) + ' of ' + step.items.length +
+          (it.topic ? " · " + esc(it.topic) : "") + '</div>' +
+          '<div class="mc-q">' + esc(it.q) + '</div>' +
+          '<div class="field" style="margin-top:12px">' +
+            '<input id="sessIn" placeholder="Type your answer" value="' + esc(z.typed) + '"' +
+            (z.state ? " disabled" : "") + '></div>' +
+          verdict + '</div>' +
+        '<div class="sessfoot">' +
+          (z.state
+            ? '<button class="btn btn-primary btn-lg" onclick="sessNext()">Next</button>'
+            : '<button class="btn btn-primary btn-lg" id="sessCheck">Check</button>' +
+              '<button class="btn" id="sessSkip">Skip</button>') +
+        '</div>';
+    }
+
+    return '<div class="studywrap">' + head + body + '</div>';
+  }
+
+  function wireSession(p) {
+    var z = S.session; if (!z) return;
+    var step = z.steps[z.step]; if (!step) return;
+
+    if (step.kind === "quick") {
+      Array.prototype.forEach.call(app.querySelectorAll("[data-sq]"), function (b) {
+        b.addEventListener("click", function () {
+          if (z.chosen !== null) return;
+          z.chosen = parseInt(this.getAttribute("data-sq"), 10);
+          z.asked++; if (z.chosen === step.items[z.i].answer) z.right++;
+          var y = window.scrollY; render(); window.scrollTo(0, y);
+        });
+      });
+    }
+
+    if (step.kind === "cards") {
+      var f = document.getElementById("sessFlip"), card = document.getElementById("sessCard");
+      function flip() { z.flipped = true; var y = window.scrollY; render(); window.scrollTo(0, y); }
+      if (f) f.addEventListener("click", flip);
+      if (card && !z.flipped) card.addEventListener("click", flip);
+    }
+
+    if (step.kind === "practice") {
+      var inp = document.getElementById("sessIn");
+      var it = step.items[z.i];
+      function check() {
+        if (!inp) return;
+        var ok = isRight(it, inp.value);
+        z.typed = inp.value; z.state = { ok: ok };
+        z.asked++; if (ok) z.right++;
+        recordProgress(p, it.topic, ok);
+        var y = window.scrollY; render(); window.scrollTo(0, y);
+      }
+      var c = document.getElementById("sessCheck");
+      if (c) c.addEventListener("click", check);
+      var s = document.getElementById("sessSkip");
+      if (s) s.addEventListener("click", function () { window.sessNext(); });
+      if (inp) {
+        inp.addEventListener("keydown", function (e) {
+          if (e.key !== "Enter") return;
+          e.preventDefault();
+          if (z.state) window.sessNext(); else check();
+        });
+        if (!z.state) inp.focus();
+      }
+    }
+  }
+
   function studyView(p) {
     // Guests get to see what they would be getting before being asked to join.
     if (!S.user) {
@@ -1670,8 +2217,10 @@
           Math.round(today.tasks.reduce(function (a, t) { return a + t.mins; }, 0)) + ' minutes.</p>' +
         taskList(today, true) +
         (doneToday
-          ? '<p class="donenote">✓ Done for today. See you tomorrow.</p>'
-          : '<button class="btn btn-primary btn-lg" id="sStart">Start today\'s study</button>') +
+          ? '<p class="donenote">✓ Done for today. See you tomorrow.</p>' +
+            '<button class="btn" onclick="startSession()">Go through it again anyway</button>'
+          : '<button class="btn btn-primary btn-lg" onclick="startSession()">Start today\'s study</button>' +
+            '<p class="help" style="margin:10px 0 0">I will take you through it one thing at a time.</p>') +
       '</div>' : "") +
 
       (weak.length ? '<div class="tipbox" style="margin-top:18px"><strong>Worth extra time</strong>' +
@@ -1702,19 +2251,6 @@
       go1.disabled = true; go1.textContent = "Building...";
       saveStudy(p, { exam_date: d, minutes_a_day: mins, streak: 0, last_studied: null },
         function () { render(); });
-    });
-
-    var start = document.getElementById("sStart");
-    if (start) start.addEventListener("click", function () {
-      var st = S.study || {};
-      var today = dayStr();
-      var yest = new Date(); yest.setDate(yest.getDate() - 1);
-      var streak = (st.last_studied === dayStr(yest)) ? (st.streak || 0) + 1 : 1;
-      var plan = buildPlan(p, st.exam_date, st.minutes_a_day || 20);
-      var first = plan[0] && plan[0].tasks[0];
-      saveStudy(p, { last_studied: today, streak: streak }, function () {
-        if (first) window.tab(first.tab); else render();
-      });
     });
 
     var reset = document.getElementById("sReset");
@@ -1936,6 +2472,7 @@
 
   function render() {
     updateAuthArea();
+    if (S.view === "game") { app.innerHTML = gameView(); wireGame(); return; }
     if (S.view === "auth") { app.innerHTML = authView(); wireAuth(); return; }
     if (S.view === "admin") { app.innerHTML = adminView(); wireAdmin(); return; }
     if (S.view === "library") { library(); return; }
@@ -1943,6 +2480,16 @@
 
     var p = pack();
     if (!p) { go("library"); return; }
+
+    // A guided session takes over the whole page - no tabs, nothing to choose.
+    if (S.session) {
+      document.documentElement.setAttribute("data-theme", p.theme || "purple");
+      bannerEl.innerHTML = ""; navEl.innerHTML = "";
+      app.innerHTML = '<div class="panel">' + sessionView(p) + '</div>';
+      wireSession(p);
+      return;
+    }
+
     packChrome(p);
 
     var inner;
