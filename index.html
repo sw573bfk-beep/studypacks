@@ -549,13 +549,13 @@
 (function () {
   "use strict";
 
-  // Where student requests get emailed. Free key from web3forms.com.
-  // Leave blank and the form falls back to copy-and-paste.
+  // Requests are saved to the database - that is the real record, and what the
+  // 3-day limit counts. This key just also pings an email so Beau knows one has
+  // landed without having to go and look. Free key from web3forms.com.
   var FORM_KEY = "f8ccf3a8-7f8f-4e4f-8c5e-a8114fe491af";
 
-  // One free request every 3 days. Paying skips the wait.
-  // NOTE: this is stored on the student's own device, so it is a speed bump,
-  // not a real lock - clearing site data or using another phone resets it.
+  // One free request every 3 days. The database enforces this, so clearing
+  // site data or switching phones does not get around it.
   var COOLDOWN_DAYS = 3;
   var PAY_LINK = "";              // paste the Stripe payment link here
   var PAY_PRICE = "$2";
@@ -630,6 +630,9 @@
   window.go = function (view, packId, tab) {
     stopTimer();
     if (view !== "game") stopGamePoll();
+    // Coming back to a game already in progress has to start the updates again,
+    // otherwise the screen sits there frozen on whatever it last showed.
+    else if (S.game && S.game.id) startGamePoll();
     if (view !== "pack") S.session = null;
     S.view = view;
     if (packId) {
@@ -1440,6 +1443,7 @@
 
       var rows = (res && res.data) || [];
       S.lastRequestAt = rows.length ? rows[0].created_at : new Date().toISOString();
+      notifyBeau(r);
 
       out.innerHTML = '<div class="outbox" style="border-color:#1a8a55;background:#e8f7ef">' +
         '<h3 style="margin:0 0 4px;color:#14603c">&#10003; Sent</h3>' +
@@ -1455,6 +1459,31 @@
       showCopyBox(out, r.body,
         "Could not reach the server - here is your request to copy and send over manually.");
     });
+  }
+
+  // Fire-and-forget email so a request does not sit unnoticed. The request is
+  // already safely in the database by this point, so if this fails it changes
+  // nothing for the student - they still get their confirmation.
+  function notifyBeau(r) {
+    if (!FORM_KEY) return;
+    try {
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          access_key: FORM_KEY,
+          subject: "Pack request: " + (r.subject || "?") + " " + (r.year || "") +
+                   (r.name ? " - " + r.name : ""),
+          from_name: "StudyPacks",
+          name: r.name || "(no name)",
+          contact: r.contact || "(none given)",
+          from_account: (S.user && S.user.email) || "(unknown)",
+          message: r.body + "\n\n---\nSent from the account " +
+                   ((S.user && S.user.email) || "unknown") +
+                   ".\nIt is saved in the admin area of the site too."
+        })
+      })["catch"](function () {});
+    } catch (e) {}
   }
 
   function showCopyBox(out, text, note) {
@@ -1565,6 +1594,7 @@
         var m = String(res.error.message || "");
         S.gameMsg = /NO_SUCH_GAME/.test(m) ? "No game with that code. Check it and try again."
                   : /NICKNAME_TAKEN/.test(m) ? "Someone in this game already has that name."
+                  : /NICKNAME_NOT_OK/.test(m) ? "Pick a different nickname - that one will not fly in a classroom."
                   : /NICKNAME_REQUIRED/.test(m) ? "Pick a nickname."
                   : "Could not join just then.";
         render(); return;
