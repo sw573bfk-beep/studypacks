@@ -2413,7 +2413,14 @@
     if (btn) { btn.disabled = true; btn.textContent = "One moment..."; }
 
     var p = signup
-      ? SB.auth.signUp({ email: email, password: pass, options: { data: { full_name: name } } })
+      ? SB.auth.signUp({
+          email: email,
+          password: pass,
+          options: {
+            data: { full_name: name },
+            emailRedirectTo: "https://sw573bfk-beep.github.io/studypacks/"
+          }
+        })
       : SB.auth.signInWithPassword({ email: email, password: pass });
 
     p.then(function (res) {
