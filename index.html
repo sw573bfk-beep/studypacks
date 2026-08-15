@@ -533,6 +533,7 @@
     </button>
     <span class="spacer"></span>
     <button class="btn btn-sm" onclick="go('game')">&#127918; Class game</button>
+    <button class="btn btn-sm" onclick="go('plans')">Plans</button>
     <span id="authArea" class="autharea"></span>
     <button class="btn btn-primary btn-sm" onclick="go('request')">Request a pack</button>
   </div>
@@ -576,6 +577,9 @@
     session: null,       // the guided run they are part way through
     game: null,          // the class game they are hosting or playing
     gameMsg: null,
+    plan: "free",        // free | plus | pro
+    planMsg: null,       // message on the plans page
+    planLockedUntil: null,
     study: null,         // their plan for the pack they are looking at
     progress: [],        // per-topic right/wrong, drives weak topics
     studyPackId: null,   // which pack the two above belong to
@@ -1673,9 +1677,12 @@
       var hostBlock;
       if (!S.user) {
         hostBlock = '<div class="sheet"><span class="kicker">Run one</span><h2>Host a game</h2>' +
-          '<p class="lead">You need an account to host, because the game is tied to you. ' +
-          'Joining one needs nothing at all.</p>' +
+          '<p class="lead">You need an account to host. Joining one needs nothing at all.</p>' +
           '<button class="btn btn-primary" onclick="goAuth(\'game\')">Sign in to host</button></div>';
+      } else if (!canHost()) {
+        hostBlock = '<div class="sheet"><span class="kicker">Run one</span><h2>Host a game</h2>' +
+          '<p class="lead">Hosting is for Plus and Pro. Join games is free for everyone.</p>' +
+          '<button class="btn btn-primary" onclick="go(\'plans\')">See plans</button></div>';
       } else {
         hostBlock = '<div class="sheet"><span class="kicker">Run one</span><h2>Host a game</h2>' +
           '<p class="lead">Pick a pack. Everyone answers the same questions and the scores go up live.</p>' +
@@ -2305,12 +2312,49 @@
       String(S.user.email).toLowerCase() === String(window.ADMIN_EMAIL).toLowerCase());
   }
 
+  function canHost() {
+    return !!(S.user && (S.plan === "plus" || S.plan === "pro"));
+  }
+
+  function planLabel() {
+    if (!S.user) return "Guest";
+    if (S.plan === "pro") return "Pro";
+    if (S.plan === "plus") return "Plus";
+    return "Free";
+  }
+
+  function loadPlan(then) {
+    if (!SB || !S.user) {
+      S.plan = "free";
+      S.planLockedUntil = null;
+      if (then) then();
+      return;
+    }
+    SB.from("user_plans").select("plan,attempts,locked_until").eq("user_id", S.user.id).limit(1)
+      .then(function (res) {
+        var row = res && res.data && res.data[0];
+        if (row) {
+          S.plan = row.plan || "free";
+          S.planLockedUntil = row.locked_until || null;
+        } else {
+          // create a free row for this user
+          S.plan = "free";
+          S.planLockedUntil = null;
+          SB.from("user_plans").insert({ user_id: S.user.id, plan: "free" }).then(function () {});
+        }
+        if (then) then();
+      })["catch"](function () {
+        S.plan = "free";
+        if (then) then();
+      });
+  }
+
   function updateAuthArea() {
     var el = document.getElementById("authArea");
     if (!el) return;
     if (!SB) { el.innerHTML = ""; return; }
     if (S.user) {
-      el.innerHTML = '<span class="whoami" title="' + esc(S.user.email) + '">' + esc(S.user.email) + '</span>' +
+      el.innerHTML = '<span class="whoami" title="' + esc(S.user.email) + '">' + esc(planLabel()) + '</span>' +
         (isAdmin() ? '<button class="linkbtn" onclick="go(\'admin\')">Requests</button>' : '') +
         '<button class="linkbtn" onclick="signOut()">Sign out</button>';
     } else {
@@ -2323,6 +2367,7 @@
     if (!SB) return;
     SB.auth.signOut().then(function () {
       S.user = null; S.authMsg = null; S.lastRequestAt = null;
+      S.plan = "free"; S.planMsg = null; S.planLockedUntil = null;
       go("library");
     });
   };
@@ -2433,7 +2478,7 @@
         S.authMsg = null;
         var next = S.afterAuth || "library";
         S.afterAuth = null;
-        go(next);
+        loadPlan(function () { updateAuthArea(); go(next); });
       } else {
         S.authMsg = { ok: true,
           text: "Almost there - check your email for a confirmation link, then come back and sign in." };
@@ -2507,11 +2552,174 @@
       });
   }
 
+
+  /* ---------------- plans + code unlock ---------------- */
+
+  function plansView() {
+    document.documentElement.removeAttribute("data-theme");
+    bannerEl.innerHTML = ""; navEl.innerHTML = "";
+    var msg = S.planMsg
+      ? '<div class="authmsg ' + (S.planMsg.ok ? "good" : "bad") + '">' + esc(S.planMsg.text) + '</div>'
+      : "";
+    var current = S.user
+      ? '<p class="lead">You are on <strong>' + esc(planLabel()) + '</strong>.</p>'
+      : '<p class="lead">Sign in to unlock a plan with a code.</p>';
+
+    var tiers = [
+      { id: "free", name: "Free", price: "$0",
+        perks: ["Browse all StudyPacks", "Join class games", "My Study (basic)", "Save packs", "Request packs (3-day limit)"] },
+      { id: "plus", name: "Plus", price: "Code",
+        perks: ["Everything in Free", "Host class games", "Higher limits", "Better My Study tools", "Guided sessions"] },
+      { id: "pro", name: "Pro", price: "Code",
+        perks: ["Everything in Plus", "Highest limits", "Best / most detailed packs", "Priority features later"] }
+    ];
+
+    var cards = tiers.map(function (t) {
+      var on = (S.plan === t.id);
+      return '<div class="sheet" style="flex:1;min-width:200px' + (on ? ";border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft)" : "") + '">' +
+        '<span class="kicker">' + (on ? "Your plan" : t.price) + '</span>' +
+        '<h2 style="margin:4px 0 10px">' + esc(t.name) + '</h2>' +
+        '<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.6">' +
+          t.perks.map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("") +
+        "</ul></div>";
+    }).join("");
+
+    var codeBox = "";
+    if (!S.user) {
+      codeBox = '<div class="sheet" style="margin-top:18px">' +
+        '<h2>Have a code?</h2>' +
+        '<p class="lead">Sign in first, then you can enter a Plus or Pro code.</p>' +
+        '<button class="btn btn-primary" onclick="goAuth(\'plans\')">Sign in</button></div>';
+    } else if (S.plan === "pro") {
+      codeBox = '<div class="sheet" style="margin-top:18px"><p class="lead">You already have Pro. Nice.</p></div>';
+    } else {
+      var locked = S.planLockedUntil && new Date(S.planLockedUntil) > new Date();
+      if (locked) {
+        var mins = Math.ceil((new Date(S.planLockedUntil) - new Date()) / 60000);
+        codeBox = '<div class="sheet" style="margin-top:18px">' +
+          '<h2>Enter a code</h2>' +
+          '<p class="lead">Too many wrong attempts. Try again in about ' + mins + ' minute' + (mins === 1 ? "" : "s") + '.</p></div>';
+      } else {
+        codeBox = '<div class="sheet" style="margin-top:18px">' +
+          '<h2>Enter a code</h2>' +
+          '<p class="lead">6-digit code for Plus or Pro. 3 attempts, then a 1 hour lockout.</p>' +
+          '<div class="joinrow" style="margin-top:12px">' +
+            '<input id="planCode" inputmode="numeric" maxlength="6" placeholder="123456" style="letter-spacing:4px;font-weight:700">' +
+            '<button class="btn btn-primary" id="planGo">Unlock</button>' +
+          '</div></div>';
+      }
+    }
+
+    return '<section class="hero" style="padding-bottom:0"><h1>Plans</h1>' +
+      current + '</section>' +
+      '<div class="panel">' + msg +
+        '<div style="display:flex;flex-wrap:wrap;gap:14px">' + cards + '</div>' +
+        codeBox +
+      '</div>';
+  }
+
+  function wirePlans() {
+    var btn = document.getElementById("planGo");
+    if (btn) btn.addEventListener("click", redeemCode);
+    var inp = document.getElementById("planCode");
+    if (inp) inp.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") redeemCode();
+    });
+  }
+
+  function redeemCode() {
+    if (!SB || !S.user) return;
+    var code = (val("planCode") || "").replace(/\\s+/g, "");
+    if (!/^\\d{6}$/.test(code)) {
+      S.planMsg = { ok: false, text: "Enter a 6-digit code." };
+      render(); return;
+    }
+    if (S.planLockedUntil && new Date(S.planLockedUntil) > new Date()) {
+      S.planMsg = { ok: false, text: "You are locked out for a bit. Try again later." };
+      render(); return;
+    }
+
+    var btn = document.getElementById("planGo");
+    if (btn) { btn.disabled = true; btn.textContent = "Checking..."; }
+
+    // Load current attempts first
+    SB.from("user_plans").select("plan,attempts,locked_until").eq("user_id", S.user.id).limit(1)
+      .then(function (res) {
+        var row = (res && res.data && res.data[0]) || { plan: "free", attempts: 0, locked_until: null };
+        if (row.locked_until && new Date(row.locked_until) > new Date()) {
+          S.planLockedUntil = row.locked_until;
+          S.planMsg = { ok: false, text: "You are locked out for a bit. Try again later." };
+          render(); return;
+        }
+
+        // Look up the code
+        SB.from("plan_codes").select("code,plan,used_by").eq("code", code).limit(1)
+          .then(function (cres) {
+            var c = cres && cres.data && cres.data[0];
+            if (!c) {
+              // wrong code — bump attempts
+              var attempts = (row.attempts || 0) + 1;
+              var patch = { attempts: attempts };
+              if (attempts >= 3) {
+                patch.locked_until = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+                patch.attempts = 0;
+              }
+              SB.from("user_plans").upsert({
+                user_id: S.user.id,
+                plan: row.plan || "free",
+                attempts: patch.attempts,
+                locked_until: patch.locked_until || null
+              }).then(function () {
+                S.planLockedUntil = patch.locked_until || null;
+                if (attempts >= 3) {
+                  S.planMsg = { ok: false, text: "3 wrong attempts. Locked for 1 hour." };
+                } else {
+                  S.planMsg = { ok: false, text: "That code is not valid. " + (3 - attempts) + " attempt" + (3 - attempts === 1 ? "" : "s") + " left." };
+                }
+                render();
+              });
+              return;
+            }
+            if (c.used_by) {
+              S.planMsg = { ok: false, text: "That code has already been used." };
+              render(); return;
+            }
+
+            // Valid unused code — claim it
+            var newPlan = c.plan;
+            SB.from("plan_codes").update({ used_by: S.user.id, used_at: new Date().toISOString() })
+              .eq("code", code).is("used_by", null)
+              .then(function (ures) {
+                // Even if race, still try to set plan
+                SB.from("user_plans").upsert({
+                  user_id: S.user.id,
+                  plan: newPlan,
+                  code_used: code,
+                  unlocked_at: new Date().toISOString(),
+                  attempts: 0,
+                  locked_until: null
+                }).then(function () {
+                  S.plan = newPlan;
+                  S.planLockedUntil = null;
+                  S.planMsg = { ok: true, text: "Unlocked " + (newPlan === "pro" ? "Pro" : "Plus") + ". Enjoy." };
+                  updateAuthArea();
+                  render();
+                });
+              });
+          });
+      })["catch"](function () {
+        S.planMsg = { ok: false, text: "Could not reach the server. Try again." };
+        render();
+      });
+  }
+
+
   function render() {
     updateAuthArea();
     if (S.view === "game") { app.innerHTML = gameView(); wireGame(); return; }
     if (S.view === "auth") { app.innerHTML = authView(); wireAuth(); return; }
     if (S.view === "admin") { app.innerHTML = adminView(); wireAdmin(); return; }
+    if (S.view === "plans") { app.innerHTML = plansView(); wirePlans(); return; }
     if (S.view === "library") { library(); return; }
     if (S.view === "request") { app.innerHTML = requestView(); wireRequest(); return; }
 
@@ -2557,14 +2765,20 @@
     SB.auth.getSession().then(function (res) {
       var sess = res && res.data && res.data.session;
       S.user = sess ? sess.user : null;
-      if (S.user) loadCooldown(function () { render(); });
-      else render();
+      if (S.user) loadPlan(function () {
+        loadCooldown(function () { updateAuthArea(); render(); });
+      });
+      else { S.plan = "free"; render(); }
     })["catch"](function () { render(); });
 
     SB.auth.onAuthStateChange(function (_event, sess) {
       var was = S.user && S.user.id;
       S.user = sess ? sess.user : null;
-      if ((S.user && S.user.id) !== was) { S.adminRows = null; updateAuthArea(); }
+      if ((S.user && S.user.id) !== was) {
+        S.adminRows = null;
+        if (S.user) loadPlan(function () { updateAuthArea(); });
+        else { S.plan = "free"; updateAuthArea(); }
+      }
     });
   }
 })();
