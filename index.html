@@ -2628,9 +2628,16 @@
   }
 
   function redeemCode() {
-    if (!SB || !S.user) return;
-    var code = (val("planCode") || "").replace(/\\s+/g, "");
-    if (!/^\\d{6}$/.test(code)) {
+    if (!SB) {
+      S.planMsg = { ok: false, text: "Accounts are not connected yet." };
+      render(); return;
+    }
+    if (!S.user) {
+      S.planMsg = { ok: false, text: "Sign in first, then enter your code." };
+      render(); return;
+    }
+    var code = (val("planCode") || "").replace(/\s+/g, "");
+    if (!/^\d{6}$/.test(code)) {
       S.planMsg = { ok: false, text: "Enter a 6-digit code." };
       render(); return;
     }
@@ -2642,74 +2649,76 @@
     var btn = document.getElementById("planGo");
     if (btn) { btn.disabled = true; btn.textContent = "Checking..."; }
 
-    // Load current attempts first
+    function fail(msg) {
+      S.planMsg = { ok: false, text: msg || "Something went wrong. Try again." };
+      render();
+    }
+
     SB.from("user_plans").select("plan,attempts,locked_until").eq("user_id", S.user.id).limit(1)
       .then(function (res) {
-        var row = (res && res.data && res.data[0]) || { plan: "free", attempts: 0, locked_until: null };
+        if (res.error) { fail(res.error.message); return; }
+        var row = (res.data && res.data[0]) || { plan: "free", attempts: 0, locked_until: null };
         if (row.locked_until && new Date(row.locked_until) > new Date()) {
           S.planLockedUntil = row.locked_until;
-          S.planMsg = { ok: false, text: "You are locked out for a bit. Try again later." };
-          render(); return;
+          fail("You are locked out for a bit. Try again later.");
+          return;
         }
 
-        // Look up the code
         SB.from("plan_codes").select("code,plan,used_by").eq("code", code).limit(1)
           .then(function (cres) {
-            var c = cres && cres.data && cres.data[0];
+            if (cres.error) { fail(cres.error.message); return; }
+            var c = cres.data && cres.data[0];
             if (!c) {
-              // wrong code — bump attempts
               var attempts = (row.attempts || 0) + 1;
-              var patch = { attempts: attempts };
+              var lockedUntil = null;
+              var nextAttempts = attempts;
               if (attempts >= 3) {
-                patch.locked_until = new Date(Date.now() + 60 * 60 * 1000).toISOString();
-                patch.attempts = 0;
+                lockedUntil = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+                nextAttempts = 0;
               }
               SB.from("user_plans").upsert({
                 user_id: S.user.id,
                 plan: row.plan || "free",
-                attempts: patch.attempts,
-                locked_until: patch.locked_until || null
-              }).then(function () {
-                S.planLockedUntil = patch.locked_until || null;
-                if (attempts >= 3) {
-                  S.planMsg = { ok: false, text: "3 wrong attempts. Locked for 1 hour." };
-                } else {
-                  S.planMsg = { ok: false, text: "That code is not valid. " + (3 - attempts) + " attempt" + (3 - attempts === 1 ? "" : "s") + " left." };
-                }
-                render();
+                attempts: nextAttempts,
+                locked_until: lockedUntil
+              }, { onConflict: "user_id" }).then(function (ures) {
+                if (ures.error) { fail(ures.error.message); return; }
+                S.planLockedUntil = lockedUntil;
+                if (attempts >= 3) fail("3 wrong attempts. Locked for 1 hour.");
+                else fail("That code is not valid. " + (3 - attempts) + " attempt" + (3 - attempts === 1 ? "" : "s") + " left.");
               });
               return;
             }
             if (c.used_by) {
-              S.planMsg = { ok: false, text: "That code has already been used." };
-              render(); return;
+              fail("That code has already been used.");
+              return;
             }
 
-            // Valid unused code — claim it
             var newPlan = c.plan;
-            SB.from("plan_codes").update({ used_by: S.user.id, used_at: new Date().toISOString() })
-              .eq("code", code).is("used_by", null)
-              .then(function (ures) {
-                // Even if race, still try to set plan
-                SB.from("user_plans").upsert({
-                  user_id: S.user.id,
-                  plan: newPlan,
-                  code_used: code,
-                  unlocked_at: new Date().toISOString(),
-                  attempts: 0,
-                  locked_until: null
-                }).then(function () {
-                  S.plan = newPlan;
-                  S.planLockedUntil = null;
-                  S.planMsg = { ok: true, text: "Unlocked " + (newPlan === "pro" ? "Pro" : "Plus") + ". Enjoy." };
-                  updateAuthArea();
-                  render();
-                });
+            SB.from("plan_codes").update({
+              used_by: S.user.id,
+              used_at: new Date().toISOString()
+            }).eq("code", code).is("used_by", null).then(function (ures) {
+              if (ures.error) { fail(ures.error.message); return; }
+              SB.from("user_plans").upsert({
+                user_id: S.user.id,
+                plan: newPlan,
+                code_used: code,
+                unlocked_at: new Date().toISOString(),
+                attempts: 0,
+                locked_until: null
+              }, { onConflict: "user_id" }).then(function (pres) {
+                if (pres.error) { fail(pres.error.message); return; }
+                S.plan = newPlan;
+                S.planLockedUntil = null;
+                S.planMsg = { ok: true, text: "Unlocked " + (newPlan === "pro" ? "Pro" : "Plus") + ". Enjoy." };
+                updateAuthArea();
+                render();
               });
+            });
           });
-      })["catch"](function () {
-        S.planMsg = { ok: false, text: "Could not reach the server. Try again." };
-        render();
+      })["catch"](function (err) {
+        fail("Could not reach the server. Try again.");
       });
   }
 
