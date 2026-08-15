@@ -2586,35 +2586,36 @@
 
     var codeBox = "";
     if (!S.user) {
-      codeBox = '<div class="sheet" style="margin-top:18px">' +
+      codeBox = '<div class="sheet" style="margin-bottom:18px">' +
         '<h2>Have a code?</h2>' +
         '<p class="lead">Sign in first, then you can enter a Plus or Pro code.</p>' +
         '<button class="btn btn-primary" onclick="goAuth(\'plans\')">Sign in</button></div>';
     } else if (S.plan === "pro") {
-      codeBox = '<div class="sheet" style="margin-top:18px"><p class="lead">You already have Pro. Nice.</p></div>';
+      codeBox = '<div class="sheet" style="margin-bottom:18px"><p class="lead">You already have Pro. Nice.</p></div>';
     } else {
       var locked = S.planLockedUntil && new Date(S.planLockedUntil) > new Date();
       if (locked) {
         var mins = Math.ceil((new Date(S.planLockedUntil) - new Date()) / 60000);
-        codeBox = '<div class="sheet" style="margin-top:18px">' +
+        codeBox = '<div class="sheet" style="margin-bottom:18px">' +
           '<h2>Enter a code</h2>' +
           '<p class="lead">Too many wrong attempts. Try again in about ' + mins + ' minute' + (mins === 1 ? "" : "s") + '.</p></div>';
       } else {
-        codeBox = '<div class="sheet" style="margin-top:18px">' +
+        codeBox = '<div class="sheet" style="margin-bottom:18px">' +
           '<h2>Enter a code</h2>' +
-          '<p class="lead">6-digit code for Plus or Pro. 3 attempts, then a 1 hour lockout.</p>' +
+          '<p class="lead">Type the 6 numbers, then tap Unlock.</p>' +
           '<div class="joinrow" style="margin-top:12px">' +
-            '<input id="planCode" inputmode="numeric" maxlength="6" placeholder="123456" style="letter-spacing:4px;font-weight:700">' +
-            '<button class="btn btn-primary" id="planGo">Unlock</button>' +
+            '<input id="planCode" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="6" ' +
+              'placeholder="e.g. 012269" autocomplete="one-time-code" ' +
+              'style="letter-spacing:4px;font-weight:700;font-size:18px">' +
+            '<button class="btn btn-primary" type="button" id="planGo" onclick="redeemCode()">Unlock</button>' +
           '</div></div>';
       }
     }
 
     return '<section class="hero" style="padding-bottom:0"><h1>Plans</h1>' +
       current + '</section>' +
-      '<div class="panel">' + msg +
+      '<div class="panel">' + msg + codeBox +
         '<div style="display:flex;flex-wrap:wrap;gap:14px">' + cards + '</div>' +
-        codeBox +
       '</div>';
   }
 
@@ -2636,9 +2637,11 @@
       S.planMsg = { ok: false, text: "Sign in first, then enter your code." };
       render(); return;
     }
-    var code = (val("planCode") || "").replace(/\s+/g, "");
-    if (!/^\d{6}$/.test(code)) {
-      S.planMsg = { ok: false, text: "Enter a 6-digit code." };
+    var inp = document.getElementById("planCode");
+    var raw = inp ? (inp.value || "") : "";
+    var code = String(raw).replace(/[^0-9]/g, "");
+    if (code.length !== 6) {
+      S.planMsg = { ok: false, text: "Enter a 6-digit code. You entered " + (code.length ? (code.length + " digit" + (code.length === 1 ? "" : "s")) : "nothing") + "." };
       render(); return;
     }
     if (S.planLockedUntil && new Date(S.planLockedUntil) > new Date()) {
@@ -2717,7 +2720,7 @@
               });
             });
           });
-      })["catch"](function (err) {
+      })["catch"](function () {
         fail("Could not reach the server. Try again.");
       });
   }
