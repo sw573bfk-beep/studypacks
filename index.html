@@ -516,6 +516,16 @@
 .authmsg{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:14px;line-height:1.5}
 .authmsg.bad{background:#fdecec;border:1px solid #f3c6c6;color:#8f2f2f}
 .authmsg.good{background:#eaf7ef;border:1px solid #bfe3cd;color:#256b41}
+.codelist{list-style:none;margin:14px 0 0;padding:0;max-height:420px;overflow:auto;
+  border:1px solid var(--line);border-radius:12px}
+.coderow{display:flex;align-items:center;gap:12px;padding:10px 14px;
+  border-bottom:1px solid var(--line);font-size:14px}
+.coderow:last-child{border-bottom:0}
+.coderow.used{opacity:.55}
+.codeval{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:16px;
+  font-weight:700;letter-spacing:2px;min-width:88px}
+.codewho{flex:1;text-align:right;color:var(--ink-soft);font-size:13px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .reqrow{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;background:#fff}
 .reqrow h4{margin:0 0 4px;font-size:15px}
 .reqmeta{font-size:13px;color:var(--ink-soft);margin-bottom:8px}
@@ -574,6 +584,8 @@
     afterAuth: null,     // where to go once they are signed in
     lastRequestAt: null, // their most recent free request, straight from the server
     adminRows: null,
+    codeRows: null,      // plan codes, admin only
+    codeSummary: null,
     session: null,       // the guided run they are part way through
     game: null,          // the class game they are hosting or playing
     gameMsg: null,
@@ -2337,10 +2349,11 @@
           S.plan = row.plan || "free";
           S.planLockedUntil = row.locked_until || null;
         } else {
-          // create a free row for this user
+          // No row yet just means they have never redeemed a code. The server
+          // creates the row itself the first time one is entered - the browser
+          // is not allowed to write to this table any more.
           S.plan = "free";
           S.planLockedUntil = null;
-          SB.from("user_plans").insert({ user_id: S.user.id, plan: "free" }).then(function () {});
         }
         if (then) then();
       })["catch"](function () {
@@ -2525,9 +2538,55 @@
       '</div>';
     }).join("");
 
-    return '<section class="hero" style="padding-bottom:0"><h1>Pack requests</h1>' +
-      '<p>Everything students have sent in, newest first.</p></section>' +
-      '<div class="panel"><div class="sheet">' + body + '</div></div>';
+    return '<section class="hero" style="padding-bottom:0"><h1>Admin</h1>' +
+      '<p>Pack requests and plan codes. Only you can see this page.</p></section>' +
+      '<div class="panel">' +
+        '<div class="sheet" style="margin-bottom:18px">' +
+          '<span class="kicker">Requests</span><h2>What students have asked for</h2>' +
+          body +
+        '</div>' +
+        codesPanel() +
+      '</div>';
+  }
+
+  // The codes live behind a server check - the browser is not allowed near
+  // that table, so this asks the database and it decides whether to answer.
+  function codesPanel() {
+    var s = S.codeSummary, rows = S.codeRows;
+    var head = '<span class="kicker">Plan codes</span><h2>Codes</h2>';
+
+    if (rows === null || rows === undefined) {
+      return '<div class="sheet">' + head + '<p class="help">Loading codes...</p></div>';
+    }
+    if (rows.error) {
+      return '<div class="sheet">' + head + '<div class="authmsg bad">' + esc(rows.error) + '</div></div>';
+    }
+
+    var tally = s
+      ? '<p class="lead">' + s.total + ' codes &middot; <strong>' + s.used + ' used</strong> &middot; ' +
+        s.plus_left + ' Plus and ' + s.pro_left + ' Pro still free.</p>'
+      : "";
+
+    if (!rows.length) return '<div class="sheet">' + head + tally +
+      '<p class="help">No codes yet.</p></div>';
+
+    var list = rows.map(function (c) {
+      var used = !!c.used_at;
+      var when = "";
+      if (used) { try { when = new Date(c.used_at).toLocaleDateString(); } catch (e) {} }
+      return '<li class="coderow' + (used ? " used" : "") + '">' +
+        '<span class="codeval">' + esc(c.code) + '</span>' +
+        '<span class="pill' + (used ? " done" : "") + '">' + esc(c.plan) + '</span>' +
+        '<span class="codewho">' +
+          (used ? esc(c.used_by_email || "used") + (when ? " &middot; " + esc(when) : "")
+                : "not used yet") +
+        '</span></li>';
+    }).join("");
+
+    return '<div class="sheet">' + head + tally +
+      '<ul class="codelist">' + list + '</ul>' +
+      '<p class="help" style="margin-top:12px">Give a code to a student and they enter it on the Plans page. ' +
+      'Each one works once.</p></div>';
   }
 
   function wireAdmin() {
@@ -2541,6 +2600,7 @@
       });
     });
     if (S.adminRows === null || S.adminRows === undefined) loadAdmin();
+    if (S.codeRows === null || S.codeRows === undefined) loadCodes();
   }
 
   function loadAdmin() {
@@ -2550,6 +2610,21 @@
         S.adminRows = (res && res.data) || [];
         if (S.view === "admin") { app.innerHTML = adminView(); wireAdmin(); }
       });
+  }
+
+  function loadCodes() {
+    if (!SB || !isAdmin()) return;
+    SB.rpc("admin_plan_code_summary").then(function (sres) {
+      S.codeSummary = (sres && !sres.error) ? sres.data : null;
+      SB.rpc("admin_list_plan_codes").then(function (res) {
+        if (res && res.error) S.codeRows = { error: "Could not load the codes." };
+        else S.codeRows = (res && res.data) || [];
+        if (S.view === "admin") { app.innerHTML = adminView(); wireAdmin(); }
+      })["catch"](function () {
+        S.codeRows = { error: "Could not reach the server." };
+        if (S.view === "admin") { app.innerHTML = adminView(); wireAdmin(); }
+      });
+    })["catch"](function () { S.codeSummary = null; });
   }
 
 
@@ -2657,72 +2732,25 @@
       render();
     }
 
-    SB.from("user_plans").select("plan,attempts,locked_until").eq("user_id", S.user.id).limit(1)
-      .then(function (res) {
-        if (res.error) { fail(res.error.message); return; }
-        var row = (res.data && res.data[0]) || { plan: "free", attempts: 0, locked_until: null };
-        if (row.locked_until && new Date(row.locked_until) > new Date()) {
-          S.planLockedUntil = row.locked_until;
-          fail("You are locked out for a bit. Try again later.");
-          return;
-        }
-
-        SB.from("plan_codes").select("code,plan,used_by").eq("code", code).limit(1)
-          .then(function (cres) {
-            if (cres.error) { fail(cres.error.message); return; }
-            var c = cres.data && cres.data[0];
-            if (!c) {
-              var attempts = (row.attempts || 0) + 1;
-              var lockedUntil = null;
-              var nextAttempts = attempts;
-              if (attempts >= 3) {
-                lockedUntil = new Date(Date.now() + 60 * 60 * 1000).toISOString();
-                nextAttempts = 0;
-              }
-              SB.from("user_plans").upsert({
-                user_id: S.user.id,
-                plan: row.plan || "free",
-                attempts: nextAttempts,
-                locked_until: lockedUntil
-              }, { onConflict: "user_id" }).then(function (ures) {
-                if (ures.error) { fail(ures.error.message); return; }
-                S.planLockedUntil = lockedUntil;
-                if (attempts >= 3) fail("3 wrong attempts. Locked for 1 hour.");
-                else fail("That code is not valid. " + (3 - attempts) + " attempt" + (3 - attempts === 1 ? "" : "s") + " left.");
-              });
-              return;
-            }
-            if (c.used_by) {
-              fail("That code has already been used.");
-              return;
-            }
-
-            var newPlan = c.plan;
-            SB.from("plan_codes").update({
-              used_by: S.user.id,
-              used_at: new Date().toISOString()
-            }).eq("code", code).is("used_by", null).then(function (ures) {
-              if (ures.error) { fail(ures.error.message); return; }
-              SB.from("user_plans").upsert({
-                user_id: S.user.id,
-                plan: newPlan,
-                code_used: code,
-                unlocked_at: new Date().toISOString(),
-                attempts: 0,
-                locked_until: null
-              }, { onConflict: "user_id" }).then(function (pres) {
-                if (pres.error) { fail(pres.error.message); return; }
-                S.plan = newPlan;
-                S.planLockedUntil = null;
-                S.planMsg = { ok: true, text: "Unlocked " + (newPlan === "pro" ? "Pro" : "Plus") + ". Enjoy." };
-                updateAuthArea();
-                render();
-              });
-            });
-          });
-      })["catch"](function () {
-        fail("Could not reach the server. Try again.");
-      });
+    // The whole check happens on the server. The browser never sees the list
+    // of codes and cannot write a plan for itself - if it could, anyone could
+    // read the codes out of the page or just set themselves to Pro.
+    SB.rpc("redeem_plan_code", { p_code: code }).then(function (res) {
+      if (res.error) { fail("Could not check that code just then. Try again."); return; }
+      var r = res.data || {};
+      if (r.locked_until) S.planLockedUntil = r.locked_until;
+      if (r.ok) {
+        S.plan = r.plan;
+        S.planLockedUntil = null;
+        S.planMsg = { ok: true, text: r.message || "Unlocked. Enjoy." };
+        updateAuthArea();
+        render();
+      } else {
+        fail(r.message || "That code is not valid.");
+      }
+    })["catch"](function () {
+      fail("Could not reach the server. Try again.");
+    });
   }
 
 
@@ -2787,7 +2815,7 @@
       var was = S.user && S.user.id;
       S.user = sess ? sess.user : null;
       if ((S.user && S.user.id) !== was) {
-        S.adminRows = null;
+        S.adminRows = null; S.codeRows = null; S.codeSummary = null;
         if (S.user) loadPlan(function () { updateAuthArea(); });
         else { S.plan = "free"; updateAuthArea(); }
       }
