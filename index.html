@@ -533,6 +533,12 @@
   font-weight:700;letter-spacing:2px;min-width:88px}
 .codewho{flex:1;text-align:right;color:var(--ink-soft);font-size:13px;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:11px 14px;
+  border-bottom:1px solid var(--line);font-size:14px}
+.mrow:last-child{border-bottom:0}
+.mwho{flex:1;min-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mwhen{color:var(--ink-soft);font-size:13px;white-space:nowrap}
+.mbtns{display:flex;gap:12px;margin-left:auto}
 .reqrow{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;background:#fff}
 .reqrow h4{margin:0 0 4px;font-size:15px}
 .reqmeta{font-size:13px;color:var(--ink-soft);margin-bottom:8px}
@@ -593,6 +599,12 @@
     adminRows: null,
     codeRows: null,      // plan codes, admin only
     codeSummary: null,
+    teacherSent: false,  // teacher enquiry from the Plans page
+    teacherMsg: null,
+    memberRows: null,    // who is on a plan, admin only
+    memberMsg: null,
+    planExpires: null,   // when this student's plan runs out
+    planLapsed: false,   // they had one and it ran out
     session: null,       // the guided run they are part way through
     game: null,          // the class game they are hosting or playing
     gameMsg: null,
@@ -2342,6 +2354,36 @@
     return "Free";
   }
 
+  function daysLeft() {
+    if (!S.planExpires) return null;
+    return Math.ceil((new Date(S.planExpires) - new Date()) / 86400000);
+  }
+
+  function niceDate(iso) {
+    try {
+      return new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "short" });
+    } catch (e) { return ""; }
+  }
+
+  // What the Plans page says at the top about where they stand.
+  function planStanding() {
+    if (!S.user) return '<p class="lead">Sign in to unlock a plan with a code.</p>';
+    if (S.planLapsed) {
+      return '<p class="lead">Your plan has run out, so you are back on <strong>Free</strong>. ' +
+        'Another code puts you straight back on.</p>';
+    }
+    if (S.plan === "free") return '<p class="lead">You are on <strong>Free</strong>.</p>';
+    var d = daysLeft();
+    var when = niceDate(S.planExpires);
+    if (d !== null && d <= 5) {
+      return '<p class="lead">You are on <strong>' + esc(planLabel()) + '</strong>, ' +
+        'running out in <strong>' + d + (d === 1 ? " day" : " days") + '</strong> (' + esc(when) + '). ' +
+        'Grab another code to keep it going.</p>';
+    }
+    return '<p class="lead">You are on <strong>' + esc(planLabel()) + '</strong> until <strong>' +
+      esc(when) + '</strong>.</p>';
+  }
+
   function loadPlan(then) {
     if (!SB || !S.user) {
       S.plan = "free";
@@ -2349,11 +2391,16 @@
       if (then) then();
       return;
     }
-    SB.from("user_plans").select("plan,attempts,locked_until").eq("user_id", S.user.id).limit(1)
+    SB.from("user_plans").select("plan,attempts,locked_until,expires_at").eq("user_id", S.user.id).limit(1)
       .then(function (res) {
         var row = res && res.data && res.data[0];
         if (row) {
-          S.plan = row.plan || "free";
+          // A plan that has run out counts as Free, whatever the row says.
+          var live = row.plan && row.plan !== "free" && row.expires_at &&
+                     new Date(row.expires_at) > new Date();
+          S.plan = live ? row.plan : "free";
+          S.planExpires = live ? row.expires_at : null;
+          S.planLapsed = !!(row.plan && row.plan !== "free" && !live);
           S.planLockedUntil = row.locked_until || null;
         } else {
           // No row yet just means they have never redeemed a code. The server
@@ -2681,8 +2728,57 @@
           '<span class="kicker">Requests</span><h2>What students have asked for</h2>' +
           body +
         '</div>' +
+        membersPanel() +
         codesPanel() +
       '</div>';
+  }
+
+  // Who is paying, until when, and the two buttons that matter.
+  function membersPanel() {
+    var rows = S.memberRows;
+    var head = '<span class="kicker">Members</span><h2>Who is on a plan</h2>';
+
+    if (rows === null || rows === undefined) {
+      return '<div class="sheet" style="margin-bottom:18px">' + head +
+        '<p class="help">Loading...</p></div>';
+    }
+    if (rows.error) {
+      return '<div class="sheet" style="margin-bottom:18px">' + head +
+        '<div class="authmsg bad">' + esc(rows.error) + '</div></div>';
+    }
+    var paying = rows.filter(function (r) { return r.active; });
+    if (!rows.length) {
+      return '<div class="sheet" style="margin-bottom:18px">' + head +
+        '<p class="help">Nobody has redeemed a code yet.</p></div>';
+    }
+
+    var list = rows.map(function (r) {
+      var when = r.expires_at ? niceDate(r.expires_at) : null;
+      var state = r.active
+        ? '<span class="pill">' + esc(r.plan) + '</span>' +
+          '<span class="mwhen">' + (r.days_left <= 5 ? '<strong>' : '') +
+            r.days_left + (r.days_left === 1 ? " day" : " days") + " left" +
+            (r.days_left <= 5 ? '</strong>' : '') + ' &middot; ' + esc(when || "") + '</span>'
+        : '<span class="pill done">free</span><span class="mwhen">' +
+          (r.expires_at ? "ran out " + esc(when) : "never paid") + '</span>';
+
+      return '<li class="mrow">' +
+        '<span class="mwho">' + esc(r.email || "(no email)") + '</span>' + state +
+        '<span class="mbtns">' +
+          '<button class="linkbtn mem" data-u="' + esc(r.user_id) + '" data-a="extend">+30 days</button>' +
+          (r.active ? '<button class="linkbtn mem" data-u="' + esc(r.user_id) +
+            '" data-a="expire">End</button>' : "") +
+        '</span></li>';
+    }).join("");
+
+    return '<div class="sheet" style="margin-bottom:18px">' + head +
+      '<p class="lead">' + paying.length + ' paying right now, ' + rows.length + ' total.</p>' +
+      (S.memberMsg ? '<div class="authmsg ' + (S.memberMsg.ok ? "good" : "bad") + '">' +
+        esc(S.memberMsg.text) + '</div>' : "") +
+      '<ul class="codelist">' + list + '</ul>' +
+      '<p class="help" style="margin-top:12px">' +
+      '<strong>+30 days</strong> when someone pays you again. <strong>End</strong> stops it straight away. ' +
+      'Days get added to whatever is left, so nobody loses time by paying early.</p></div>';
   }
 
   // The codes live behind a server check - the browser is not allowed near
@@ -2735,8 +2831,39 @@
         });
       });
     });
+    Array.prototype.forEach.call(document.querySelectorAll(".mem"), function (b) {
+      b.addEventListener("click", function () {
+        var uid = b.getAttribute("data-u"), action = b.getAttribute("data-a");
+        if (action === "expire" &&
+            !window.confirm("End this person's plan now? They go back to Free straight away.")) return;
+        b.disabled = true; b.textContent = "...";
+        SB.rpc("admin_set_membership", { p_user: uid, p_action: action })
+          .then(function (res) {
+            var r = (res && res.data) || {};
+            S.memberMsg = { ok: !!r.ok, text: r.message || "Done." };
+            S.memberRows = null;
+            loadMembers();
+          })["catch"](function () {
+            S.memberMsg = { ok: false, text: "That did not save. Try again." };
+            render();
+          });
+      });
+    });
     if (S.adminRows === null || S.adminRows === undefined) loadAdmin();
     if (S.codeRows === null || S.codeRows === undefined) loadCodes();
+    if (S.memberRows === null || S.memberRows === undefined) loadMembers();
+  }
+
+  function loadMembers() {
+    if (!SB || !isAdmin()) return;
+    SB.rpc("admin_list_members").then(function (res) {
+      if (res && res.error) S.memberRows = { error: "Could not load members." };
+      else S.memberRows = (res && res.data) || [];
+      if (S.view === "admin") { app.innerHTML = adminView(); wireAdmin(); }
+    })["catch"](function () {
+      S.memberRows = { error: "Could not reach the server." };
+      if (S.view === "admin") { app.innerHTML = adminView(); wireAdmin(); }
+    });
   }
 
   function loadAdmin() {
@@ -2772,16 +2899,14 @@
     var msg = S.planMsg
       ? '<div class="authmsg ' + (S.planMsg.ok ? "good" : "bad") + '">' + esc(S.planMsg.text) + '</div>'
       : "";
-    var current = S.user
-      ? '<p class="lead">You are on <strong>' + esc(planLabel()) + '</strong>.</p>'
-      : '<p class="lead">Sign in to unlock a plan with a code.</p>';
+    var current = planStanding();
 
     var tiers = [
       { id: "free", name: "Free", price: "$0",
         perks: ["Browse all StudyPacks", "Join class games", "My Study (basic)", "Save packs", "Request packs (3-day limit)"] },
-      { id: "plus", name: "Plus", price: "Code",
+      { id: "plus", name: "Plus", price: "$2 a month",
         perks: ["Everything in Free", "Host class games", "Higher limits", "Better My Study tools", "Guided sessions"] },
-      { id: "pro", name: "Pro", price: "Code",
+      { id: "pro", name: "Pro", price: "$5 a month",
         perks: ["Everything in Plus", "Highest limits", "Best / most detailed packs", "Priority features later"] }
     ];
 
@@ -2827,7 +2952,86 @@
       current + '</section>' +
       '<div class="panel">' + msg + codeBox +
         '<div style="display:flex;flex-wrap:wrap;gap:14px">' + cards + '</div>' +
+        howToPay() + teacherBox() +
       '</div>';
+  }
+
+  function howToPay() {
+    return '<div class="sheet" style="margin-top:18px">' +
+      '<span class="kicker">Getting a code</span><h2>How does it work?</h2>' +
+      '<p class="lead" style="margin-bottom:12px">Codes come from me directly - there is no card payment on the site yet.</p>' +
+      '<ol style="margin:0;padding-left:20px;font-size:15px;line-height:1.8">' +
+        '<li>Find me at school, or message me</li>' +
+        '<li>Pay <strong>$2</strong> for 30 days of Plus, or <strong>$5</strong> for 30 days of Pro</li>' +
+        '<li>I give you a 6-digit code</li>' +
+        '<li>Type it in the box above - your 30 days start from that moment</li>' +
+        '<li>When it runs out you go back to Free. Another code adds another 30 days</li>' +
+      '</ol>' +
+      '<p class="help" style="margin-top:14px">A code does nothing until someone enters it, so there is no ' +
+      'rush to use one the day you get it. Each code works once, on one account. ' +
+      'If you pay again before yours runs out, the new 30 days get added on the end - ' +
+      'you never lose days by paying early.</p></div>';
+  }
+
+  function teacherBox() {
+    if (S.teacherSent) {
+      return '<div class="sheet" style="margin-top:18px">' +
+        '<span class="kicker">Teachers</span><h2>Thanks - that is on its way to me</h2>' +
+        '<p class="lead" style="margin-bottom:0">I will get back to you about codes for your class, usually within a day.</p>' +
+      '</div>';
+    }
+    return '<div class="sheet" style="margin-top:18px">' +
+      '<span class="kicker">Teachers</span><h2>Want this for your class?</h2>' +
+      '<p class="lead">If you teach a class that would use this, tell me what you need and I will sort out codes for all of them. ' +
+      'Cheaper per student than buying them one at a time.</p>' +
+      '<div class="sheet" style="background:#fbfbfd;margin-top:14px">' +
+        '<div class="field"><label for="tName">Your name</label>' +
+          '<input id="tName" placeholder="Ms Taylor"></div>' +
+        '<div class="field"><label for="tEmail">Email</label>' +
+          '<input id="tEmail" type="email" placeholder="you@school.edu.au"></div>' +
+        '<div class="field"><label for="tSchool">School</label>' +
+          '<input id="tSchool" placeholder="Which school"></div>' +
+        '<div class="field"><label for="tClass">What class, and how many students?</label>' +
+          '<input id="tClass" placeholder="Year 8 Maths, about 26 students"></div>' +
+        '<div class="field"><label for="tNeed">Anything else?</label>' +
+          '<textarea id="tNeed" rows="3" placeholder="When your exams are, what topics you want covered, anything you need."></textarea></div>' +
+        '<button class="btn btn-primary btn-lg" id="tGo">Send it</button>' +
+        (S.teacherMsg ? '<div class="authmsg bad">' + esc(S.teacherMsg) + '</div>' : "") +
+      '</div></div>';
+  }
+
+  function wireTeacher() {
+    var b = document.getElementById("tGo");
+    if (!b) return;
+    b.addEventListener("click", function () {
+      var name = val("tName"), email = val("tEmail"),
+          school = val("tSchool"), cls = val("tClass"), need = val("tNeed");
+      if (!name || !email) {
+        S.teacherMsg = "I need at least your name and an email to get back to you.";
+        render(); return;
+      }
+      b.disabled = true; b.textContent = "Sending...";
+      var body = "TEACHER ENQUIRY\n===============\n\n" +
+        "Name: " + name + "\nEmail: " + email + "\nSchool: " + (school || "(not given)") + "\n" +
+        "Class: " + (cls || "(not given)") + "\n\n" + (need || "");
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          access_key: FORM_KEY,
+          subject: "TEACHER: " + name + (school ? " - " + school : ""),
+          from_name: "StudyPacks",
+          name: name, contact: email, message: body
+        })
+      }).then(function (r) { return r.json(); }).then(function (d) {
+        if (d && d.success) { S.teacherSent = true; S.teacherMsg = null; }
+        else S.teacherMsg = "That did not send. Email me directly instead.";
+        render();
+      })["catch"](function () {
+        S.teacherMsg = "Could not reach the server. Email me directly instead.";
+        render();
+      });
+    });
   }
 
   function wirePlans() {
@@ -2837,6 +3041,7 @@
     if (inp) inp.addEventListener("keydown", function (e) {
       if (e.key === "Enter") redeemCode();
     });
+    wireTeacher();
   }
 
   function redeemCode() {
@@ -2961,7 +3166,7 @@
       var was = S.user && S.user.id;
       S.user = sess ? sess.user : null;
       if ((S.user && S.user.id) !== was) {
-        S.adminRows = null; S.codeRows = null; S.codeSummary = null;
+        S.adminRows = null; S.codeRows = null; S.codeSummary = null; S.memberRows = null;
         if (S.user) loadPlan(function () { updateAuthArea(); });
         else { S.plan = "free"; updateAuthArea(); }
       }
