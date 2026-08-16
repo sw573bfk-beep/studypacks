@@ -513,6 +513,13 @@
 .authtabs button{flex:1;padding:10px;border:1px solid var(--line);background:#fff;
   border-radius:10px;cursor:pointer;font:inherit;font-size:14px;color:var(--ink-soft)}
 .authtabs button.on{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.gbtn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+  background:#fff;border:1px solid var(--line);color:var(--ink);font-weight:600}
+.gbtn:hover{background:#f7f7fa;border-color:#c9cbd4}
+.gbtn svg{flex:0 0 18px}
+.ordiv{display:flex;align-items:center;gap:12px;margin:18px 0;
+  color:var(--ink-soft);font-size:13px}
+.ordiv:before,.ordiv:after{content:"";flex:1;height:1px;background:var(--line)}
 .authmsg{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:14px;line-height:1.5}
 .authmsg.bad{background:#fdecec;border:1px solid #f3c6c6;color:#8f2f2f}
 .authmsg.good{background:#eaf7ef;border:1px solid #bfe3cd;color:#256b41}
@@ -579,7 +586,7 @@
   var S = {
     view: "library",     // library | pack | request | auth | admin
     user: null,          // the signed-in student, or null
-    authTab: "signin",   // signin | signup
+    authTab: "signin",   // signin | signup | forgot | newpass
     authMsg: null,
     afterAuth: null,     // where to go once they are signed in
     lastRequestAt: null, // their most recent free request, straight from the server
@@ -2414,10 +2421,71 @@
     return "Something went wrong: " + msg;
   }
 
+  var SITE_URL = "https://sw573bfk-beep.github.io/studypacks/";
+
+  // Google verifies the address itself, so there is nothing to confirm.
+  window.googleSignIn = function () {
+    if (!SB) return;
+    S.authMsg = null;
+    SB.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: SITE_URL }
+    }).then(function (res) {
+      if (res && res.error) {
+        S.authMsg = { ok: false, text: "Google sign-in is not available right now." };
+        render();
+      }
+    })["catch"](function () {
+      S.authMsg = { ok: false, text: "Could not reach Google. Try email instead." };
+      render();
+    });
+  };
+
+  function googleButton() {
+    return '<button class="btn btn-lg gbtn" onclick="googleSignIn()">' +
+      '<svg viewBox="0 0 18 18" width="18" height="18" aria-hidden="true">' +
+        '<path fill="#4285F4" d="M17.6 9.2c0-.6-.1-1.3-.2-1.9H9v3.5h4.8a4.1 4.1 0 0 1-1.8 2.7v2.2h2.9c1.7-1.6 2.7-3.9 2.7-6.5z"/>' +
+        '<path fill="#34A853" d="M9 18c2.4 0 4.5-.8 6-2.2l-2.9-2.3a5.4 5.4 0 0 1-8-2.8H1.1v2.3A9 9 0 0 0 9 18z"/>' +
+        '<path fill="#FBBC05" d="M4.1 10.7a5.4 5.4 0 0 1 0-3.4V5H1.1a9 9 0 0 0 0 8l3-2.3z"/>' +
+        '<path fill="#EA4335" d="M9 3.6c1.3 0 2.5.5 3.4 1.3l2.6-2.6A9 9 0 0 0 1.1 5l3 2.3A5.4 5.4 0 0 1 9 3.6z"/>' +
+      '</svg><span>Continue with Google</span></button>' +
+      '<div class="ordiv"><span>or</span></div>';
+  }
+
   function authView() {
     document.documentElement.removeAttribute("data-theme");
     bannerEl.innerHTML = ""; navEl.innerHTML = "";
-    var signup = S.authTab === "signup";
+    var mode = S.authTab || "signin";
+    var msg = S.authMsg ? '<div class="authmsg ' + (S.authMsg.ok ? "good" : "bad") + '">' +
+      esc(S.authMsg.text) + '</div>' : "";
+
+    /* ---- set a new password, after following the email link ---- */
+    if (mode === "newpass") {
+      return '<section class="hero" style="padding-bottom:0"><h1>Pick a new password</h1>' +
+          '<p>Nearly there. Choose something you will remember this time.</p></section>' +
+        '<div class="panel"><div class="sheet authcard">' +
+          '<div class="field"><label for="aPass">New password</label>' +
+            '<p class="help">At least 6 characters.</p>' +
+            '<input id="aPass" type="password" autocomplete="new-password" placeholder="New password"></div>' +
+          '<button class="btn btn-primary btn-lg" id="aGo">Save my new password</button>' + msg +
+        '</div></div>';
+    }
+
+    /* ---- ask for the reset email ---- */
+    if (mode === "forgot") {
+      return '<section class="hero" style="padding-bottom:0"><h1>Forgotten password</h1>' +
+          '<p>Put in your email and I will send you a link to set a new one.</p></section>' +
+        '<div class="panel"><div class="sheet authcard">' +
+          '<div class="field"><label for="aEmail">Email</label>' +
+            '<input id="aEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>' +
+          '<button class="btn btn-primary btn-lg" id="aGo">Send me the link</button>' + msg +
+          '<p class="help" style="margin-top:14px">' +
+            '<button class="linkbtn" id="backIn">Back to sign in</button></p>' +
+        '</div></div>';
+    }
+
+    /* ---- normal sign in / sign up ---- */
+    var signup = mode === "signup";
     return '<section class="hero" style="padding-bottom:0">' +
         '<h1>' + (signup ? "Make an account" : "Welcome back") + '</h1>' +
         '<p>' + (signup
@@ -2429,6 +2497,7 @@
           '<button id="tabIn" class="' + (signup ? "" : "on") + '">Sign in</button>' +
           '<button id="tabUp" class="' + (signup ? "on" : "") + '">Create account</button>' +
         '</div>' +
+        googleButton() +
         (signup ? '<div class="field"><label for="aName">Your name</label>' +
           '<input id="aName" placeholder="What should I call you?"></div>' : "") +
         '<div class="field"><label for="aEmail">Email</label>' +
@@ -2438,21 +2507,88 @@
           '<input id="aPass" type="password" autocomplete="' +
             (signup ? "new-password" : "current-password") + '" placeholder="Your password"></div>' +
         '<button class="btn btn-primary btn-lg" id="aGo">' +
-          (signup ? "Create my account" : "Sign in") + '</button>' +
-        (S.authMsg ? '<div class="authmsg ' + (S.authMsg.ok ? "good" : "bad") + '">' +
-          esc(S.authMsg.text) + '</div>' : "") +
+          (signup ? "Create my account" : "Sign in") + '</button>' + msg +
+        (signup ? "" : '<p class="help" style="margin-top:14px">' +
+          '<button class="linkbtn" id="forgotLink">Forgotten your password?</button></p>') +
       '</div></div>';
   }
 
   function wireAuth() {
+    var mode = S.authTab || "signin";
     var i = document.getElementById("tabIn"), u = document.getElementById("tabUp");
     if (i) i.addEventListener("click", function () { window.authTab("signin"); });
     if (u) u.addEventListener("click", function () { window.authTab("signup"); });
+
+    var f = document.getElementById("forgotLink");
+    if (f) f.addEventListener("click", function () { window.authTab("forgot"); });
+    var back = document.getElementById("backIn");
+    if (back) back.addEventListener("click", function () { window.authTab("signin"); });
+
     var b = document.getElementById("aGo");
-    if (b) b.addEventListener("click", submitAuth);
-    var pass = document.getElementById("aPass");
-    if (pass) pass.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") submitAuth();
+    if (b) b.addEventListener("click", function () {
+      if (mode === "forgot") sendReset();
+      else if (mode === "newpass") saveNewPassword();
+      else submitAuth();
+    });
+
+    ["aPass", "aEmail"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter") return;
+        e.preventDefault();
+        if (mode === "forgot") sendReset();
+        else if (mode === "newpass") saveNewPassword();
+        else submitAuth();
+      });
+    });
+    var first = document.getElementById(mode === "newpass" ? "aPass" : "aEmail");
+    if (first && !S.authMsg) first.focus();
+  }
+
+  function sendReset() {
+    var email = val("aEmail");
+    if (!email) {
+      S.authMsg = { ok: false, text: "Put your email in first." };
+      render(); return;
+    }
+    var btn = document.getElementById("aGo");
+    if (btn) { btn.disabled = true; btn.textContent = "Sending..."; }
+
+    SB.auth.resetPasswordForEmail(email, { redirectTo: SITE_URL })
+      .then(function (res) {
+        // Always says the same thing, so nobody can use this to find out
+        // which email addresses have accounts.
+        S.authMsg = { ok: true,
+          text: "If there is an account for that email, a link is on its way. " +
+                "Check your inbox, and your junk folder." };
+        render();
+      })["catch"](function () {
+        S.authMsg = { ok: false, text: "Could not send that just now. Try again in a minute." };
+        render();
+      });
+  }
+
+  function saveNewPassword() {
+    var pass = val("aPass");
+    if (pass.length < 6) {
+      S.authMsg = { ok: false, text: "Needs to be at least 6 characters." };
+      render(); return;
+    }
+    var btn = document.getElementById("aGo");
+    if (btn) { btn.disabled = true; btn.textContent = "Saving..."; }
+
+    SB.auth.updateUser({ password: pass }).then(function (res) {
+      if (res && res.error) {
+        S.authMsg = { ok: false, text: friendlyAuthError(res.error.message) };
+        render(); return;
+      }
+      S.authTab = "signin";
+      S.authMsg = null;
+      try { history.replaceState({}, "", location.pathname); } catch (e) {}
+      go("library");
+    })["catch"](function () {
+      S.authMsg = { ok: false, text: "Could not save that. Try the link in your email again." };
+      render();
     });
   }
 
@@ -2811,7 +2947,17 @@
       else { S.plan = "free"; render(); }
     })["catch"](function () { render(); });
 
-    SB.auth.onAuthStateChange(function (_event, sess) {
+    SB.auth.onAuthStateChange(function (event, sess) {
+      // Arriving from a "forgot password" email: Supabase signs them in just
+      // long enough to set a new one, so send them straight to that screen.
+      if (event === "PASSWORD_RECOVERY") {
+        S.user = sess ? sess.user : S.user;
+        S.authTab = "newpass";
+        S.authMsg = null;
+        updateAuthArea();
+        go("auth");
+        return;
+      }
       var was = S.user && S.user.id;
       S.user = sess ? sess.user : null;
       if ((S.user && S.user.id) !== was) {
@@ -2820,6 +2966,14 @@
         else { S.plan = "free"; updateAuthArea(); }
       }
     });
+
+    // Some browsers land with the recovery details in the address bar before
+    // the event above fires, so catch that too.
+    if (/type=recovery/.test(location.hash) || /type=recovery/.test(location.search)) {
+      S.authTab = "newpass";
+      S.authMsg = null;
+      go("auth");
+    }
   }
 })();
 </script>
