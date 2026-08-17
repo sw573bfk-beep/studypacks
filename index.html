@@ -1678,6 +1678,25 @@
     return (S.user && S.user.email) || "";
   }
 
+  // Both ends of a long paste, so something buried at the bottom of a
+  // pasted worksheet is still seen.
+  function sampleText(s, head, tail) {
+    s = String(s || "");
+    if (s.length <= head + tail) return s;
+    return s.slice(0, head) + "\n...\n" + s.slice(s.length - tail);
+  }
+
+  function checkText(r) {
+    return [
+      String(r.name || "").slice(0, 200),
+      String(r.subject || "").slice(0, 200),
+      String(r.exam || "").slice(0, 500),
+      String(r.extra || "").slice(0, 2000),
+      sampleText(r.topics, 5000, 2000),
+      sampleText(r.notes, 5000, 2000)
+    ].join("\n");
+  }
+
   function requestText() {
     function v(id) { var e = document.getElementById(id); return e ? (e.value || "").trim() : ""; }
     var want = [];
@@ -1737,7 +1756,10 @@
     if (!S.reqChecked) {
       btn.disabled = true;
       btn.textContent = "Checking...";
-      SB.rpc("text_check", { p: [r.name, r.subject, r.topics, r.notes, r.extra, r.exam].join("\n") })
+      // Cap each field on its own. Joining them raw let a 33,000 character
+      // paste push the short fields past the server's limit, so whatever was
+      // typed in them was never looked at.
+      SB.rpc("text_check", { p: checkText(r) })
         .then(function (chk) {
           var v = (chk && chk.data) || {};
           btn.disabled = false;
