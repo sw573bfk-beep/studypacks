@@ -1429,10 +1429,14 @@
       '</section>' +
       '<div class="panel">' + cooldownNotice() + '<div class="sheet">' +
         '<div class="field"><label for="rName">Your name</label>' +
-          '<input id="rName" placeholder="So I know whose pack this is"></div>' +
+          '<input id="rName" value="' + esc(accountName()) + '" ' +
+            'placeholder="So I know whose pack this is"></div>' +
         '<div class="field"><label for="rContact">How do I get it back to you?</label>' +
-          '<p class="help">Email, Instagram, phone number - whatever you actually check.</p>' +
-          '<input id="rContact" placeholder="you@example.com or @yourhandle"></div>' +
+          '<p class="help">' + (accountEmail()
+            ? 'Filled in from your account - change it if you check something else more.'
+            : 'Email, Instagram, phone number - whatever you actually check.') + '</p>' +
+          '<input id="rContact" value="' + esc(accountEmail()) + '" ' +
+            'placeholder="you@example.com or @yourhandle"></div>' +
         '<div class="field"><label for="rSubject">Subject</label>' +
           '<input id="rSubject" placeholder="Maths, Biology, Physics..."></div>' +
         '<div class="field"><label for="rYear">Year level</label><input id="rYear" placeholder="Year 8"></div>' +
@@ -1659,6 +1663,21 @@
     });
   }
 
+  // Prefill from the account so a student is not retyping what we already know.
+  // Same rule the database uses when it creates a profile, so the two agree
+  // without needing a second trip to the server.
+  function accountName() {
+    if (!S.user) return "";
+    var m = S.user.user_metadata || {};
+    if (m.full_name) return m.full_name;
+    if (m.name) return m.name;
+    return S.user.email ? String(S.user.email).split("@")[0] : "";
+  }
+
+  function accountEmail() {
+    return (S.user && S.user.email) || "";
+  }
+
   function requestText() {
     function v(id) { var e = document.getElementById(id); return e ? (e.value || "").trim() : ""; }
     var want = [];
@@ -1795,9 +1814,15 @@
         '<p style="margin:0;font-size:15px;color:#14603c">Your request is in. Packs usually come back within a day' +
         (r.contact ? ", and I will get it to you on " + esc(r.contact) : "") + '.</p></div>';
 
-      ["rName","rContact","rSubject","rYear","rExam","rTopics","rNotes","rExtra"].forEach(function (id) {
+      // Clear what was about this pack, keep who they are - otherwise the next
+      // request makes them type their own name and email in again.
+      ["rSubject","rYear","rExam","rTopics","rNotes","rExtra"].forEach(function (id) {
         var e = document.getElementById(id); if (e) e.value = "";
       });
+      var nEl = document.getElementById("rName"), cEl = document.getElementById("rContact");
+      if (nEl) nEl.value = accountName();
+      if (cEl) cEl.value = accountEmail();
+      var fl = document.getElementById("rFiles"); if (fl) fl.innerHTML = "";
     })["catch"](function () {
       btn.disabled = false;
       btn.textContent = "Send my request";
