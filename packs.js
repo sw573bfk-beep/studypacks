@@ -3897,5 +3897,1252 @@ window.PACKS = [
  "exam": {
   "minutes": 50
  }
-}
+},
+ {
+  "id": "mediaarts-y9-video-foundations",
+  "subject": "Media Arts",
+  "year": "Year 9",
+  "title": "Video Foundations — A Day in the Life of an Inanimate Object",
+  "blurb": "Camera techniques, visual storytelling and everything you need for the Term 1 video task.",
+  "topics": [
+   "Camera techniques",
+   "Framing and lighting",
+   "Visual storytelling",
+   "Editing and sound",
+   "The video task"
+  ],
+  "created": "2026-08-17",
+  "custom": false,
+  "theme": "orange",
+  "focus": "memory",
+  "emoji": "🎬",
+  "examInfo": "Year 9 Media Arts · Term 1 · Foundations (video)",
+  "homeTitle": "Everything for your Term 1 video, in one place",
+  "homeIntro": "This covers the camera words your teacher will use, and how to make an audience care about an object that cannot talk. Learn the shot names first — almost every mark in this unit comes back to naming a shot and saying why you chose it.",
+  "studyTip": "Do not just memorise the shot names. For each one, have a reason you would use it in your inanimate object video ready to go — that 'why' is where the marks are.",
+  "unitInfo": {
+   "Camera Basics": {
+    "blurb": "Shot sizes, angles and movement — the words you need before you touch a camera."
+   },
+   "Framing & Light": {
+    "blurb": "Where things sit in the frame, and how light changes what the audience feels."
+   },
+   "Telling It Without Words": {
+    "blurb": "Making an audience care about an object that cannot talk."
+   },
+   "Editing & Sound": {
+    "blurb": "Cutting it together so it flows, and using sound to sell it."
+   },
+   "Your Video Task": {
+    "blurb": "Planning, shooting and finishing A Day in the Life of an Inanimate Object."
+   }
+  },
+  "overview": [
+   {
+    "heading": "Shot sizes",
+    "points": [
+     "**Shot size** is how much of the subject fills the frame. It is the single most asked question in this unit.",
+     "**Extreme long shot (ELS)** shows the whole location. Used to establish where you are.",
+     "**Long shot (LS)** shows the subject head to toe with space around it.",
+     "**Mid shot (MS)** shows roughly waist up. The everyday, neutral shot.",
+     "**Close-up (CU)** fills the frame with the face, or with your object. This is where emotion lives.",
+     "**Extreme close-up (ECU)** shows one small detail — a scratch, a button, an eye."
+    ]
+   },
+   {
+    "heading": "Angles and movement",
+    "points": [
+     "**High angle** looks down on the subject and makes it seem small, weak or vulnerable.",
+     "**Low angle** looks up and makes the subject seem large, powerful or threatening.",
+     "**Eye level** is neutral — the audience feels equal to the subject.",
+     "**Dutch angle** tilts the camera sideways to make things feel wrong or unsettled.",
+     "**Pan** swivels left or right, **tilt** swivels up or down — the camera stays put.",
+     "**Tracking** moves the whole camera through the space. **Zoom** only changes the lens."
+    ]
+   },
+   {
+    "heading": "Framing and lighting",
+    "points": [
+     "**Rule of thirds**: split the frame in three both ways and put the subject on a line or crossing point.",
+     "**Headroom** is the space above the subject. Too much makes it look lost, too little feels cramped.",
+     "**Lead room** is space in front of a moving subject so it has somewhere to go.",
+     "**Shallow depth of field** blurs the background and isolates your object.",
+     "**Three-point lighting** is key light, fill light and back light.",
+     "**Low key** lighting is dark and full of shadow. **High key** is bright and even."
+    ]
+   },
+   {
+    "heading": "Telling a story with no dialogue",
+    "points": [
+     "**Mise-en-scène** is everything arranged in front of the camera: setting, props, lighting, placement.",
+     "**Anthropomorphism** is giving human feelings to a non-human thing — the heart of this task.",
+     "You build character through **how you shoot it**, not through what it says.",
+     "A **point of view shot** puts the audience where the object is, so they feel like it.",
+     "Every story still needs a **beginning, a problem and an ending**, even in 60 seconds."
+    ]
+   },
+   {
+    "heading": "Editing and sound",
+    "points": [
+     "A **cut** is a straight join between two shots. It is the invisible default.",
+     "**Continuity editing** keeps time and space feeling unbroken so the audience never gets lost.",
+     "A **jump cut** removes a chunk of time and deliberately jolts the viewer.",
+     "**Diegetic sound** exists in the world of the film. **Non-diegetic** sound does not.",
+     "**Foley** is everyday sound recorded and added afterwards to make actions feel real."
+    ]
+   }
+  ],
+  "notes": [
+   {
+    "unit": "Camera Basics",
+    "heading": "Why shot size matters",
+    "body": "**Shot size** means how much of your subject fills the frame.\n\nIt is the first thing your teacher will mark you on, because it is the clearest sign you made a decision instead of just pointing the camera and hoping.\n\nEvery shot size does a job. Wide shots tell the audience **where**. Close shots tell the audience **how it feels**. A video that is all mid shots feels flat, because nothing ever changes.",
+    "diagram": "<svg viewBox=\"0 0 560 150\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\"><title>Shot sizes from extreme long shot to extreme close-up</title><style>.f{fill:#eef0fe;stroke:#6c63ff;stroke-width:2}.p{fill:#3b3a6b}.t{font:11px sans-serif;fill:#3b3a6b;text-anchor:middle}</style><g><rect class=\"f\" x=\"8\" y=\"20\" width=\"96\" height=\"80\"/><circle class=\"p\" cx=\"56\" cy=\"76\" r=\"4\"/><rect class=\"p\" x=\"53\" y=\"80\" width=\"6\" height=\"14\"/><text class=\"t\" x=\"56\" y=\"116\">Extreme long</text><text class=\"t\" x=\"56\" y=\"130\">whole place</text><rect class=\"f\" x=\"118\" y=\"20\" width=\"96\" height=\"80\"/><circle class=\"p\" cx=\"166\" cy=\"52\" r=\"8\"/><rect class=\"p\" x=\"159\" y=\"60\" width=\"14\" height=\"36\"/><text class=\"t\" x=\"166\" y=\"116\">Long</text><text class=\"t\" x=\"166\" y=\"130\">head to toe</text><rect class=\"f\" x=\"228\" y=\"20\" width=\"96\" height=\"80\"/><circle class=\"p\" cx=\"276\" cy=\"42\" r=\"12\"/><rect class=\"p\" x=\"264\" y=\"55\" width=\"24\" height=\"45\"/><text class=\"t\" x=\"276\" y=\"116\">Mid</text><text class=\"t\" x=\"276\" y=\"130\">waist up</text><rect class=\"f\" x=\"338\" y=\"20\" width=\"96\" height=\"80\"/><circle class=\"p\" cx=\"386\" cy=\"50\" r=\"22\"/><rect class=\"p\" x=\"364\" y=\"72\" width=\"44\" height=\"28\"/><text class=\"t\" x=\"386\" y=\"116\">Close-up</text><text class=\"t\" x=\"386\" y=\"130\">face</text><rect class=\"f\" x=\"448\" y=\"20\" width=\"96\" height=\"80\"/><circle class=\"p\" cx=\"496\" cy=\"60\" r=\"38\"/><text class=\"t\" x=\"496\" y=\"116\">Extreme close-up</text><text class=\"t\" x=\"496\" y=\"130\">one detail</text></g></svg>",
+    "diagramCaption": "The five shot sizes you will be asked to name most often."
+   },
+   {
+    "unit": "Camera Basics",
+    "heading": "The shot sizes, and what each one is for",
+    "body": "Learn the abbreviations. Teachers write them on shot lists and expect you to read them.",
+    "table": {
+     "head": [
+      "Shot",
+      "Short for",
+      "What it shows",
+      "Use it when"
+     ],
+     "rows": [
+      [
+       "ELS",
+       "Extreme long shot",
+       "The whole location, subject tiny",
+       "Establishing where the story happens"
+      ],
+      [
+       "LS",
+       "Long shot",
+       "Subject head to toe",
+       "Showing the object in its world"
+      ],
+      [
+       "MLS",
+       "Medium long shot",
+       "Roughly knees up",
+       "In between wide and personal"
+      ],
+      [
+       "MS",
+       "Mid shot",
+       "Roughly waist up",
+       "Neutral, everyday moments"
+      ],
+      [
+       "MCU",
+       "Medium close-up",
+       "Chest and head",
+       "Interviews and reactions"
+      ],
+      [
+       "CU",
+       "Close-up",
+       "Fills frame with face or object",
+       "Emotion, or something important"
+      ],
+      [
+       "ECU",
+       "Extreme close-up",
+       "One small detail",
+       "Tension, or a tiny thing that matters"
+      ]
+     ]
+    }
+   },
+   {
+    "unit": "Camera Basics",
+    "heading": "Camera angles change who has the power",
+    "body": "The height you shoot from changes how the audience feels about the subject, without a single word being said.\n\nFor an inanimate object this is gold. Shoot a lost sock from a **high angle** and it looks abandoned. Shoot the vacuum cleaner coming for it from a **low angle** and it becomes a monster.\n\n**Eye level** for an object is not your eye level — it is the object's. Get the camera down on the floor.",
+    "diagram": "<svg viewBox=\"0 0 460 170\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\"><title>High angle looks down and shrinks the subject, low angle looks up and makes it powerful</title><style>.l{stroke:#6c63ff;stroke-width:2;fill:none}.s{fill:#3b3a6b}.c{fill:#eef0fe;stroke:#6c63ff;stroke-width:2}.t{font:11px sans-serif;fill:#3b3a6b;text-anchor:middle}.b{font:bold 12px sans-serif;fill:#3b3a6b;text-anchor:middle}</style><g><text class=\"b\" x=\"115\" y=\"16\">High angle</text><rect class=\"c\" x=\"30\" y=\"26\" width=\"34\" height=\"22\" rx=\"3\"/><text class=\"t\" x=\"47\" y=\"42\">cam</text><line class=\"l\" x1=\"64\" y1=\"44\" x2=\"150\" y2=\"112\"/><circle class=\"s\" cx=\"163\" cy=\"122\" r=\"7\"/><rect class=\"s\" x=\"157\" y=\"130\" width=\"12\" height=\"20\"/><text class=\"t\" x=\"115\" y=\"166\">looks down - small, weak</text></g><g><text class=\"b\" x=\"345\" y=\"16\">Low angle</text><circle class=\"s\" cx=\"300\" cy=\"42\" r=\"7\"/><rect class=\"s\" x=\"294\" y=\"50\" width=\"12\" height=\"24\"/><line class=\"l\" x1=\"392\" y1=\"120\" x2=\"312\" y2=\"66\"/><rect class=\"c\" x=\"392\" y=\"110\" width=\"34\" height=\"22\" rx=\"3\"/><text class=\"t\" x=\"409\" y=\"126\">cam</text><text class=\"t\" x=\"345\" y=\"166\">looks up - big, powerful</text></g></svg>",
+    "diagramCaption": "Same subject, opposite feeling, just from moving the camera up or down."
+   },
+   {
+    "unit": "Camera Basics",
+    "heading": "Camera movement",
+    "body": "Movement should have a reason. A wobbly pan across nothing costs you marks; a slow tilt revealing something costs you nothing and looks deliberate.",
+    "table": {
+     "head": [
+      "Movement",
+      "What happens",
+      "What it does"
+     ],
+     "rows": [
+      [
+       "Pan",
+       "Camera swivels left or right on the spot",
+       "Follows action, or reveals across a space"
+      ],
+      [
+       "Tilt",
+       "Camera swivels up or down on the spot",
+       "Reveals height, or looks a subject up and down"
+      ],
+      [
+       "Tracking / dolly",
+       "The whole camera moves through the space",
+       "Travels with the subject, feels smooth"
+      ],
+      [
+       "Zoom",
+       "Only the lens changes, camera stays put",
+       "Snaps attention, can feel cheap if overused"
+      ],
+      [
+       "Handheld",
+       "Camera carried, deliberately unsteady",
+       "Urgency, panic, realism"
+      ],
+      [
+       "Crane / high shot",
+       "Camera lifts above the scene",
+       "Endings, scale, showing the whole world"
+      ]
+     ]
+    }
+   },
+   {
+    "unit": "Framing & Light",
+    "heading": "Rule of thirds",
+    "body": "Split the frame into three across and three down. Put whatever matters on one of the lines, or on a point where two lines cross.\n\nDead centre is not wrong, but it is usually boring. Most phone cameras will draw this grid for you — turn it on before you shoot.",
+    "diagram": "<svg viewBox=\"0 0 320 200\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\"><title>Rule of thirds grid with the subject on a line intersection</title><style>.f{fill:#f7f8fd;stroke:#6c63ff;stroke-width:2}.g{stroke:#b9b6f0;stroke-width:1.5;stroke-dasharray:5 4}.d{fill:#6c63ff}.t{font:11px sans-serif;fill:#3b3a6b}</style><rect class=\"f\" x=\"10\" y=\"10\" width=\"300\" height=\"180\"/><line class=\"g\" x1=\"110\" y1=\"10\" x2=\"110\" y2=\"190\"/><line class=\"g\" x1=\"210\" y1=\"10\" x2=\"210\" y2=\"190\"/><line class=\"g\" x1=\"10\" y1=\"70\" x2=\"310\" y2=\"70\"/><line class=\"g\" x1=\"10\" y1=\"130\" x2=\"310\" y2=\"130\"/><circle class=\"d\" cx=\"210\" cy=\"70\" r=\"9\"/><text class=\"t\" x=\"222\" y=\"66\">subject sits here</text><text class=\"t\" x=\"222\" y=\"82\">not dead centre</text></svg>",
+    "diagramCaption": "Put your object on a crossing point rather than the middle."
+   },
+   {
+    "unit": "Framing & Light",
+    "heading": "Headroom, lead room and looking room",
+    "body": "**Headroom** is the gap above the subject's head. Too much and they sink out of frame; too little and it feels cramped and accidental.\n\n**Lead room** (also called looking room) is space in front of a subject that is moving or looking somewhere. Without it, the subject feels like it is about to hit the edge of the screen.\n\nBoth are easy marks. Both are easy to lose if you never look at the edges of your frame."
+   },
+   {
+    "unit": "Framing & Light",
+    "heading": "Depth of field",
+    "body": "**Depth of field** is how much of the shot is in focus from front to back.\n\n**Shallow** depth of field keeps your subject sharp and blurs everything behind it. It makes an ordinary object look important, and it hides a messy classroom background.\n\n**Deep** depth of field keeps everything sharp — useful when the setting matters as much as the subject.\n\nOn a phone, portrait mode fakes shallow depth of field. Getting physically closer to your object does it for real."
+   },
+   {
+    "unit": "Framing & Light",
+    "heading": "Three-point lighting",
+    "body": "The standard setup, and the one you will be asked to label.\n\n**Key light** is the main light and the brightest. It sets the mood and makes the shadows.\n\n**Fill light** is softer and sits on the opposite side. It lifts the shadows so they are not pitch black.\n\n**Back light** sits behind the subject and rims the edges, lifting it away from the background.\n\nYou do not need studio lights. A window as key, a sheet of white paper bouncing light back as fill, and a desk lamp behind is the same setup.",
+    "diagram": "<svg viewBox=\"0 0 400 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\"><title>Three point lighting: key light, fill light and back light around the subject</title><style>.s{fill:#3b3a6b}.k{fill:#ffd97a;stroke:#c99a1e;stroke-width:1.5}.c{fill:#eef0fe;stroke:#6c63ff;stroke-width:2}.r{stroke:#c99a1e;stroke-width:1.5;stroke-dasharray:4 3}.t{font:11px sans-serif;fill:#3b3a6b;text-anchor:middle}</style><circle class=\"s\" cx=\"200\" cy=\"110\" r=\"16\"/><text class=\"t\" x=\"200\" y=\"146\">subject</text><circle class=\"k\" cx=\"90\" cy=\"60\" r=\"16\"/><text class=\"t\" x=\"90\" y=\"38\">Key</text><text class=\"t\" x=\"90\" y=\"92\">brightest</text><line class=\"r\" x1=\"105\" y1=\"72\" x2=\"184\" y2=\"100\"/><circle class=\"k\" cx=\"310\" cy=\"60\" r=\"13\"/><text class=\"t\" x=\"310\" y=\"38\">Fill</text><text class=\"t\" x=\"310\" y=\"90\">softens shadow</text><line class=\"r\" x1=\"297\" y1=\"70\" x2=\"216\" y2=\"100\"/><circle class=\"k\" cx=\"200\" cy=\"196\" r=\"13\"/><text class=\"t\" x=\"200\" y=\"216\">Back light</text><line class=\"r\" x1=\"200\" y1=\"183\" x2=\"200\" y2=\"128\"/><rect class=\"c\" x=\"176\" y=\"16\" width=\"48\" height=\"24\" rx=\"4\"/><text class=\"t\" x=\"200\" y=\"32\">camera</text></svg>",
+    "diagramCaption": "Key, fill and back — the three-point setup you should be able to label."
+   },
+   {
+    "unit": "Framing & Light",
+    "heading": "High key and low key",
+    "body": "**High key** lighting is bright and even with soft shadows. It feels safe, cheerful, ordinary. Think comedy and ads.\n\n**Low key** lighting is dark, high contrast, lots of shadow. It feels tense, lonely or threatening. Think horror and thriller.\n\nFor a day in the life of an object, this is your fastest mood switch. The same teddy bear on the same shelf reads completely differently lit from a window versus lit by a torch."
+   },
+   {
+    "unit": "Telling It Without Words",
+    "heading": "Mise-en-scène",
+    "body": "**Mise-en-scène** is a French term meaning roughly *putting in the scene*. It covers everything you arrange in front of the camera before you press record.\n\nThat includes the setting, the props, the lighting, the colours, and where things are placed.\n\nFor this task it matters more than usual, because your main character cannot act. Everything the audience learns about your object comes from what you put around it. A pencil in a neat pencil case is a different character from the same pencil under a bed with the dust."
+   },
+   {
+    "unit": "Telling It Without Words",
+    "heading": "Making an object feel alive",
+    "body": "**Anthropomorphism** means giving human qualities to something that is not human. It is the whole trick of this assignment.\n\nYou cannot make the object move on its own, so you make the audience *read* feelings into it:\n\n**Hold the shot.** A close-up that stays a beat too long makes an object seem to be thinking.\n\n**Give it an eyeline.** Shoot as if it is looking at something, then cut to what it sees. The audience joins the two together automatically.\n\n**Use sound.** A small sad note when the object is left behind does more than any camera move.\n\n**Move the world, not the object.** Everything rushing past a still object makes it feel lonely."
+   },
+   {
+    "unit": "Telling It Without Words",
+    "heading": "Point of view and eyelines",
+    "body": "A **point of view shot (POV)** shows what the character sees, as if the camera is their eyes.\n\nWith an object, a POV shot means putting the camera exactly where the object is — usually much lower than feels natural. Get on the floor.\n\nThe pattern that works: **close-up of the object → POV of what it sees → back to the object.** Your audience will believe the object is looking, even though it has no eyes. This is one of the oldest tricks in film and it still works every time."
+   },
+   {
+    "unit": "Telling It Without Words",
+    "heading": "Structure in sixty seconds",
+    "body": "Even a very short film needs a shape. The simplest one that marks well:\n\n**Beginning** — establish the object and its ordinary world. Wide shot, then a close-up so we bond with it.\n\n**Middle** — something changes. It is dropped, lost, replaced, used up. This is the bit students skip, and it is where the marks are.\n\n**End** — resolve it. Found again, thrown out, or left waiting. An ending that is a bit sad usually scores better than a neat happy one, because it shows intent.\n\nIf you cannot say your story in one sentence, your audience will not get it either."
+   },
+   {
+    "unit": "Editing & Sound",
+    "heading": "The cut and continuity",
+    "body": "A **cut** is a straight join from one shot to the next. It is the normal, invisible edit and most of your film should be cuts.\n\n**Continuity editing** means keeping time and space consistent so the audience never has to work out what happened. If your object is on the left of the desk, it stays on the left after the cut.\n\nThe classic mistake is the **continuity error** — the drink is full, you cut, and now it is half empty. Shoot the same action twice from two sizes and it becomes easy to cut cleanly."
+   },
+   {
+    "unit": "Editing & Sound",
+    "heading": "Cuts worth knowing by name",
+    "body": "**Jump cut** — cutting out a chunk of time in the same shot, so the subject appears to jump. Deliberately jarring; brilliant for showing an object waiting all day.\n\n**Cutaway** — a shot of something else, used to cover a join or add detail. A clock, a window, a hand.\n\n**Match cut** — cutting between two shots that look alike, like a round clock to a round plate. Looks very deliberate and scores well.\n\n**Montage** — a run of short shots showing time passing. Perfect for a whole day in a few seconds."
+   },
+   {
+    "unit": "Editing & Sound",
+    "heading": "Transitions, and when not to use them",
+    "body": "A **transition** is anything other than a straight cut.\n\n**Fade to black** signals a big gap in time or the end. **Dissolve** blends one shot into the next and suggests a smaller passage of time or a dream.\n\nEditing software gives you spins, star wipes and page curls. Do not use them. Nothing makes a school video look more amateur, and markers notice. A film made entirely of cuts with one well-chosen fade at the end always looks more professional."
+   },
+   {
+    "unit": "Editing & Sound",
+    "heading": "Sound: diegetic and non-diegetic",
+    "body": "**Diegetic sound** comes from inside the world of the film — the object being dropped, a door, a voice in the room. The characters could hear it.\n\n**Non-diegetic sound** is added for the audience only — background music, a narrator. The characters cannot hear it.\n\n**Foley** is everyday sound recorded separately and laid in afterwards, because real recordings are usually too quiet or too noisy. Crunching a packet next to the microphone often sounds more like footsteps than actual footsteps do.\n\n**Ambient sound** is the background hum of a place. Record thirty seconds of your room doing nothing — it makes your edit feel continuous instead of chopped up."
+   },
+   {
+    "unit": "Your Video Task",
+    "heading": "Planning: storyboard and shot list",
+    "body": "You will almost certainly be marked on your planning as well as the finished video, so do not skip it.",
+    "steps": [
+     {
+      "do": "Write your story in one sentence",
+      "why": "If it does not fit in a sentence it is too complicated for sixty seconds."
+     },
+     {
+      "do": "Storyboard it",
+      "why": "A rough drawing per shot. Neatness does not matter; showing the shot size and angle does."
+     },
+     {
+      "do": "Turn it into a shot list",
+      "why": "Every shot with its size, angle and any movement, so you can tick them off on the day."
+     },
+     {
+      "art": "SHOT  SIZE  ANGLE   MOVE\n 1    ELS   eye     none\n 2    CU    low     none\n 3    POV   low     pan L",
+      "why": "This is all a shot list needs to look like."
+     },
+     {
+      "do": "Shoot more than you need",
+      "why": "Extra cutaways cost seconds to film and save you in the edit."
+     }
+    ]
+   },
+   {
+    "unit": "Your Video Task",
+    "heading": "On the shooting day",
+    "body": "Almost every lost mark on a school video comes from one of these, not from a lack of ideas.",
+    "steps": [
+     {
+      "do": "Check your framing before every take",
+      "why": "Headroom, lead room, and nothing distracting behind the object."
+     },
+     {
+      "do": "Hold each shot for at least five seconds",
+      "why": "Short clips are impossible to cut with. You can always trim later."
+     },
+     {
+      "do": "Shoot each action twice, wide and close",
+      "why": "It gives you a choice in the edit and makes continuity easy."
+     },
+     {
+      "do": "Get the camera down to the object's level",
+      "why": "Shooting down at it from standing is the most common mistake in this task."
+     },
+     {
+      "do": "Record thirty seconds of room tone",
+      "why": "Ambient sound under your edit hides the joins between clips."
+     }
+    ]
+   },
+   {
+    "unit": "Your Video Task",
+    "heading": "What markers actually look for",
+    "body": "Read your own task sheet, but these come up nearly every time.\n\n**Variety of shot sizes** — if it is all mid shots you cap your own mark.\n\n**Deliberate angles** — at least one high and one low, used for a reason you can explain.\n\n**A clear story** — beginning, something changes, an ending.\n\n**Clean editing** — cuts that do not jolt, no star wipes, consistent sound levels.\n\n**Reflection** — you will likely be asked to explain your choices in writing. Answer with the technical word plus the reason: *I used a low angle so the vacuum felt threatening*, not *it looked cool*."
+   }
+  ],
+  "terms": [
+   {
+    "term": "Shot size",
+    "unit": "Camera Basics",
+    "definition": "How much of the subject fills the frame, from extreme long shot to extreme close-up."
+   },
+   {
+    "term": "Extreme long shot (ELS)",
+    "unit": "Camera Basics",
+    "definition": "A very wide shot showing the whole location, with the subject small in the frame."
+   },
+   {
+    "term": "Long shot (LS)",
+    "unit": "Camera Basics",
+    "definition": "Shows the subject in full, head to toe, with space around it."
+   },
+   {
+    "term": "Mid shot (MS)",
+    "unit": "Camera Basics",
+    "definition": "Shows the subject from roughly the waist up. The neutral, everyday shot."
+   },
+   {
+    "term": "Close-up (CU)",
+    "unit": "Camera Basics",
+    "definition": "The subject fills the frame. Used for emotion or to show something matters."
+   },
+   {
+    "term": "Extreme close-up (ECU)",
+    "unit": "Camera Basics",
+    "definition": "One small detail fills the frame, like an eye or a scratch."
+   },
+   {
+    "term": "Establishing shot",
+    "unit": "Camera Basics",
+    "definition": "A wide shot at the start of a scene that shows the audience where they are."
+   },
+   {
+    "term": "High angle",
+    "unit": "Camera Basics",
+    "definition": "Camera looks down on the subject, making it seem small, weak or vulnerable."
+   },
+   {
+    "term": "Low angle",
+    "unit": "Camera Basics",
+    "definition": "Camera looks up at the subject, making it seem large, powerful or threatening."
+   },
+   {
+    "term": "Eye level",
+    "unit": "Camera Basics",
+    "definition": "Camera at the subject's own height. Feels neutral and equal."
+   },
+   {
+    "term": "Dutch angle",
+    "unit": "Camera Basics",
+    "definition": "Camera tilted sideways so the horizon slants, making a scene feel wrong or unsettled."
+   },
+   {
+    "term": "Pan",
+    "unit": "Camera Basics",
+    "definition": "The camera swivels left or right while staying in one place."
+   },
+   {
+    "term": "Tilt",
+    "unit": "Camera Basics",
+    "definition": "The camera swivels up or down while staying in one place."
+   },
+   {
+    "term": "Tracking shot",
+    "unit": "Camera Basics",
+    "definition": "The whole camera moves through the space, often alongside the subject."
+   },
+   {
+    "term": "Zoom",
+    "unit": "Camera Basics",
+    "definition": "The lens magnifies the image while the camera itself stays still."
+   },
+   {
+    "term": "Rule of thirds",
+    "unit": "Framing & Light",
+    "definition": "Splitting the frame into thirds and placing the subject on a line or intersection."
+   },
+   {
+    "term": "Headroom",
+    "unit": "Framing & Light",
+    "definition": "The space between the top of the subject and the top of the frame."
+   },
+   {
+    "term": "Lead room",
+    "unit": "Framing & Light",
+    "definition": "Space left in front of a subject that is moving or looking, so it has somewhere to go."
+   },
+   {
+    "term": "Depth of field",
+    "unit": "Framing & Light",
+    "definition": "How much of the image is in focus from front to back."
+   },
+   {
+    "term": "Shallow depth of field",
+    "unit": "Framing & Light",
+    "definition": "Only the subject is sharp and the background is blurred."
+   },
+   {
+    "term": "Key light",
+    "unit": "Framing & Light",
+    "definition": "The main and brightest light in a setup. It creates the main shadows."
+   },
+   {
+    "term": "Fill light",
+    "unit": "Framing & Light",
+    "definition": "A softer light opposite the key that lifts shadows so they are not solid black."
+   },
+   {
+    "term": "Back light",
+    "unit": "Framing & Light",
+    "definition": "A light behind the subject that rims its edges and separates it from the background."
+   },
+   {
+    "term": "Low key lighting",
+    "unit": "Framing & Light",
+    "definition": "Dark, high contrast lighting with heavy shadows. Feels tense or threatening."
+   },
+   {
+    "term": "High key lighting",
+    "unit": "Framing & Light",
+    "definition": "Bright, even lighting with soft shadows. Feels cheerful and safe."
+   },
+   {
+    "term": "Mise-en-scène",
+    "unit": "Telling It Without Words",
+    "definition": "Everything arranged in front of the camera: setting, props, lighting, colour and placement."
+   },
+   {
+    "term": "Anthropomorphism",
+    "unit": "Telling It Without Words",
+    "definition": "Giving human feelings or qualities to something that is not human."
+   },
+   {
+    "term": "Point of view shot (POV)",
+    "unit": "Telling It Without Words",
+    "definition": "A shot taken from where a character is, showing what they would see."
+   },
+   {
+    "term": "Eyeline",
+    "unit": "Telling It Without Words",
+    "definition": "The direction a subject appears to be looking, which tells the audience what to look at next."
+   },
+   {
+    "term": "Cut",
+    "unit": "Editing & Sound",
+    "definition": "A straight join between two shots. The normal, invisible edit."
+   },
+   {
+    "term": "Continuity editing",
+    "unit": "Editing & Sound",
+    "definition": "Editing that keeps time and space consistent so the audience never gets lost."
+   },
+   {
+    "term": "Jump cut",
+    "unit": "Editing & Sound",
+    "definition": "Removing a section of time within the same shot so the subject appears to jump."
+   },
+   {
+    "term": "Cutaway",
+    "unit": "Editing & Sound",
+    "definition": "A shot of something other than the main action, used to add detail or hide a join."
+   },
+   {
+    "term": "Match cut",
+    "unit": "Editing & Sound",
+    "definition": "A cut between two shots that look similar in shape or movement."
+   },
+   {
+    "term": "Montage",
+    "unit": "Editing & Sound",
+    "definition": "A sequence of short shots showing time passing or an idea building."
+   },
+   {
+    "term": "Dissolve",
+    "unit": "Editing & Sound",
+    "definition": "One shot fades into the next, usually suggesting time passing."
+   },
+   {
+    "term": "Diegetic sound",
+    "unit": "Editing & Sound",
+    "definition": "Sound that comes from within the world of the film, which the characters could hear."
+   },
+   {
+    "term": "Non-diegetic sound",
+    "unit": "Editing & Sound",
+    "definition": "Sound added for the audience only, such as background music or narration."
+   },
+   {
+    "term": "Foley",
+    "unit": "Editing & Sound",
+    "definition": "Everyday sound effects recorded separately and added to the film afterwards."
+   },
+   {
+    "term": "Ambient sound",
+    "unit": "Editing & Sound",
+    "definition": "The background sound of a location, recorded to make an edit feel continuous."
+   },
+   {
+    "term": "Storyboard",
+    "unit": "Your Video Task",
+    "definition": "A drawn plan showing each shot before filming, including size and angle."
+   },
+   {
+    "term": "Shot list",
+    "unit": "Your Video Task",
+    "definition": "A written list of every shot to film, with its size, angle and movement."
+   }
+  ],
+  "cards": [
+   {
+    "front": "What does ELS stand for?",
+    "back": "Extreme long shot — the whole location, subject small in the frame."
+   },
+   {
+    "front": "What does a close-up do for the audience?",
+    "back": "Fills the frame with the subject so we focus on emotion or on something important."
+   },
+   {
+    "front": "What does an extreme close-up show?",
+    "back": "One small detail — a scratch, a button, an eye."
+   },
+   {
+    "front": "What is an establishing shot for?",
+    "back": "Showing the audience where the scene is happening, usually at the start."
+   },
+   {
+    "front": "High angle: what feeling does it create?",
+    "back": "The subject looks small, weak or vulnerable, because we look down on it."
+   },
+   {
+    "front": "Low angle: what feeling does it create?",
+    "back": "The subject looks large, powerful or threatening, because we look up at it."
+   },
+   {
+    "front": "What is a Dutch angle?",
+    "back": "The camera tilted sideways so the horizon slants. Makes a scene feel wrong or unsettled."
+   },
+   {
+    "front": "Difference between a pan and a tilt?",
+    "back": "Pan swivels left or right; tilt swivels up or down. Both stay in one place."
+   },
+   {
+    "front": "Difference between tracking and zooming?",
+    "back": "Tracking physically moves the camera through space. Zoom only changes the lens."
+   },
+   {
+    "front": "What is the rule of thirds?",
+    "back": "Split the frame in thirds both ways and place the subject on a line or crossing point."
+   },
+   {
+    "front": "What is headroom?",
+    "back": "The space between the top of the subject and the top of the frame."
+   },
+   {
+    "front": "What is lead room?",
+    "back": "Space left in front of a moving or looking subject so it has somewhere to go."
+   },
+   {
+    "front": "What is depth of field?",
+    "back": "How much of the shot is in focus from front to back."
+   },
+   {
+    "front": "When would you use shallow depth of field?",
+    "back": "To keep the subject sharp and blur a messy or distracting background."
+   },
+   {
+    "front": "Name the three lights in three-point lighting.",
+    "back": "Key light, fill light and back light."
+   },
+   {
+    "front": "What does the key light do?",
+    "back": "It is the main and brightest light, and it creates the main shadows."
+   },
+   {
+    "front": "What does the fill light do?",
+    "back": "Sits opposite the key and softens the shadows so they are not solid black."
+   },
+   {
+    "front": "What does the back light do?",
+    "back": "Sits behind the subject and rims its edges, separating it from the background."
+   },
+   {
+    "front": "Low key lighting — look and feeling?",
+    "back": "Dark with heavy shadows and high contrast. Tense, lonely or threatening."
+   },
+   {
+    "front": "High key lighting — look and feeling?",
+    "back": "Bright and even with soft shadows. Cheerful, safe, ordinary."
+   },
+   {
+    "front": "What is mise-en-scène?",
+    "back": "Everything arranged in front of the camera: setting, props, lighting, colour and placement."
+   },
+   {
+    "front": "What is anthropomorphism?",
+    "back": "Giving human feelings or qualities to something that is not human."
+   },
+   {
+    "front": "What is a POV shot?",
+    "back": "A shot from where a character is, showing what they would see."
+   },
+   {
+    "front": "How do you make an object seem to be looking at something?",
+    "back": "Close-up of the object, cut to what it 'sees', then cut back. The audience joins them up."
+   },
+   {
+    "front": "What is continuity editing?",
+    "back": "Editing that keeps time and space consistent so the audience never gets lost."
+   },
+   {
+    "front": "What is a jump cut?",
+    "back": "Cutting out time within the same shot so the subject appears to jump. Deliberately jarring."
+   },
+   {
+    "front": "What is a cutaway?",
+    "back": "A shot of something other than the main action, used for detail or to hide a join."
+   },
+   {
+    "front": "What is a match cut?",
+    "back": "A cut between two shots that look alike in shape or movement."
+   },
+   {
+    "front": "What is a montage?",
+    "back": "A run of short shots showing time passing or an idea building."
+   },
+   {
+    "front": "Diegetic or non-diegetic: background music?",
+    "back": "Non-diegetic — it is for the audience only, the characters cannot hear it."
+   },
+   {
+    "front": "Diegetic or non-diegetic: a door slamming on screen?",
+    "back": "Diegetic — it happens inside the world of the film."
+   },
+   {
+    "front": "What is foley?",
+    "back": "Everyday sound effects recorded separately and added to the film afterwards."
+   },
+   {
+    "front": "Why record ambient sound or room tone?",
+    "back": "Laid under the edit, it hides the joins and makes the film feel continuous."
+   },
+   {
+    "front": "What goes on a shot list?",
+    "back": "Every shot to film, with its size, angle and any camera movement."
+   },
+   {
+    "front": "Why hold each shot for at least five seconds?",
+    "back": "Short clips are almost impossible to cut with. You can always trim later."
+   }
+  ],
+  "quick": [
+   {
+    "q": "Which shot shows the whole location with the subject small in frame?",
+    "options": [
+     "Mid shot",
+     "Extreme long shot",
+     "Close-up",
+     "Extreme close-up"
+    ],
+    "answer": 1,
+    "why": "An extreme long shot establishes where we are."
+   },
+   {
+    "q": "A shot that fills the frame with a single small detail is a...",
+    "options": [
+     "Long shot",
+     "Extreme close-up",
+     "Mid shot",
+     "Establishing shot"
+    ],
+    "answer": 1,
+    "why": "ECU picks out one detail, like a scratch or a button."
+   },
+   {
+    "q": "You want the vacuum cleaner to feel threatening. Which angle?",
+    "options": [
+     "High angle",
+     "Eye level",
+     "Low angle",
+     "Bird's eye"
+    ],
+    "answer": 2,
+    "why": "Looking up at something makes it feel bigger and more powerful."
+   },
+   {
+    "q": "A high angle makes a subject feel...",
+    "options": [
+     "Powerful",
+     "Neutral",
+     "Confused",
+     "Small and vulnerable"
+    ],
+    "answer": 3,
+    "why": "Looking down on something shrinks it in the audience's mind."
+   },
+   {
+    "q": "The camera swivels left to right but does not move. This is a...",
+    "options": [
+     "Tilt",
+     "Track",
+     "Pan",
+     "Dolly"
+    ],
+    "answer": 2,
+    "why": "A pan swivels horizontally from a fixed position."
+   },
+   {
+    "q": "Which movement physically moves the camera through the space?",
+    "options": [
+     "Zoom",
+     "Pan",
+     "Tracking shot",
+     "Tilt"
+    ],
+    "answer": 2,
+    "why": "Tracking moves the whole camera; zoom only changes the lens."
+   },
+   {
+    "q": "The rule of thirds tells you to...",
+    "options": [
+     "Film everything three times",
+     "Use three lights",
+     "Keep shots under three seconds",
+     "Place the subject on a third line or crossing point"
+    ],
+    "answer": 3,
+    "why": "Split the frame in thirds and put what matters on a line or intersection."
+   },
+   {
+    "q": "The gap between the subject's head and the top of the frame is called...",
+    "options": [
+     "Lead room",
+     "Depth of field",
+     "Framing",
+     "Headroom"
+    ],
+    "answer": 3,
+    "why": "Headroom. Too much and the subject sinks, too little and it feels cramped."
+   },
+   {
+    "q": "Space left in front of a moving subject is called...",
+    "options": [
+     "Headroom",
+     "Deep focus",
+     "Cutaway",
+     "Lead room"
+    ],
+    "answer": 3,
+    "why": "Lead room gives a moving subject somewhere to go."
+   },
+   {
+    "q": "Your background is a messy classroom. Best fix?",
+    "options": [
+     "Deep depth of field",
+     "A Dutch angle",
+     "Shallow depth of field",
+     "A jump cut"
+    ],
+    "answer": 2,
+    "why": "Shallow depth of field blurs the background and isolates your object."
+   },
+   {
+    "q": "Which light is the brightest and creates the main shadows?",
+    "options": [
+     "Fill light",
+     "Key light",
+     "Back light",
+     "Ambient light"
+    ],
+    "answer": 1,
+    "why": "The key light is the main light of the setup."
+   },
+   {
+    "q": "The light that softens shadows from the opposite side is the...",
+    "options": [
+     "Key light",
+     "Back light",
+     "Practical light",
+     "Fill light"
+    ],
+    "answer": 3,
+    "why": "Fill lifts the shadows so they are not solid black."
+   },
+   {
+    "q": "Which light separates the subject from the background?",
+    "options": [
+     "Key light",
+     "Back light",
+     "Fill light",
+     "High key"
+    ],
+    "answer": 1,
+    "why": "The back light rims the subject's edges."
+   },
+   {
+    "q": "Dark, high contrast, heavy shadows. This lighting is...",
+    "options": [
+     "Low key",
+     "High key",
+     "Three-point",
+     "Natural"
+    ],
+    "answer": 0,
+    "why": "Low key is the moody, shadowy look used in horror and thriller."
+   },
+   {
+    "q": "Mise-en-scène refers to...",
+    "options": [
+     "The editing order",
+     "Everything arranged in front of the camera",
+     "The music choice",
+     "The camera movement"
+    ],
+    "answer": 1,
+    "why": "Setting, props, lighting, colour and placement — everything in the frame."
+   },
+   {
+    "q": "Giving human feelings to a non-human thing is called...",
+    "options": [
+     "Continuity",
+     "Montage",
+     "Anthropomorphism",
+     "Foley"
+    ],
+    "answer": 2,
+    "why": "It is the central technique for a day in the life of an object."
+   },
+   {
+    "q": "A shot showing what a character sees is a...",
+    "options": [
+     "Cutaway",
+     "Establishing shot",
+     "POV shot",
+     "Match cut"
+    ],
+    "answer": 2,
+    "why": "Point of view puts the camera where the character is."
+   },
+   {
+    "q": "You film a close-up of a teddy, then what is across the room, then the teddy again. The audience thinks...",
+    "options": [
+     "Time has passed",
+     "The scene has ended",
+     "The teddy is looking at it",
+     "There is a continuity error"
+    ],
+    "answer": 2,
+    "why": "Eyeline matching — the audience joins the two shots together automatically."
+   },
+   {
+    "q": "Editing that keeps time and space consistent is called...",
+    "options": [
+     "Continuity editing",
+     "Montage",
+     "Jump cutting",
+     "Cross cutting"
+    ],
+    "answer": 0,
+    "why": "It keeps the audience oriented so they never have to work out what happened."
+   },
+   {
+    "q": "Removing time within the same shot so the subject seems to jump is a...",
+    "options": [
+     "Jump cut",
+     "Dissolve",
+     "Cutaway",
+     "Match cut"
+    ],
+    "answer": 0,
+    "why": "Deliberately jarring, and great for showing an object waiting all day."
+   },
+   {
+    "q": "A shot of a clock inserted to cover a join is a...",
+    "options": [
+     "Match cut",
+     "Montage",
+     "POV",
+     "Cutaway"
+    ],
+    "answer": 3,
+    "why": "Cutaways add detail and hide edits."
+   },
+   {
+    "q": "Cutting from a round clock to a round plate is a...",
+    "options": [
+     "Match cut",
+     "Jump cut",
+     "Dissolve",
+     "Fade"
+    ],
+    "answer": 0,
+    "why": "A match cut joins two shots that look alike."
+   },
+   {
+    "q": "Background music the characters cannot hear is...",
+    "options": [
+     "Non-diegetic",
+     "Diegetic",
+     "Ambient",
+     "Foley"
+    ],
+    "answer": 0,
+    "why": "Non-diegetic sound is added for the audience only."
+   },
+   {
+    "q": "A door slamming on screen is...",
+    "options": [
+     "Non-diegetic sound",
+     "Diegetic sound",
+     "Foley only",
+     "Room tone"
+    ],
+    "answer": 1,
+    "why": "It happens inside the world of the film, so the characters could hear it."
+   },
+   {
+    "q": "Everyday sounds recorded separately and added later are called...",
+    "options": [
+     "Ambient",
+     "Score",
+     "Dialogue",
+     "Foley"
+    ],
+    "answer": 3,
+    "why": "Foley artists record sounds because real recordings are often too quiet."
+   },
+   {
+    "q": "Why record thirty seconds of room tone?",
+    "options": [
+     "To lay under the edit and hide the joins",
+     "To test the camera",
+     "To fill time in the edit",
+     "It is required by law"
+    ],
+    "answer": 0,
+    "why": "Continuous ambient sound stops an edit sounding chopped up."
+   },
+   {
+    "q": "Which is the best reason to use a fade to black?",
+    "options": [
+     "It looks fancy",
+     "To signal the end or a big gap in time",
+     "To fix bad footage",
+     "To speed the film up"
+    ],
+    "answer": 1,
+    "why": "Fades mark endings or large jumps in time."
+   },
+   {
+    "q": "Your video is entirely mid shots. The main problem is...",
+    "options": [
+     "No variety of shot size",
+     "Bad lighting",
+     "Wrong aspect ratio",
+     "Too much sound"
+    ],
+    "answer": 0,
+    "why": "Variety of shot size is one of the first things markers look for."
+   }
+  ],
+  "practice": [
+   {
+    "topic": "Camera Basics",
+    "q": "What does the abbreviation ECU stand for?",
+    "answer": "Extreme close-up",
+    "accept": [
+     "extreme close up",
+     "extreme closeup"
+    ],
+    "why": "ECU fills the frame with one small detail."
+   },
+   {
+    "topic": "Camera Basics",
+    "q": "Name the angle that looks down on a subject and makes it seem weak.",
+    "answer": "High angle",
+    "accept": [
+     "high"
+    ],
+    "why": "Looking down shrinks the subject in the audience's mind."
+   },
+   {
+    "topic": "Camera Basics",
+    "q": "Name the camera movement where the camera swivels up or down on the spot.",
+    "answer": "Tilt",
+    "accept": [
+     "tilting"
+    ],
+    "why": "Pan is left and right, tilt is up and down."
+   },
+   {
+    "topic": "Camera Basics",
+    "q": "Which shot would you use at the very start to show where the story happens?",
+    "answer": "Establishing shot",
+    "accept": [
+     "extreme long shot",
+     "els",
+     "wide shot",
+     "long shot"
+    ],
+    "why": "An establishing shot, usually very wide, orients the audience."
+   },
+   {
+    "topic": "Framing & Light",
+    "q": "What is the name for the space above a subject's head in the frame?",
+    "answer": "Headroom",
+    "accept": [
+     "head room"
+    ],
+    "why": "Too much and they sink, too little and it feels cramped."
+   },
+   {
+    "topic": "Framing & Light",
+    "q": "Name the technique of placing your subject on a line one third across the frame.",
+    "answer": "Rule of thirds",
+    "accept": [
+     "thirds",
+     "rule of 3rds"
+    ],
+    "why": "Splitting the frame in thirds and using the lines or crossing points."
+   },
+   {
+    "topic": "Framing & Light",
+    "q": "Which of the three lights is the brightest and makes the main shadows?",
+    "answer": "Key light",
+    "accept": [
+     "key"
+    ],
+    "why": "The key is the main light of the three-point setup."
+   },
+   {
+    "topic": "Framing & Light",
+    "q": "What lighting style is dark with heavy shadows and high contrast?",
+    "answer": "Low key",
+    "accept": [
+     "low key lighting",
+     "lowkey"
+    ],
+    "why": "Low key suits tense or lonely moods."
+   },
+   {
+    "topic": "Telling It Without Words",
+    "q": "What is the French term for everything arranged in front of the camera?",
+    "answer": "Mise-en-scène",
+    "accept": [
+     "mise en scene",
+     "mise-en-scene",
+     "miseenscene"
+    ],
+    "why": "It covers setting, props, lighting, colour and placement."
+   },
+   {
+    "topic": "Telling It Without Words",
+    "q": "What word describes giving human feelings to a non-human object?",
+    "answer": "Anthropomorphism",
+    "accept": [
+     "anthropomorphic",
+     "anthropomorphise",
+     "anthropomorphism "
+    ],
+    "why": "It is the core technique of this assignment."
+   },
+   {
+    "topic": "Telling It Without Words",
+    "q": "What is the three-shot pattern that makes an object appear to look at something?",
+    "answer": "Close-up of the object, then what it sees, then back to the object",
+    "accept": [
+     "object, what it sees, object",
+     "eyeline match",
+     "eyeline matching"
+    ],
+    "why": "The audience joins the shots together on its own."
+   },
+   {
+    "topic": "Editing & Sound",
+    "q": "What is the name for editing that keeps time and space feeling unbroken?",
+    "answer": "Continuity editing",
+    "accept": [
+     "continuity"
+    ],
+    "why": "It stops the audience having to work out what happened."
+   },
+   {
+    "topic": "Editing & Sound",
+    "q": "Sound that exists inside the world of the film is called what?",
+    "answer": "Diegetic sound",
+    "accept": [
+     "diegetic"
+    ],
+    "why": "The characters could hear it."
+   },
+   {
+    "topic": "Editing & Sound",
+    "q": "What is the term for everyday sound effects recorded separately and added later?",
+    "answer": "Foley",
+    "accept": [
+     "foley sound",
+     "foley effects"
+    ],
+    "why": "Real on-set recordings are usually too quiet or too noisy."
+   },
+   {
+    "topic": "Your Video Task",
+    "q": "What is the drawn, shot-by-shot plan made before filming called?",
+    "answer": "Storyboard",
+    "accept": [
+     "story board"
+    ],
+    "why": "It shows the shot size and angle for each shot."
+   },
+   {
+    "topic": "Your Video Task",
+    "q": "Name one thing a shot list must record for every shot.",
+    "answer": "The shot size (also accept the angle, or any camera movement)",
+    "accept": [
+     "shot size",
+     "size",
+     "angle",
+     "camera movement",
+     "movement"
+    ],
+    "why": "A shot list is size, angle and movement for each planned shot."
+   }
+  ],
+  "quiz": [
+   {
+    "q": "Explain what is meant by 'shot size' and describe two different shot sizes you would use in a video about an inanimate object. Give a reason for each.",
+    "a": "Shot size is how much of the subject fills the frame. An extreme long shot would establish the room the object lives in, so the audience knows where the story happens and how small the object is in that world. A close-up would then fill the frame with the object itself, so the audience focuses on it and starts to read feeling into it. Moving between the two creates variety and controls what the audience cares about.",
+    "hint": "Name the shot, say what it shows, then say what it does for the audience."
+   },
+   {
+    "q": "Compare a high angle and a low angle. Explain the effect each has on the audience.",
+    "a": "A high angle looks down on the subject and makes it appear small, weak or vulnerable. A low angle looks up and makes the subject appear large, powerful or threatening. The subject itself has not changed — only the camera height — which shows how camera position alone can control how an audience feels about something.",
+    "hint": "Same object, opposite feeling. What changed?"
+   },
+   {
+    "q": "What is the difference between a tracking shot and a zoom? Why might a filmmaker choose one over the other?",
+    "a": "A tracking shot physically moves the whole camera through the space, while a zoom only changes the lens from a fixed position. Tracking feels smooth and natural because the background shifts in perspective as we move, so it is used to travel with a subject. A zoom flattens the image and can look cheap if overused, but it snaps attention onto something quickly.",
+    "hint": "One moves the camera, the other moves only the lens."
+   },
+   {
+    "q": "Describe the rule of thirds and explain why a filmmaker might deliberately break it.",
+    "a": "The rule of thirds splits the frame into three parts horizontally and vertically, and the subject is placed on one of the lines or where two lines cross, which usually looks more balanced and interesting than dead centre. A filmmaker might break it by centring the subject to make a shot feel formal, still or confronting, or by pushing the subject to the very edge to make it feel isolated or about to leave the frame.",
+    "hint": "Say what the rule is first, then give a reason someone would ignore it on purpose."
+   },
+   {
+    "q": "Name the three lights in a three-point lighting setup and explain the job of each.",
+    "a": "The key light is the main and brightest light, and it creates the main shadows and the mood. The fill light is softer and placed on the opposite side, lifting the shadows so they are not solid black. The back light sits behind the subject and rims its edges, separating it from the background so the image has depth.",
+    "hint": "Key, fill, back — brightest, softener, separator."
+   },
+   {
+    "q": "Explain the difference between high key and low key lighting, and give an example of when you would use each in a video about an object.",
+    "a": "High key lighting is bright and even with soft shadows and feels cheerful, safe and ordinary. Low key lighting is dark with heavy shadows and high contrast, and feels tense, lonely or threatening. In a video about a teddy bear, high key lighting from a window would suit the morning when it is played with, and low key lighting from a single torch would suit the night when it has been left behind.",
+    "hint": "Describe the look, then the feeling, then match each to a moment in a story."
+   },
+   {
+    "q": "What is mise-en-scène? Explain why it is especially important in a film where the main character cannot speak.",
+    "a": "Mise-en-scène is everything arranged in front of the camera: the setting, props, lighting, colour and where things are placed. It matters more when the main character cannot speak or act, because everything the audience learns has to come from what surrounds the object. A pencil in a tidy pencil case reads as cared for, while the same pencil under a bed covered in dust reads as forgotten, without a single word.",
+    "hint": "Define it, then explain that the setting has to do the work dialogue normally does."
+   },
+   {
+    "q": "Explain anthropomorphism and describe two techniques you could use to make an inanimate object seem to have feelings.",
+    "a": "Anthropomorphism is giving human qualities or feelings to something that is not human. One technique is holding a close-up on the object slightly longer than expected, which makes it seem to be thinking. Another is giving it an eyeline: filming the object, cutting to what it is 'looking at', then cutting back, so the audience joins the shots and believes the object is watching. Sound can also do it, such as a quiet sad note as the object is left behind.",
+    "hint": "Define the word, then give two concrete filming choices, not just ideas."
+   },
+   {
+    "q": "What is continuity editing, and what is a continuity error? Give an example.",
+    "a": "Continuity editing joins shots so that time and space feel unbroken and the audience never has to work out what happened. A continuity error is when something does not match across a cut and breaks that illusion — for example, a glass is full in the wide shot and half empty in the close-up of the same moment, or the object is on the left of the desk before the cut and on the right afterwards.",
+    "hint": "Define it, then give a specific before-and-after example."
+   },
+   {
+    "q": "Explain the difference between diegetic and non-diegetic sound, giving an example of each.",
+    "a": "Diegetic sound comes from within the world of the film and the characters could hear it, such as a door slamming or an object being dropped on the floor. Non-diegetic sound is added for the audience only and the characters cannot hear it, such as background music or a narrator's voice. Both are used together: the diegetic sound makes the world feel real, and the non-diegetic music tells the audience how to feel about it.",
+    "hint": "The test is whether a character in the scene could hear it."
+   },
+   {
+    "q": "Why should you shoot each action twice, once wide and once close?",
+    "a": "Shooting the same action at two different shot sizes gives you a choice when editing and makes it much easier to cut cleanly, because you can move between the two sizes without a jump. It also creates the variety of shot size that markers look for, and it gives you a fallback if one take has a problem such as bad focus or an unwanted sound.",
+    "hint": "Think about what you will need later in the edit, not just on the day."
+   },
+   {
+    "q": "A student's video is made entirely of mid shots at eye level, with star wipe transitions. Identify three problems and explain how you would fix each.",
+    "a": "First, there is no variety of shot size, so nothing changes for the audience and emotion is never emphasised — this is fixed by adding wide establishing shots and close-ups. Second, every shot is at eye level, so the camera never expresses power or vulnerability — fixed by adding a high angle when the object is helpless and a low angle when something threatens it. Third, star wipes look amateur and distract from the story — fixed by using straight cuts throughout, with at most one fade to black at the end.",
+    "hint": "Three separate problems: size, angle, transitions. Name the fix for each."
+   },
+   {
+    "q": "Describe the structure you would use for a sixty-second film about a day in the life of an inanimate object.",
+    "a": "It still needs a beginning, a middle and an end. The beginning establishes the object and its ordinary world, usually a wide shot followed by a close-up so the audience bonds with it. The middle introduces a change or problem — the object is dropped, lost, replaced or used up — which is the part students most often leave out and where most of the marks sit. The end resolves it, such as being found again or left waiting, and a slightly sad ending often reads as more deliberate than a neat happy one.",
+    "hint": "Beginning, something changes, ending — and say what happens in each."
+   },
+   {
+    "q": "Explain what a point of view shot is and describe how you would film one for an object sitting on the floor.",
+    "a": "A point of view shot shows what a character sees, as if the camera were their eyes. To film one for an object on the floor, the camera has to be placed at the object's own level rather than at standing height, so it looks along the floor rather than down at it. Filming a close-up of the object first, then the POV shot, then returning to the object, makes the audience read the middle shot as what the object is seeing.",
+    "hint": "Say where the camera physically goes, and what you cut around it."
+   },
+   {
+    "q": "Your teacher asks you to justify your camera choices in a written reflection. Explain what makes a strong justification, using an example.",
+    "a": "A strong justification names the technical term, describes the choice, and explains the effect on the audience, rather than just saying it looked good. For example: 'I used a low angle on the vacuum cleaner as it approached so it filled the frame and towered over the sock, making it feel threatening and putting the audience on the sock's side.' That names the technique, states the choice and gives the intended effect, which is what the criteria reward.",
+    "hint": "Technique plus choice plus effect. 'It looked cool' scores nothing."
+   }
+  ],
+  "exam": {
+   "minutes": 50
+  }
+ }
 ];
