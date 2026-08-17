@@ -573,6 +573,23 @@
 .uselinks{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font-size:13px}
 .uselinks a{color:var(--brand);text-decoration:none}
 .uselinks a:hover{text-decoration:underline}
+/* Drop your notes in */
+.drop{border:2px dashed var(--line);border-radius:12px;padding:18px;text-align:center;
+  background:#fbfbfd;transition:border-color .15s,background .15s;margin-bottom:10px}
+.drop.over{border-color:var(--brand);background:#f2f3ff}
+.drop p{margin:0;font-size:14px;color:var(--ink-soft)}
+.drop .pickbtn{color:var(--brand);text-decoration:underline;cursor:pointer;background:none;
+  border:0;font:inherit;padding:0}
+.drop .tiny{font-size:12.5px;color:var(--ink-faint);margin-top:6px}
+.filelist{list-style:none;margin:8px 0 0;padding:0;font-size:13px}
+.filelist li{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--ink-soft)}
+.filelist .ok{color:#256b41}
+.filelist .bad{color:#c8452f}
+/* Grouped want options */
+.wantgrp{margin-bottom:14px}
+.wantgrp h5{margin:0 0 7px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--ink-faint);font-weight:700}
+.pill.flag{background:#fdf6e7;color:#6b4d12}
 </style>
 </head>
 <body>
@@ -633,6 +650,7 @@
     memberMsg: null,
     usage: null,         // free-plan usage numbers, admin only
     doneOpen: false,     // is the finished-packs box open
+    reqChecked: null,    // result of the word check on this request
     planExpires: null,   // when this student's plan runs out
     planLapsed: false,   // they had one and it ran out
     session: null,       // the guided run they are part way through
@@ -692,25 +710,6 @@
     return m + ":" + (r < 10 ? "0" : "") + r;
   }
 
-  function setPageTitle(view, p) {
-    var base = "StudyPacks — Free study packs for exams";
-    if (view === "pack" && p) {
-      var bits = [];
-      if (p.year) bits.push(p.year);
-      if (p.subject) bits.push(p.subject);
-      if (p.title) bits.push(p.title);
-      document.title = (bits.join(" ") || p.title || "Study pack") + " | StudyPacks";
-      return;
-    }
-    if (view === "library") { document.title = base; return; }
-    if (view === "plans") { document.title = "Plans | StudyPacks"; return; }
-    if (view === "game") { document.title = "Class game | StudyPacks"; return; }
-    if (view === "request") { document.title = "Request a pack | StudyPacks"; return; }
-    if (view === "auth") { document.title = "Sign in | StudyPacks"; return; }
-    if (view === "admin") { document.title = "Pack requests | StudyPacks"; return; }
-    document.title = base;
-  }
-
   window.go = function (view, packId, tab) {
     stopTimer();
     if (view !== "game") stopGamePoll();
@@ -728,8 +727,6 @@
       S.examStarted = false; S.examDone = false; S.answers = {};
     }
     window.scrollTo(0, 0);
-    if (view === "pack") setPageTitle("pack", pack());
-    else setPageTitle(view, null);
     render();
     // Check with the server how long is left before their next free pack.
     if (view === "request" && SB && S.user) loadCooldown(function () { render(); });
@@ -756,7 +753,6 @@
   /* ---------------- library ---------------- */
 
   function library() {
-    setPageTitle("library", null);
     document.documentElement.removeAttribute("data-theme");
     bannerEl.innerHTML = ""; navEl.innerHTML = "";
 
@@ -825,7 +821,6 @@
   /* ---------------- pack chrome ---------------- */
 
   function packChrome(p) {
-    setPageTitle("pack", p);
     document.documentElement.setAttribute("data-theme", p.theme || "purple");
 
     bannerEl.innerHTML =
@@ -1417,15 +1412,19 @@
           '<textarea id="rTopics" rows="4" placeholder="Fractions, decimals, percentages, intro algebra..."></textarea></div>' +
         '<div class="field"><label for="rNotes">Paste your notes or slides</label>' +
           '<p class="help">Class notes, textbook chapters, the text from your PowerPoints. Messy is completely fine.</p>' +
+          '<div class="drop" id="rDrop">' +
+            '<p>Drag files here, or <button type="button" class="pickbtn" id="rPick">pick from your folder</button></p>' +
+            '<p class="tiny">Word, PowerPoint, PDF or plain text. The words are pulled out on your own ' +
+              'device and added below - nothing is uploaded or kept.</p>' +
+            '<input type="file" id="rFile" multiple style="display:none" ' +
+              'accept=".txt,.md,.csv,.rtf,.pdf,.doc,.docx,.ppt,.pptx,text/*">' +
+            '<ul class="filelist" id="rFiles"></ul>' +
+          '</div>' +
           '<textarea id="rNotes" rows="8" placeholder="Paste everything you have..."></textarea></div>' +
-        '<div class="field"><label>What do you want in it?</label><div class="checks">' +
-          '<label class="check"><input type="checkbox" value="Overview" checked> Overview</label>' +
-          '<label class="check"><input type="checkbox" value="Topic notes" checked> Topic notes</label>' +
-          '<label class="check"><input type="checkbox" value="Diagrams" checked> Diagrams</label>' +
-          '<label class="check"><input type="checkbox" value="Quick answers" checked> Quick answers</label>' +
-          '<label class="check"><input type="checkbox" value="Flashcards" checked> Flashcards</label>' +
-          '<label class="check"><input type="checkbox" value="Full practice exam" checked> Practice exam</label>' +
-        '</div></div>' +
+        '<div class="field"><label>What do you want in it?</label>' +
+          '<p class="help">Tick whatever helps. Everything here is built from the notes you give us.</p>' +
+          wantOptions() +
+        '</div>' +
         '<div class="field"><label for="rExtra">Anything you keep getting stuck on?</label>' +
           '<input id="rExtra" placeholder="I never remember which way to flip when dividing fractions"></div>' +
         '<button class="btn btn-primary btn-lg" id="mk">' + (SB ? "Send my request" : "Build my request") + '</button>' +
@@ -1435,6 +1434,196 @@
   function wireRequest() {
     var b = document.getElementById("mk");
     if (b) b.addEventListener("click", submitRequest);
+
+    var drop = document.getElementById("rDrop");
+    var pick = document.getElementById("rPick");
+    var input = document.getElementById("rFile");
+    if (pick && input) {
+      pick.addEventListener("click", function () { input.click(); });
+      input.addEventListener("change", function () {
+        if (input.files && input.files.length) addFiles(input.files);
+        input.value = "";
+      });
+    }
+    if (drop) {
+      ["dragenter", "dragover"].forEach(function (ev) {
+        drop.addEventListener(ev, function (e) {
+          e.preventDefault(); e.stopPropagation();
+          drop.className = "drop over";
+        });
+      });
+      ["dragleave", "drop"].forEach(function (ev) {
+        drop.addEventListener(ev, function (e) {
+          e.preventDefault(); e.stopPropagation();
+          drop.className = "drop";
+        });
+      });
+      drop.addEventListener("drop", function (e) {
+        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+          addFiles(e.dataTransfer.files);
+        }
+      });
+    }
+    // Dropping anywhere else on the page should not make the browser
+    // navigate away from a half-filled form.
+    ["dragover", "drop"].forEach(function (ev) {
+      window.addEventListener(ev, function (e) {
+        if (drop && drop.contains(e.target)) return;
+        e.preventDefault();
+      });
+    });
+  }
+
+  // Everything here can already be built out of a pack, so nothing on this
+  // list is a promise we cannot keep. Ticked ones travel through to the email.
+  var WANT_GROUPS = [
+    { name: "Reading it", items: [
+      ["Overview", 1], ["Topic notes", 1], ["Diagrams", 1],
+      ["Worked examples", 0], ["Case studies", 0]
+    ] },
+    { name: "Testing yourself", items: [
+      ["Flashcards", 1], ["Multiple choice", 1], ["True or false", 0],
+      ["Typed practice answers", 1], ["Practice exam", 1],
+      ["Scenario questions", 0], ["Spot the mistake", 0]
+    ] },
+    { name: "Words and terms", items: [
+      ["Glossary", 1], ["Definition to term", 0], ["Fill in the blanks", 0],
+      ["Match the pairs", 0], ["Word scramble", 0], ["Memory game", 0],
+      ["Put things in order", 0]
+    ] }
+  ];
+
+  function wantOptions() {
+    return WANT_GROUPS.map(function (g) {
+      return '<div class="wantgrp"><h5>' + esc(g.name) + '</h5><div class="checks">' +
+        g.items.map(function (it) {
+          return '<label class="check"><input type="checkbox" value="' + esc(it[0]) + '"' +
+            (it[1] ? " checked" : "") + '> ' + esc(it[0]) + '</label>';
+        }).join("") +
+      '</div></div>';
+    }).join("");
+  }
+
+  // ---- Reading files without uploading them -------------------------------
+  // Everything happens on the student's own machine. Nothing leaves the page,
+  // so there is no bucket to secure and nothing of theirs sitting on a server.
+
+  function loadScriptOnce(src, done) {
+    var got = document.querySelector('script[data-lib="' + src + '"]');
+    if (got) { if (got.getAttribute("data-ready")) done(true); else got.addEventListener("load", function () { done(true); }); return; }
+    var s = document.createElement("script");
+    s.src = src; s.setAttribute("data-lib", src);
+    s.onload = function () { s.setAttribute("data-ready", "1"); done(true); };
+    s.onerror = function () { done(false); };
+    document.head.appendChild(s);
+  }
+
+  function xmlToText(xml) {
+    return xml
+      .replace(/<\/(w:p|a:p|w:tr)>/g, "\n")
+      .replace(/<w:tab[^>]*\/>/g, "\t")
+      .replace(/<[^>]+>/g, "")
+      .replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+      .replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&apos;/g, "'")
+      .replace(/\n{3,}/g, "\n\n");
+  }
+
+  function readZipDoc(file, done) {
+    loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js", function (ok) {
+      if (!ok || !window.JSZip) { done(null, "could not load the reader"); return; }
+      window.JSZip.loadAsync(file).then(function (zip) {
+        var names = [];
+        zip.forEach(function (path) {
+          if (/^word\/document\.xml$/.test(path)) names.push(path);
+          if (/^ppt\/slides\/slide\d+\.xml$/.test(path)) names.push(path);
+        });
+        if (!names.length) { done(null, "no readable text inside"); return; }
+        names.sort(function (a, b) {
+          var na = parseInt((a.match(/(\d+)\.xml$/) || [0, 0])[1], 10);
+          var nb = parseInt((b.match(/(\d+)\.xml$/) || [0, 0])[1], 10);
+          return na - nb;
+        });
+        var jobs = names.map(function (n) { return zip.file(n).async("string"); });
+        Promise.all(jobs).then(function (parts) {
+          done(parts.map(xmlToText).join("\n\n"), null);
+        })["catch"](function () { done(null, "could not read it"); });
+      })["catch"](function () { done(null, "that file would not open"); });
+    });
+  }
+
+  function readPdf(file, done) {
+    loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js", function (ok) {
+      var lib = window.pdfjsLib;
+      if (!ok || !lib) { done(null, "could not load the PDF reader"); return; }
+      try {
+        lib.GlobalWorkerOptions.workerSrc =
+          "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      } catch (e) {}
+      var fr = new FileReader();
+      fr.onload = function () {
+        lib.getDocument({ data: new Uint8Array(fr.result) }).promise.then(function (pdf) {
+          var pages = [], i;
+          for (i = 1; i <= pdf.numPages; i++) pages.push(i);
+          var jobs = pages.map(function (n) {
+            return pdf.getPage(n).then(function (pg) {
+              return pg.getTextContent().then(function (tc) {
+                return tc.items.map(function (t) { return t.str; }).join(" ");
+              });
+            });
+          });
+          Promise.all(jobs).then(function (parts) { done(parts.join("\n\n"), null); })
+            ["catch"](function () { done(null, "could not read the pages"); });
+        })["catch"](function () { done(null, "that PDF would not open"); });
+      };
+      fr.onerror = function () { done(null, "could not read the file"); };
+      fr.readAsArrayBuffer(file);
+    });
+  }
+
+  function readAnyFile(file, done) {
+    var name = (file.name || "").toLowerCase();
+    if (file.size > 20 * 1024 * 1024) { done(null, "too big, 20MB is the limit"); return; }
+    if (/\.(docx|pptx)$/.test(name)) { readZipDoc(file, done); return; }
+    if (/\.pdf$/.test(name)) { readPdf(file, done); return; }
+    if (/\.(doc|ppt)$/.test(name)) {
+      done(null, "old Word/PowerPoint - save it as .docx or .pdf first");
+      return;
+    }
+    var fr = new FileReader();
+    fr.onload = function () {
+      var t = String(fr.result || "");
+      if (/\.rtf$/.test(name)) {
+        t = t.replace(/\\'[0-9a-f]{2}/gi, "").replace(/\\[a-z]+-?\d* ?/gi, "")
+             .replace(/[{}]/g, "").replace(/\n{3,}/g, "\n\n");
+      }
+      done(t, null);
+    };
+    fr.onerror = function () { done(null, "could not read the file"); };
+    fr.readAsText(file);
+  }
+
+  function addFiles(files) {
+    var list = document.getElementById("rFiles");
+    var box = document.getElementById("rNotes");
+    if (!list || !box) return;
+    Array.prototype.forEach.call(files, function (f) {
+      var li = document.createElement("li");
+      li.innerHTML = '<span>' + esc(f.name) + '</span><span class="mwhen">reading...</span>';
+      list.appendChild(li);
+      readAnyFile(f, function (text, err) {
+        var tail = li.querySelector(".mwhen");
+        if (err || !text || !text.replace(/\s/g, "")) {
+          tail.className = "bad";
+          tail.textContent = err || "nothing readable in it";
+          return;
+        }
+        var clean = text.replace(/\r/g, "").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+        box.value = (box.value ? box.value + "\n\n" : "") +
+          "--- from " + f.name + " ---\n" + clean;
+        tail.className = "ok";
+        tail.textContent = "added " + Math.round(clean.length / 100) / 10 + "k characters";
+      });
+    });
   }
 
   function requestText() {
@@ -1491,6 +1680,38 @@
 
     if (!SB || !S.user) { showCopyBox(out, r.body); return; }
 
+    // The database decides what is acceptable, not this page. Slurs stop
+    // here; ordinary swearing goes through with a note for the admin page.
+    if (!S.reqChecked) {
+      btn.disabled = true;
+      btn.textContent = "Checking...";
+      SB.rpc("text_check", { p: [r.name, r.subject, r.topics, r.notes, r.extra, r.exam].join("\n") })
+        .then(function (chk) {
+          var v = (chk && chk.data) || {};
+          btn.disabled = false;
+          btn.textContent = "Send my request";
+          if (v.ok === false) {
+            out.innerHTML = '<div class="outbox" style="border-color:#f0c4bb;background:#fdeeea">' +
+              '<h3 style="margin:0 0 4px;color:#7d2f1f">That cannot be sent</h3>' +
+              '<p style="margin:0;font-size:15px;color:#7d2f1f">There is a word in there we do not ' +
+              'allow. Take it out and send it again - everything you typed is still on the page.</p>' +
+              '<p style="margin:8px 0 0;font-size:13.5px;color:#7d2f1f">If you were quoting something ' +
+              'from class, just describe it instead and we will still know what you mean.</p></div>';
+            if (out.scrollIntoView) out.scrollIntoView({ behavior: "smooth", block: "start" });
+            return;
+          }
+          S.reqChecked = v.hit === "flag" ? "swearing" : "clean";
+          submitRequest();
+        })["catch"](function () {
+          // If the check cannot run, do not punish the student for it.
+          btn.disabled = false;
+          btn.textContent = "Send my request";
+          S.reqChecked = "unchecked";
+          submitRequest();
+        });
+      return;
+    }
+
     btn.disabled = true;
     btn.textContent = "Sending...";
 
@@ -1505,10 +1726,12 @@
       notes: r.notes || null,
       stuck_on: r.extra || null,
       wants: r.wants && r.wants.length ? r.wants : null,
+      flagged: (S.reqChecked && S.reqChecked !== "clean") ? S.reqChecked : null,
       paid: false
     }).select().then(function (res) {
       btn.disabled = false;
       btn.textContent = "Send my request";
+      S.reqChecked = null;
 
       if (res && res.error) {
         // The database enforces the 3-day limit, so this can fire even if the
@@ -2791,7 +3014,9 @@
     try { when = new Date(r.created_at).toLocaleString(); } catch (e) {}
     return '<div class="reqrow">' +
       '<h4>' + esc(r.subject || "(no subject)") + " &middot; " + esc(r.year_level || "?") +
-        '<span class="pill' + (isDone ? " done" : "") + '">' + esc(r.status || "new") + '</span></h4>' +
+        '<span class="pill' + (isDone ? " done" : "") + '">' + esc(r.status || "new") + '</span>' +
+        (r.flagged ? '<span class="pill flag" title="Worth a read before you build it">' +
+          esc(r.flagged === "unchecked" ? "not checked" : r.flagged) + '</span>' : "") + '</h4>' +
       '<div class="reqmeta">' + esc(r.name || "(no name)") +
         (r.contact ? " &middot; " + esc(r.contact) : "") +
         (when ? " &middot; " + esc(when) : "") + '</div>' +
