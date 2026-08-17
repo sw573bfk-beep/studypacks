@@ -625,7 +625,9 @@
 
   // One free request every 3 days. The database enforces this, so clearing
   // site data or switching phones does not get around it.
-  var COOLDOWN_DAYS = 3;
+  // How often a request is allowed is decided by the database now - see
+  // request_rules(). Free is 1 a week, Plus 2 a day, Pro 5 a day.
+  var COOLDOWN_DAYS = 7;   // only used if the server cannot be reached
   var PAY_LINK = "";              // paste the Stripe payment link here
   var PAY_PRICE = "$2";
 
@@ -641,6 +643,7 @@
     authMsg: null,
     afterAuth: null,     // where to go once they are signed in
     lastRequestAt: null, // their most recent free request, straight from the server
+    allow: null,         // how many requests they have left, decided by the database
     adminRows: null,
     codeRows: null,      // plan codes, admin only
     codeSummary: null,
@@ -1321,24 +1324,48 @@
   // phones does nothing. This is only so the page can say how long is left
   // before the student bothers filling the whole form in.
   function cooldownLeft() {
-    if (!S.lastRequestAt) return 0;
-    var last = new Date(S.lastRequestAt).getTime();
-    if (!last) return 0;
-    var ms = COOLDOWN_DAYS * 86400000 - (Date.now() - last);
+    var a = S.allow;
+    if (!a || a.left > 0 || !a.next_at) return 0;
+    var ms = new Date(a.next_at).getTime() - Date.now();
     return ms > 0 ? ms : 0;
   }
 
-  // Ask the server when they last had a free pack.
+  // How many they get and how many are gone, worked out by the database.
+  // The page never decides this - it only repeats what it is told, and the
+  // insert is blocked server-side regardless of what this says.
   function loadCooldown(then) {
-    if (!SB || !S.user) { S.lastRequestAt = null; if (then) then(); return; }
-    SB.from("requests").select("created_at")
-      .eq("user_id", S.user.id).eq("paid", false)
-      .order("created_at", { ascending: false }).limit(1)
-      .then(function (res) {
-        var rows = (res && res.data) || [];
-        S.lastRequestAt = rows.length ? rows[0].created_at : null;
-        if (then) then();
-      })["catch"](function () { if (then) then(); });
+    if (!SB || !S.user) { S.allow = null; if (then) then(); return; }
+    SB.rpc("request_allowance").then(function (res) {
+      S.allow = (res && !res.error && res.data) ? res.data : null;
+      if (then) then();
+    })["catch"](function () { if (then) then(); });
+  }
+
+  function planWord(p) {
+    return p === "pro" ? "Pro" : (p === "plus" ? "Plus" : "Free");
+  }
+
+  // "5 a day" reads better than "5 per 24 hours" to a student.
+  function windowWord(h) {
+    if (h <= 24) return "a day";
+    if (h <= 168) return "a week";
+    return "every " + Math.round(h / 24) + " days";
+  }
+
+  // The little line under the form telling them where they stand.
+  function allowanceLine() {
+    var a = S.allow;
+    if (!a) return "";
+    var each = a.max + (a.max === 1 ? " request " : " requests ") + windowWord(a.window_h);
+    if (a.left > 0) {
+      return '<p class="help" style="margin:0 0 14px">' +
+        '<strong>' + a.left + ' left</strong> of your ' + each +
+        ' on the ' + planWord(a.plan) + ' plan.' +
+        (a.plan === "free"
+          ? ' Plus is 2 a day, Pro is 5 a day.'
+          : "") + '</p>';
+    }
+    return "";
   }
   function humanLeft(ms) {
     var h = Math.ceil(ms / 3600000);
@@ -1361,12 +1388,16 @@
   function cooldownNotice() {
     var left = cooldownLeft();
     if (!left) return "";
+    var a = S.allow || { plan: "free", max: 1, window_h: 168 };
+    var used = a.max + (a.max === 1 ? " request" : " requests");
     return '<div class="tipbox" style="background:#eef0fe;border-color:#c9cdfa;color:#3b3a6b">' +
-      '<strong>You have already had your free pack this week</strong>' +
-      'Your next free request unlocks in ' + humanLeft(left) + '. ' +
-      (PAY_LINK
-        ? 'In a hurry? You can request another one now for ' + esc(PAY_PRICE) + '.'
-        : 'Come back then and it will let you through.') +
+      '<strong>That is your ' + used + ' for ' + (a.window_h <= 24 ? "today" : "this week") + '</strong>' +
+      'The ' + planWord(a.plan) + ' plan gives you ' + used + ' ' + windowWord(a.window_h) +
+      '. The next one unlocks in ' + humanLeft(left) + '. ' +
+      (a.plan === "free"
+        ? 'Plus is 2 a day and Pro is 5 a day if you need more.'
+        : (PAY_LINK ? 'In a hurry? You can request another now for ' + esc(PAY_PRICE) + '.'
+                    : 'Come back then and it will let you through.')) +
       (PAY_LINK ? '<div style="margin-top:12px"><a class="btn btn-primary" href="' + esc(PAY_LINK) +
         '">Request another now &middot; ' + esc(PAY_PRICE) + '</a></div>' : "") +
     '</div>';
@@ -1386,7 +1417,8 @@
         '<div class="panel"><div class="sheet authcard">' +
           '<p style="margin:0 0 16px;font-size:15px;line-height:1.6">' +
             'Signing in keeps your requests, your study plan and your streak together, ' +
-            'and it means one free pack every ' + COOLDOWN_DAYS + ' days per person rather than per device.</p>' +
+            'and it means your free pack a week counts per person rather than per device. ' +
+            'Plus gets 2 a day and Pro gets 5 a day.</p>' +
           '<button class="btn btn-primary btn-lg" onclick="goAuth(\'request\')">Sign in or create an account</button>' +
         '</div></div>';
     }
@@ -1427,6 +1459,7 @@
         '</div>' +
         '<div class="field"><label for="rExtra">Anything you keep getting stuck on?</label>' +
           '<input id="rExtra" placeholder="I never remember which way to flip when dividing fractions"></div>' +
+        allowanceLine() +
         '<button class="btn btn-primary btn-lg" id="mk">' + (SB ? "Send my request" : "Build my request") + '</button>' +
       '</div><div id="out"></div></div>';
   }
@@ -1740,9 +1773,9 @@
           loadCooldown(function () {
             var l = cooldownLeft();
             out.innerHTML = '<div class="outbox" style="border-color:#c9cdfa;background:#eef0fe">' +
-              '<h3 style="margin:0 0 4px;color:#3b3a6b">You have already had your free pack</h3>' +
-              '<p style="margin:0;font-size:15px;color:#3b3a6b">Your next free request unlocks in ' +
-              (l ? humanLeft(l) : "a few days") + '.</p></div>';
+              '<h3 style="margin:0 0 4px;color:#3b3a6b">That is all your requests for now</h3>' +
+              '<p style="margin:0;font-size:15px;color:#3b3a6b">Your next request unlocks in ' +
+              (l ? humanLeft(l) : "a little while") + '.</p></div>';
             if (out.scrollIntoView) out.scrollIntoView({ behavior: "smooth", block: "start" });
           });
           return;
@@ -1754,6 +1787,7 @@
 
       var rows = (res && res.data) || [];
       S.lastRequestAt = rows.length ? rows[0].created_at : new Date().toISOString();
+      loadCooldown();   // refresh how many they have left
       notifyBeau(r);
 
       out.innerHTML = '<div class="outbox" style="border-color:#1a8a55;background:#e8f7ef">' +
@@ -2709,7 +2743,7 @@
   window.signOut = function () {
     if (!SB) return;
     SB.auth.signOut().then(function () {
-      S.user = null; S.authMsg = null; S.lastRequestAt = null;
+      S.user = null; S.authMsg = null; S.lastRequestAt = null; S.allow = null;
       S.plan = "free"; S.planMsg = null; S.planLockedUntil = null;
       go("library");
     });
