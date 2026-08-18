@@ -630,6 +630,15 @@
 .brkfill.mid{background:#e0a02a}
 .brkfill.low{background:#c8452f}
 .brkpct{width:56px;text-align:right;font-weight:700}
+/* A table of values inside a question - far easier to read than a sentence */
+.qtabwrap{overflow-x:auto;margin:0 0 14px}
+.qtab{border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:16px;
+  background:#fff;border:2px solid var(--ink-soft);border-radius:6px}
+.qtab th,.qtab td{border:1px solid var(--line);padding:8px 14px;text-align:center;min-width:44px}
+.qtab th{background:#eef0fe;font-weight:800;color:#3b3a6b}
+.qtab tbody th{background:#eef0fe;min-width:34px}
+.qtab td{font-weight:600}
+.qtab .blank{background:#fbfbfd;color:var(--ink-faint)}
 </style>
 </head>
 <body>
@@ -1080,7 +1089,7 @@
 
       return '<div class="mc">' +
         '<div class="mc-n">Question ' + (i + 1) + '</div>' +
-        '<div class="mc-q">' + esc(item.q) + '</div>' +
+        '<div class="mc-q">' + esc(item.q) + '</div>' + qTable(item) +
         '<div class="mc-opts">' + opts + '</div>' + why +
       '</div>';
     }).join("");
@@ -1156,7 +1165,7 @@
       '</div>' +
       '<div class="pr">' +
         '<div class="mc-n">' + esc(item.topic || "Question") + '</div>' +
-        '<div class="pr-q">' + esc(item.q) + '</div>' +
+        '<div class="pr-q">' + esc(item.q) + '</div>' + qTable(item) +
         '<div class="pr-row">' +
           '<input class="pr-in' + (st ? (st.ok ? " right" : " wrong") : "") + '" id="prIn" ' +
             'placeholder="Type your answer" value="' + esc(S.prTyped) + '"' + (st ? " readonly" : "") + '>' +
@@ -1288,7 +1297,7 @@
       return '<div class="eq">' +
         '<div class="eq-top"><span class="eq-n">Question ' + (i + 1) + '</span>' +
           '<span class="eq-marks">' + (q.marks || 2) + ' marks</span></div>' +
-        '<div class="eq-q">' + esc(q.q) + '</div>' +
+        '<div class="eq-q">' + esc(q.q) + '</div>' + qTable(q) +
         '<textarea class="eq-in" data-ans="' + i + '" placeholder="Your working and answer..."' +
           (S.examDone ? " readonly" : "") + '>' + esc(S.answers[i] || "") + '</textarea>' +
         (q.hint && !S.examDone ? '<button class="btn btn-sm" style="margin-top:10px" data-hint="' + i + '">Stuck? Hint</button>' +
@@ -2238,7 +2247,7 @@
     return '<div class="panel">' +
       '<div class="gamehead"><span>Question ' + (g.questionNo + 1) + ' of ' + g.questions.length + '</span>' +
         '<span>Code ' + esc(g.code) + '</span></div>' +
-      '<div class="mc"><div class="mc-q">' + esc(q.q) + '</div>' +
+      '<div class="mc"><div class="mc-q">' + esc(q.q) + '</div>' + qTable(q) +
         '<div class="mc-opts">' + opts + '</div>' +
         (g.chosen !== null
           ? '<div class="mc-why"><strong>' +
@@ -2684,10 +2693,10 @@
             '<strong>' + String.fromCharCode(65 + j) + '</strong> &nbsp;' + esc(o) + '</button>';
         }).join("");
         return '<div class="mockq"><div class="mn">Question ' + (n + 1) + '</div>' +
-          '<div class="mq">' + esc(q.item.q) + '</div>' + opts + '</div>';
+          '<div class="mq">' + esc(q.item.q) + '</div>' + qTable(q.item) + opts + '</div>';
       }
       return '<div class="mockq"><div class="mn">Question ' + (n + 1) + ' &middot; type your answer</div>' +
-        '<div class="mq">' + esc(q.item.q) + '</div>' +
+        '<div class="mq">' + esc(q.item.q) + '</div>' + qTable(q.item) +
         '<input type="text" data-mt="' + n + '" value="' + esc(given === undefined ? "" : given) + '" ' +
         'placeholder="Your answer"></div>';
     }).join("");
@@ -2737,6 +2746,27 @@
       'Everything you get wrong goes straight into your weak questions.' +
       '<div style="margin-top:12px"><button class="btn btn-primary" onclick="startMock()">Sit a mock exam</button></div>' +
     '</div>';
+  }
+
+  // Questions can carry their own little table. A row of numbers read across
+  // is much easier than the same numbers squashed into a sentence.
+  function qTable(item) {
+    var t = item && item.table;
+    if (!t || !t.rows || !t.rows.length) return "";
+    var head = "";
+    if (t.head && t.head.length) {
+      head = "<thead><tr>" + t.head.map(function (h) {
+        return "<th>" + esc(String(h)) + "</th>";
+      }).join("") + "</tr></thead>";
+    }
+    var body = "<tbody>" + t.rows.map(function (r) {
+      return "<tr>" + r.map(function (c, j) {
+        var v = (c === null || c === undefined || c === "") ? "" : String(c);
+        if (j === 0) return "<th>" + esc(v) + "</th>";
+        return '<td' + (v === "" ? ' class="blank"' : "") + '>' + esc(v) + "</td>";
+      }).join("") + "</tr>";
+    }).join("") + "</tbody>";
+    return '<div class="qtabwrap"><table class="qtab">' + head + body + '</table></div>';
   }
 
   function streakLine(st) {
@@ -2932,7 +2962,7 @@
           '</strong> ' + esc(q.why || "") + '</div>';
       }
       body = '<div class="mc"><div class="mc-n">Question ' + (z.i + 1) + ' of ' + step.items.length + '</div>' +
-          '<div class="mc-q">' + esc(q.q) + '</div>' +
+          '<div class="mc-q">' + esc(q.q) + '</div>' + qTable(q) +
           '<div class="mc-opts">' + opts + '</div>' + why + '</div>' +
         (z.chosen !== null ? '<div class="sessfoot"><button class="btn btn-primary btn-lg" onclick="sessNext()">Next</button></div>' : "");
 
@@ -2963,7 +2993,7 @@
       }
       body = '<div class="mc"><div class="mc-n">Question ' + (z.i + 1) + ' of ' + step.items.length +
           (it.topic ? " · " + esc(it.topic) : "") + '</div>' +
-          '<div class="mc-q">' + esc(it.q) + '</div>' +
+          '<div class="mc-q">' + esc(it.q) + '</div>' + qTable(it) +
           '<div class="field" style="margin-top:12px">' +
             '<input id="sessIn" placeholder="Type your answer" value="' + esc(z.typed) + '"' +
             (z.state ? " disabled" : "") + '></div>' +

@@ -7057,8 +7057,26 @@ window.PACKS = [
     "why": "(9 - 3) ÷ (4 - 1) = 6 ÷ 3 = 2."
    },
    {
-    "q": "Table: x 0,1,2,3 and y 9,6,3,0. The gradient is...",
+    "q": "What is the gradient of this table?",
     "unit": "Gradient",
+    "table": {
+     "rows": [
+      [
+       "x",
+       0,
+       1,
+       2,
+       3
+      ],
+      [
+       "y",
+       9,
+       6,
+       3,
+       0
+      ]
+     ]
+    },
     "options": [
      "3",
      "9",
@@ -7069,8 +7087,26 @@ window.PACKS = [
     "why": "y drops by 3 every time x goes up by 1."
    },
    {
-    "q": "Table: x -3,-2,-1,0 and y 8,7,6,5. The rule is...",
+    "q": "What is the rule for this table?",
     "unit": "Finding the Rule",
+    "table": {
+     "rows": [
+      [
+       "x",
+       -3,
+       -2,
+       -1,
+       0
+      ],
+      [
+       "y",
+       8,
+       7,
+       6,
+       5
+      ]
+     ]
+    },
     "options": [
      "y = x + 5",
      "y = -x - 5",
@@ -7081,8 +7117,30 @@ window.PACKS = [
     "why": "y falls by 1 each step so m = -1, and at x = 0 y = 5 so c = 5."
    },
    {
-    "q": "Table: x -3,-2,-1,0,1,2 and y -3,-1,1,3,5,7. The rule is...",
+    "q": "What is the rule for this table?",
     "unit": "Finding the Rule",
+    "table": {
+     "rows": [
+      [
+       "x",
+       -3,
+       -2,
+       -1,
+       0,
+       1,
+       2
+      ],
+      [
+       "y",
+       -3,
+       -1,
+       1,
+       3,
+       5,
+       7
+      ]
+     ]
+    },
     "options": [
      "y = 2x + 3",
      "y = 2x - 3",
@@ -7093,8 +7151,26 @@ window.PACKS = [
     "why": "y rises by 2 each step, and at x = 0 y = 3."
    },
    {
-    "q": "Table: x -2,-1,0,1 and y 5,6,7,8. The rule is...",
+    "q": "What is the rule for this table?",
     "unit": "Finding the Rule",
+    "table": {
+     "rows": [
+      [
+       "x",
+       -2,
+       -1,
+       0,
+       1
+      ],
+      [
+       "y",
+       5,
+       6,
+       7,
+       8
+      ]
+     ]
+    },
     "options": [
      "y = 7x",
      "y = x - 7",
@@ -7192,7 +7268,29 @@ window.PACKS = [
   "practice": [
    {
     "topic": "Finding the Rule",
-    "q": "Table: x = -3,-2,-1,0,1,2 and y = -3,-1,1,3,5,7. Write the rule.",
+    "q": "Write the rule for this table.",
+    "table": {
+     "rows": [
+      [
+       "x",
+       -3,
+       -2,
+       -1,
+       0,
+       1,
+       2
+      ],
+      [
+       "y",
+       -3,
+       -1,
+       1,
+       3,
+       5,
+       7
+      ]
+     ]
+    },
     "answer": "y = 2x + 3",
     "accept": [
      "y=2x+3",
@@ -7203,7 +7301,29 @@ window.PACKS = [
    },
    {
     "topic": "Finding the Rule",
-    "q": "Table: x = -1,0,1,2,3,4 and y = 1,4,7,10,13,16. Write the rule.",
+    "q": "Write the rule for this table.",
+    "table": {
+     "rows": [
+      [
+       "x",
+       -1,
+       0,
+       1,
+       2,
+       3,
+       4
+      ],
+      [
+       "y",
+       1,
+       4,
+       7,
+       10,
+       13,
+       16
+      ]
+     ]
+    },
     "answer": "y = 3x + 4",
     "accept": [
      "y=3x+4",
@@ -7214,7 +7334,29 @@ window.PACKS = [
    },
    {
     "topic": "Finding the Rule",
-    "q": "Table: x = -2,-1,0,1,2,3 and y = 5,6,7,8,9,10. Write the rule.",
+    "q": "Write the rule for this table.",
+    "table": {
+     "rows": [
+      [
+       "x",
+       -2,
+       -1,
+       0,
+       1,
+       2,
+       3
+      ],
+      [
+       "y",
+       5,
+       6,
+       7,
+       8,
+       9,
+       10
+      ]
+     ]
+    },
     "answer": "y = x + 7",
     "accept": [
      "y=x+7",
@@ -7225,7 +7367,29 @@ window.PACKS = [
    },
    {
     "topic": "Finding the Rule",
-    "q": "Table: x = -3,-2,-1,0,1,2 and y = 8,7,6,5,4,3. Write the rule.",
+    "q": "Write the rule for this table.",
+    "table": {
+     "rows": [
+      [
+       "x",
+       -3,
+       -2,
+       -1,
+       0,
+       1,
+       2
+      ],
+      [
+       "y",
+       8,
+       7,
+       6,
+       5,
+       4,
+       3
+      ]
+     ]
+    },
     "answer": "y = -x + 5",
     "accept": [
      "y=-x+5",
@@ -7237,7 +7401,29 @@ window.PACKS = [
    },
    {
     "topic": "Finding the Rule",
-    "q": "Table: x = -2,-1,0,1,2,3 and y = -3,-4,-5,-6,-7,-8. Write the rule.",
+    "q": "Write the rule for this table.",
+    "table": {
+     "rows": [
+      [
+       "x",
+       -2,
+       -1,
+       0,
+       1,
+       2,
+       3
+      ],
+      [
+       "y",
+       -3,
+       -4,
+       -5,
+       -6,
+       -7,
+       -8
+      ]
+     ]
+    },
     "answer": "y = -x - 5",
     "accept": [
      "y=-x-5",
@@ -7248,7 +7434,29 @@ window.PACKS = [
    },
    {
     "topic": "Finding the Rule",
-    "q": "Table: x = 0,1,2,3,4,5 and y = 9,6,3,0,-3,-6. Write the rule.",
+    "q": "Write the rule for this table.",
+    "table": {
+     "rows": [
+      [
+       "x",
+       0,
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      [
+       "y",
+       9,
+       6,
+       3,
+       0,
+       -3,
+       -6
+      ]
+     ]
+    },
     "answer": "y = -3x + 9",
     "accept": [
      "y=-3x+9",
@@ -7260,7 +7468,31 @@ window.PACKS = [
    },
    {
     "topic": "Finding the Rule",
-    "q": "Table: x = -3,-2,-1,0,1,2,3 and y = -8,-6,-4,-2,0,2,4. Write the rule.",
+    "q": "Write the rule for this table.",
+    "table": {
+     "rows": [
+      [
+       "x",
+       -3,
+       -2,
+       -1,
+       0,
+       1,
+       2,
+       3
+      ],
+      [
+       "y",
+       -8,
+       -6,
+       -4,
+       -2,
+       0,
+       2,
+       4
+      ]
+     ]
+    },
     "answer": "y = 2x - 2",
     "accept": [
      "y=2x-2",
@@ -7281,7 +7513,31 @@ window.PACKS = [
    },
    {
     "topic": "Intercepts",
-    "q": "For the table x = -3,-2,-1,0,1,2,3 and y = -8,-6,-4,-2,0,2,4, write the y-intercept as a coordinate.",
+    "q": "Write the y-intercept of this table as a coordinate.",
+    "table": {
+     "rows": [
+      [
+       "x",
+       -3,
+       -2,
+       -1,
+       0,
+       1,
+       2,
+       3
+      ],
+      [
+       "y",
+       -8,
+       -6,
+       -4,
+       -2,
+       0,
+       2,
+       4
+      ]
+     ]
+    },
     "answer": "(0, -2)",
     "accept": [
      "(0,-2)",
@@ -7291,7 +7547,31 @@ window.PACKS = [
    },
    {
     "topic": "Intercepts",
-    "q": "For the same table, write the x-intercept as a coordinate.",
+    "q": "Write the x-intercept of this table as a coordinate.",
+    "table": {
+     "rows": [
+      [
+       "x",
+       -3,
+       -2,
+       -1,
+       0,
+       1,
+       2,
+       3
+      ],
+      [
+       "y",
+       -8,
+       -6,
+       -4,
+       -2,
+       0,
+       2,
+       4
+      ]
+     ]
+    },
     "answer": "(1, 0)",
     "accept": [
      "(1,0)",
@@ -7474,6 +7754,100 @@ window.PACKS = [
      "-1,-4"
     ],
     "why": "Coordinates are x first, then y."
+   },
+   {
+    "topic": "Tables & Graphs",
+    "q": "Complete this table for y = 2x - 2. What is y when x = 2?",
+    "table": {
+     "rows": [
+      [
+       "x",
+       -3,
+       -2,
+       -1,
+       0,
+       1,
+       2,
+       3
+      ],
+      [
+       "y",
+       -8,
+       -6,
+       -4,
+       -2,
+       0,
+       "",
+       4
+      ]
+     ]
+    },
+    "answer": "2",
+    "accept": [
+     "2"
+    ],
+    "why": "2 x 2 - 2 = 4 - 2 = 2, and it fits the pattern of going up 2 each step."
+   },
+   {
+    "topic": "Tables & Graphs",
+    "q": "Complete this table for y = -3x + 9. What is y when x = 2?",
+    "table": {
+     "rows": [
+      [
+       "x",
+       0,
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      [
+       "y",
+       9,
+       6,
+       "",
+       0,
+       -3,
+       -6
+      ]
+     ]
+    },
+    "answer": "3",
+    "accept": [
+     "3"
+    ],
+    "why": "-3 x 2 + 9 = -6 + 9 = 3."
+   },
+   {
+    "topic": "Finding the Rule",
+    "q": "Write the rule for this table. Careful - x goes up in twos.",
+    "table": {
+     "rows": [
+      [
+       "x",
+       0,
+       2,
+       4,
+       6,
+       8
+      ],
+      [
+       "y",
+       1,
+       5,
+       9,
+       13,
+       17
+      ]
+     ]
+    },
+    "answer": "y = 2x + 1",
+    "accept": [
+     "y=2x+1",
+     "2x+1"
+    ],
+    "why": "y jumps 4 but x jumps 2, so the gradient is 4 divided by 2 = 2. At x = 0, y = 1."
    }
   ],
   "quiz": [
