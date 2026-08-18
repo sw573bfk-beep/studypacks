@@ -590,6 +590,25 @@
 .wantgrp h5{margin:0 0 7px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;
   color:var(--ink-faint);font-weight:700}
 .pill.flag{background:#fdf6e7;color:#6b4d12}
+/* Readiness + weak drill */
+.ready{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0 0;background:#fff}
+.ready h3{margin:0 0 2px;font-size:16px}
+.readytop{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.readypct{font-size:30px;font-weight:800;line-height:1}
+.readybar{height:10px;border-radius:999px;background:#eceef6;margin:12px 0 8px;overflow:hidden}
+.readyfill{height:100%;border-radius:999px;background:#1a8a55;transition:width .4s}
+.readyfill.low{background:#c8452f}
+.readyfill.mid{background:#e0a02a}
+.readysub{font-size:13px;color:var(--ink-soft);margin:0}
+.drillbox{border:1px solid #c9cdfa;background:#f4f5ff;border-radius:14px;padding:16px 18px;margin-top:14px}
+.drillbox strong{display:block;margin-bottom:4px}
+.qchips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 12px}
+.qchip{font-size:12px;background:#fff;border:1px solid #c9cdfa;border-radius:999px;padding:3px 10px;color:#3b3a6b}
+.lockbox{border:1px dashed var(--line);border-radius:14px;padding:18px;margin-top:14px;background:#fbfbfd;text-align:center}
+.lockbox h3{margin:0 0 6px;font-size:17px}
+.lockbox p{margin:0 0 12px;font-size:14px;color:var(--ink-soft)}
+.trialbar{background:#eef7f1;border:1px solid #bfe3cd;color:#14603c;border-radius:12px;
+  padding:10px 14px;font-size:13.5px;margin:0 0 14px}
 </style>
 </head>
 <body>
@@ -644,6 +663,8 @@
     afterAuth: null,     // where to go once they are signed in
     lastRequestAt: null, // their most recent free request, straight from the server
     allow: null,         // how many requests they have left, decided by the database
+    qp: null,            // per-question memory for the open pack
+    trialEnds: null,     // when the free week runs out, if they are on it
     adminRows: null,
     codeRows: null,      // plan codes, admin only
     codeSummary: null,
@@ -735,7 +756,7 @@
     if (view === "request" && SB && S.user) loadCooldown(function () { render(); });
     // Pull their plan and their weak topics for whichever pack they opened.
     if (view === "pack" && SB && S.user && S.studyPackId !== S.packId) {
-      S.studyPackId = S.packId; S.study = null; S.progress = [];
+      S.studyPackId = S.packId; S.study = null; S.progress = []; S.qp = null;
       loadStudy(pack(), function () { render(); });
     }
   };
@@ -1049,12 +1070,17 @@
       '</div>' + bar + body;
   }
 
-  function wireQuick() {
+  function wireQuick(p) {
     Array.prototype.forEach.call(app.querySelectorAll("[data-mc]"), function (b) {
       b.addEventListener("click", function () {
         var i = this.getAttribute("data-mc");
         if (S.mc.hasOwnProperty(i)) return;
         S.mc[i] = parseInt(this.getAttribute("data-opt"), 10);
+        // Multiple choice used to record nothing at all, so the most used
+        // study mode was invisible to weak-topic targeting.
+        var qq = (p.quick || [])[parseInt(i, 10)];
+        if (qq) recordAnswer(p, "quick", i, qq.unit || qq.topic || null,
+                             S.mc[i] === qq.answer);
         var y = window.scrollY;
         render();
         window.scrollTo(0, y);
@@ -1132,7 +1158,7 @@
       S.prState = { ok: ok };
       S.prDone++;
       if (ok) S.prRight++;
-      recordProgress(p, item.topic, ok);
+      recordAnswer(p, "practice", S.pr, item.topic, ok);
       render();
     }
     function next() {
@@ -1342,7 +1368,10 @@
   }
 
   function planWord(p) {
-    return p === "pro" ? "Pro" : (p === "plus" ? "Plus" : "Free");
+    return p === "pro" ? "Pro"
+         : p === "plus" ? "Plus"
+         : p === "trial" ? "free week"
+         : "Free";
   }
 
   // "5 a day" reads better than "5 per 24 hours" to a student.
@@ -2296,7 +2325,8 @@
   function loadStudy(p, then) {
     if (!SB || !S.user) { if (then) then(); return; }
     var got = 0;
-    function done() { if (++got === 2 && then) then(); }
+    function done() { if (++got === 3 && then) then(); }
+    loadQProgress(p, done);
     SB.from("study_plans").select("*")
       .eq("user_id", S.user.id).eq("pack_id", p.id).limit(1)
       .then(function (res) {
@@ -2340,6 +2370,158 @@
       .then(function () {})["catch"](function () {});
   }
 
+  // Every answer is now remembered per question, not just per unit. Unit
+  // level could only say "you are shaky on Algebra"; this can say "these are
+  // the six questions you keep getting wrong", which is the whole point.
+  function recordAnswer(p, kind, index, unit, ok) {
+    if (!SB || !S.user || !p) return;
+    if (unit) recordProgress(p, unit, ok);
+    var i = parseInt(index, 10);
+    if (isNaN(i)) return;
+    SB.rpc("record_answer", {
+      p_pack: p.id, p_kind: kind, p_index: i,
+      p_unit: unit || null, p_correct: !!ok
+    }).then(function () {})["catch"](function () {});
+  }
+
+  // Pull what the server remembers about this pack's questions.
+  function loadQProgress(p, then) {
+    if (!SB || !S.user || !p) { S.qp = []; if (then) then(); return; }
+    SB.from("question_progress").select("kind,q_index,unit,attempts,correct,run,box,next_due")
+      .eq("pack_id", p.id)
+      .then(function (res) {
+        S.qp = (res && res.data) || [];
+        if (then) then();
+      })["catch"](function () { S.qp = []; if (then) then(); });
+  }
+
+  function qpList() { return S.qp || []; }
+
+  // How ready they are: every question is worth its Leitner box out of 5,
+  // and anything never attempted counts as zero. Honest, and it climbs.
+  function readiness(p) {
+    if (!p) return { pct: 0, seen: 0, total: 0, mastered: 0 };
+    var total = (p.quick || []).length + (p.practice || []).length;
+    if (!total) return { pct: 0, seen: 0, total: 0, mastered: 0 };
+    var sum = 0, seen = 0, mastered = 0;
+    qpList().forEach(function (r) {
+      if (r.kind !== "quick" && r.kind !== "practice") return;
+      seen++;
+      var b = Math.max(0, Math.min(5, r.box || 0));
+      sum += b / 5;
+      if (b >= 4) mastered++;
+    });
+    return {
+      pct: Math.round((sum / total) * 100),
+      seen: seen, total: total, mastered: mastered
+    };
+  }
+
+  // The questions worth their time: wrong recently, or due for review.
+  function weakQuestions(p, n) {
+    var now = Date.now();
+    var rows = qpList().filter(function (r) {
+      return (r.kind === "quick" || r.kind === "practice") && r.attempts > 0;
+    });
+    rows.sort(function (a, b) {
+      var ab = (a.box || 0), bb = (b.box || 0);
+      if (ab !== bb) return ab - bb;                      // struggling first
+      var ar = (a.attempts ? a.correct / a.attempts : 0);
+      var br = (b.attempts ? b.correct / b.attempts : 0);
+      if (ar !== br) return ar - br;                      // worst hit rate
+      return (b.attempts || 0) - (a.attempts || 0);
+    });
+    return rows.slice(0, n || 10);
+  }
+
+  function dueCount(p) {
+    var now = Date.now();
+    return qpList().filter(function (r) {
+      return r.next_due && new Date(r.next_due).getTime() <= now;
+    }).length;
+  }
+
+  // Does this account get the good study features? The database decides the
+  // plan; this only decides what to draw.
+  function fullStudy() {
+    return ["trial", "plus", "pro"].indexOf(S.plan) >= 0;
+  }
+
+  // A number that climbs. Every question is worth its box out of five, so
+  // this only moves when they actually get better, not when they click more.
+  function readinessPanel(p) {
+    var r = readiness(p);
+    var tone = r.pct >= 70 ? "" : (r.pct >= 40 ? " mid" : " low");
+    var due = dueCount(p);
+    return '<div class="ready">' +
+      '<div class="readytop"><h3>Exam readiness</h3>' +
+        '<span class="readypct">' + r.pct + '%</span></div>' +
+      '<div class="readybar"><div class="readyfill' + tone + '" style="width:' + r.pct + '%"></div></div>' +
+      '<p class="readysub">' + r.mastered + ' of ' + r.total + ' questions solid &middot; ' +
+        r.seen + ' tried' +
+        (due ? ' &middot; <strong>' + due + ' due for review</strong>' : "") + '</p>' +
+      (r.seen === 0
+        ? '<p class="readysub" style="margin-top:6px">Answer some questions and this starts filling in.</p>'
+        : "") +
+    '</div>';
+  }
+
+  function weakDrillPanel(p) {
+    var weak = weakQuestions(p, 10);
+    if (!weak.length) return "";
+    var names = weak.slice(0, 6).map(function (r) {
+      var item = (r.kind === "quick" ? (p.quick || [])[r.q_index]
+                                     : (p.practice || [])[r.q_index]);
+      var t = item ? (item.q || "") : "";
+      return '<span class="qchip">' + esc(t.length > 42 ? t.slice(0, 40) + "..." : t) + '</span>';
+    }).join("");
+    return '<div class="drillbox"><strong>Your weak ' + weak.length + '</strong>' +
+      'The exact questions you keep getting wrong. Twenty minutes here beats an hour of rereading.' +
+      '<div class="qchips">' + names + '</div>' +
+      '<button class="btn btn-primary" onclick="startDrill()">Drill these ' + weak.length + '</button>' +
+    '</div>';
+  }
+
+  function studyLockedPanel() {
+    return '<div class="lockbox">' +
+      '<h3>Weak-question drilling and readiness</h3>' +
+      '<p>StudyPacks remembers every question you answer and brings the ones you get wrong back, ' +
+      'spaced out so they stick. Plus and Pro get it, and every new account gets a week free.</p>' +
+      '<button class="btn btn-primary" onclick="go(\'plans\')">See plans</button>' +
+    '</div>';
+  }
+
+  function trialBar() {
+    if (S.plan !== "trial" || !S.trialEnds) return "";
+    var days = Math.ceil((new Date(S.trialEnds).getTime() - Date.now()) / 86400000);
+    if (days <= 0) return "";
+    return '<div class="trialbar"><strong>Free week</strong> &middot; ' +
+      days + (days === 1 ? " day" : " days") + ' left of the full version, ' +
+      'including weak-question drilling and 3 pack requests a day.</div>';
+  }
+
+  // Just the questions they keep missing, run through the normal session.
+  window.startDrill = function () {
+    var p = pack();
+    if (!p || !fullStudy()) return;
+    var weak = weakQuestions(p, 10);
+    var qidx = [], pidx = [];
+    weak.forEach(function (r) {
+      if (r.kind === "quick" && (p.quick || [])[r.q_index]) qidx.push(r.q_index);
+      if (r.kind === "practice" && (p.practice || [])[r.q_index]) pidx.push(r.q_index);
+    });
+    var steps = [];
+    if (qidx.length) steps.push({ kind: "quick", idx: qidx, text: "Questions you keep missing",
+      items: qidx.map(function (i) { return p.quick[i]; }) });
+    if (pidx.length) steps.push({ kind: "practice", idx: pidx, text: "Practice you keep missing",
+      items: pidx.map(function (i) { return p.practice[i]; }) });
+    if (!steps.length) return;
+    S.session = { steps: steps, step: 0, i: 0, chosen: null, typed: "", state: null,
+                  flipped: false, right: 0, asked: 0, drill: true };
+    window.scrollTo(0, 0);
+    render();
+  };
+
   function streakLine(st) {
     var n = (st && st.streak) || 0;
     if (!n) return "Do today's tasks to start a streak.";
@@ -2369,6 +2551,40 @@
     return out;
   }
 
+  // The positions, not the items. Needed so the session can record which
+  // question was answered, not just that one was.
+  function pickIdx(list, n, offset) {
+    if (!list || !list.length) return [];
+    n = Math.min(n || 1, list.length);
+    var out = [];
+    for (var k = 0; k < n; k++) out.push(((offset * n) + k) % list.length);
+    return out;
+  }
+
+  // Anything the server says is due comes first, so the day's questions are
+  // the ones actually going stale rather than the next ones along.
+  function pickDueFirst(list, kind, n, offset) {
+    if (!list || !list.length) return [];
+    n = Math.min(n || 1, list.length);
+    var now = Date.now(), due = [];
+    if (fullStudy()) {
+      qpList().forEach(function (r) {
+        if (r.kind !== kind) return;
+        if (r.q_index === null || r.q_index === undefined) return;
+        if (r.q_index >= list.length) return;
+        if (r.next_due && new Date(r.next_due).getTime() <= now) due.push(r);
+      });
+      due.sort(function (a, b) { return (a.box || 0) - (b.box || 0); });
+    }
+    var out = [];
+    for (var i = 0; i < due.length && out.length < n; i++) out.push(due[i].q_index);
+    var filler = pickIdx(list, list.length, offset);
+    for (var j = 0; j < filler.length && out.length < n; j++) {
+      if (out.indexOf(filler[j]) < 0) out.push(filler[j]);
+    }
+    return out.slice(0, n);
+  }
+
   window.startSession = function () {
     var p = pack();
     var st = S.study || {};
@@ -2383,11 +2599,15 @@
       if (t.kind === "read") {
         steps.push({ kind: "read", unit: parseInt(t.tab.split(":")[1], 10), text: t.text });
       } else if (t.kind === "quick") {
-        steps.push({ kind: "quick", items: pickN(p.quick, t.n, offset), text: t.text });
+        var qi = pickDueFirst(p.quick, "quick", t.n, offset);
+        steps.push({ kind: "quick", idx: qi, text: t.text,
+          items: qi.map(function (i) { return p.quick[i]; }) });
       } else if (t.kind === "cards") {
         steps.push({ kind: "cards", items: pickN(p.cards, t.n, offset), text: t.text });
       } else if (t.kind === "practice") {
-        steps.push({ kind: "practice", items: pickN(p.practice, t.n, offset), text: t.text });
+        var pi = pickDueFirst(p.practice, "practice", t.n, offset);
+        steps.push({ kind: "practice", idx: pi, text: t.text,
+          items: pi.map(function (i) { return p.practice[i]; }) });
       }
     });
     steps = steps.filter(function (s) { return s.kind === "read" || (s.items && s.items.length); });
@@ -2550,7 +2770,11 @@
         b.addEventListener("click", function () {
           if (z.chosen !== null) return;
           z.chosen = parseInt(this.getAttribute("data-sq"), 10);
-          z.asked++; if (z.chosen === step.items[z.i].answer) z.right++;
+          var sq = step.items[z.i];
+          var sok = (z.chosen === sq.answer);
+          z.asked++; if (sok) z.right++;
+          recordAnswer(p, "quick", step.idx ? step.idx[z.i] : z.i,
+                       sq.unit || sq.topic || null, sok);
           var y = window.scrollY; render(); window.scrollTo(0, y);
         });
       });
@@ -2571,7 +2795,7 @@
         var ok = isRight(it, inp.value);
         z.typed = inp.value; z.state = { ok: ok };
         z.asked++; if (ok) z.right++;
-        recordProgress(p, it.topic, ok);
+        recordAnswer(p, "practice", step.idx ? step.idx[z.i] : z.i, it.topic, ok);
         var y = window.scrollY; render(); window.scrollTo(0, y);
       }
       var c = document.getElementById("sessCheck");
@@ -2660,6 +2884,8 @@
       '<div class="countdown"><strong>' + (left === 0 ? "Today" : left) + '</strong>' +
         (left === 0 ? " is the day" : (left === 1 ? " day until your exam" : " days until your exam")) + '</div>' +
       '<p class="help">' + streakLine(st) + '</p>' +
+      trialBar() +
+      (fullStudy() ? readinessPanel(p) + weakDrillPanel(p) : studyLockedPanel()) +
 
       (today ? '<div class="todaybox">' +
         '<h3 style="margin:0 0 4px">Today &middot; ' + esc(today.unit) + '</h3>' +
@@ -2773,29 +2999,30 @@
       if (then) then();
       return;
     }
-    SB.from("user_plans").select("plan,attempts,locked_until,expires_at").eq("user_id", S.user.id).limit(1)
-      .then(function (res) {
-        var row = res && res.data && res.data[0];
-        if (row) {
-          // A plan that has run out counts as Free, whatever the row says.
-          var live = row.plan && row.plan !== "free" && row.expires_at &&
-                     new Date(row.expires_at) > new Date();
-          S.plan = live ? row.plan : "free";
-          S.planExpires = live ? row.expires_at : null;
-          S.planLapsed = !!(row.plan && row.plan !== "free" && !live);
-          S.planLockedUntil = row.locked_until || null;
-        } else {
-          // No row yet just means they have never redeemed a code. The server
-          // creates the row itself the first time one is entered - the browser
-          // is not allowed to write to this table any more.
-          S.plan = "free";
-          S.planLockedUntil = null;
-        }
-        if (then) then();
-      })["catch"](function () {
-        S.plan = "free";
-        if (then) then();
-      });
+    // The database works out the plan, including whether the free trial is
+    // still running and whether a paid plan has quietly expired. The page
+    // just repeats the answer.
+    SB.rpc("my_plan").then(function (res) {
+      var d = (res && !res.error && res.data) || null;
+      if (d) {
+        S.plan = d.plan || "free";
+        S.planExpires = d.expires_at || null;
+        S.trialEnds = d.trial_ends || null;
+        S.planLapsed = !!d.lapsed;
+      } else {
+        S.plan = "free"; S.trialEnds = null;
+      }
+      // locked_until still comes from the row itself
+      SB.from("user_plans").select("locked_until").eq("user_id", S.user.id).limit(1)
+        .then(function (r2) {
+          var row = r2 && r2.data && r2.data[0];
+          S.planLockedUntil = row ? (row.locked_until || null) : null;
+          if (then) then();
+        })["catch"](function () { S.planLockedUntil = null; if (then) then(); });
+    })["catch"](function () {
+      S.plan = "free"; S.trialEnds = null;
+      if (then) then();
+    });
   }
 
   function updateAuthArea() {
@@ -3666,7 +3893,7 @@
     app.innerHTML = '<div class="panel">' + inner + '</div>';
 
     if (S.tab === "study") wireStudy(p);
-    if (S.tab === "quick") wireQuick();
+    if (S.tab === "quick") wireQuick(p);
     if (S.tab === "practice") wirePractice(p);
     if (S.tab === "cards") wireCards(p);
     if (S.tab === "exam") wireExam(p);
