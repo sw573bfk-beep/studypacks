@@ -6471,5 +6471,1075 @@ window.PACKS = [
   "exam": {
    "minutes": 50
   }
+ },
+ {
+  "id": "maths-y8-straight-line-graphs",
+  "subject": "Maths",
+  "year": "Year 8",
+  "title": "Straight Line Graphs — tables, rules, intercepts and gradient",
+  "blurb": "Checkpoint revision for 9A-9G: reading tables, finding y = mx + c, intercepts and gradient.",
+  "topics": [
+   "Tables and graphs",
+   "Finding the rule",
+   "Intercepts",
+   "Gradient"
+  ],
+  "created": "2026-08-17",
+  "custom": false,
+  "theme": "blue",
+  "focus": "practice",
+  "emoji": "📈",
+  "examInfo": "Year 8 Maths · Checkpoint · Straight line graphs (9A-9G)",
+  "homeTitle": "Everything on the straight line graphs checkpoint",
+  "homeIntro": "This is built straight from your revision sheet. Four things get tested over and over: reading a table, finding the rule, finding the intercepts, and working out the gradient.",
+  "studyTip": "Do the practice questions, not the reading. Every question on this checkpoint is one of four types, and you get better at them by doing them.",
+  "unitInfo": {
+   "Tables & Graphs": {
+    "blurb": "Turning a table of values into points, and points back into a table."
+   },
+   "Finding the Rule": {
+    "blurb": "Getting y = mx + c out of a table, which is most of the marks."
+   },
+   "Intercepts": {
+    "blurb": "Where the line crosses each axis, and how to find them three different ways."
+   },
+   "Gradient": {
+    "blurb": "Which way it slopes, how steep, and rise over run."
+   }
+  },
+  "overview": [
+   {
+    "heading": "The rule for a straight line",
+    "points": [
+     "Every straight line can be written as **y = mx + c**.",
+     "**m** is the **gradient** - the pattern in the y values as x goes up by 1.",
+     "**c** is the **y-intercept** - the y value when **x = 0**.",
+     "If y goes up as x goes up, m is **positive**. If y goes down, m is **negative**."
+    ]
+   },
+   {
+    "heading": "Tables and graphs",
+    "points": [
+     "A table of values is just a list of **points**: the top row is x, the bottom row is y.",
+     "Each column gives you the coordinate **(x, y)** to plot.",
+     "To complete a table from a rule, substitute each x value into the rule.",
+     "Plot the points, then join them with a **straight line using a ruler**."
+    ]
+   },
+   {
+    "heading": "Intercepts",
+    "points": [
+     "The **x-intercept** is where the line crosses the x-axis. There, **y = 0**.",
+     "The **y-intercept** is where the line crosses the y-axis. There, **x = 0**.",
+     "Write them as coordinates: x-intercept **(a, 0)**, y-intercept **(0, b)**.",
+     "To find them from a rule, **substitute**: put y = 0 to get the x-intercept, x = 0 to get the y-intercept.",
+     "Two intercepts are enough to **sketch** the whole line."
+    ]
+   },
+   {
+    "heading": "Gradient",
+    "points": [
+     "**Positive** gradient goes up from left to right. **Negative** goes down.",
+     "A **horizontal** line has gradient **zero**. A **vertical** line has an **undefined** gradient.",
+     "**gradient = rise ÷ run** - how far up, divided by how far across.",
+     "Going **down** counts as a **negative rise**.",
+     "From a table, the gradient is how much y changes each time x goes up by 1."
+    ]
+   }
+  ],
+  "notes": [
+   {
+    "unit": "Tables & Graphs",
+    "heading": "A table of values is a list of points",
+    "body": "The top row is **x**, the bottom row is **y**. Read them in **columns**.\n\nSo this table:\n\nx: -3, -2, -1, 0, 1, 2, 3\ny: -8, -6, -4, -2, 0, 2, 4\n\ngives the points **(-3, -8)**, **(-2, -6)**, **(-1, -4)**, **(0, -2)**, **(1, 0)**, **(2, 2)**, **(3, 4)**.\n\nPlot each one, then join them with a ruler. If your points do not sit in a straight line, you have made an arithmetic slip somewhere - go back and check, do not just draw a curve through them."
+   },
+   {
+    "unit": "Tables & Graphs",
+    "heading": "Completing a table from a rule",
+    "body": "Substitute each x value into the rule, one at a time. Write the working if the numbers are negative - that is where marks get lost.",
+    "steps": [
+     {
+      "do": "Take the rule, say y = 2x - 2",
+      "why": "Every y value comes from the same rule."
+     },
+     {
+      "art": "x = -3:  y = 2 × (-3) - 2\n              = -6 - 2\n              = -8",
+      "why": "Multiply first, then subtract. Brackets around the negative keep it clear."
+     },
+     {
+      "do": "Repeat for every x in the table",
+      "why": "Each column is one substitution."
+     },
+     {
+      "do": "Sanity check the pattern",
+      "why": "The y values should go up (or down) by the same amount every time. If one breaks the pattern, that one is wrong."
+     }
+    ]
+   },
+   {
+    "unit": "Finding the Rule",
+    "heading": "Getting y = mx + c from a table",
+    "body": "This is the one that comes up most. Two steps, and they are always the same two.\n\n**m is the pattern in the y values.** Look at how much y changes each time x goes up by 1. Up by 2 means m = 2. Down by 3 means m = -3.\n\n**c is the y value when x = 0.** Find the 0 in the x row and read straight down.",
+    "steps": [
+     {
+      "do": "Check the x values go up by 1",
+      "why": "If they jump by 2, the y change is for 2 steps, so halve it."
+     },
+     {
+      "do": "Find m: how much does y change each step?",
+      "why": "Going up is positive, going down is negative."
+     },
+     {
+      "do": "Find c: the y value directly under x = 0",
+      "why": "That is exactly what the y-intercept means."
+     },
+     {
+      "art": "x:  -3  -2  -1   0   1   2\ny:  -3  -1   1   3   5   7\n         +2  +2  +2  +2  +2\n     so m = 2,  and c = 3\n     rule:  y = 2x + 3",
+      "why": "Write the +2s between the y values - it makes m obvious."
+     },
+     {
+      "do": "Test it on one other column",
+      "why": "x = 2 gives 2×2 + 3 = 7. It matches, so the rule is right."
+     }
+    ]
+   },
+   {
+    "unit": "Finding the Rule",
+    "heading": "When there is no x = 0 in the table",
+    "body": "Sometimes the table starts at x = 1 or x = -1, so you cannot just read c off.\n\nFind **m** first from the pattern. Then take **any** column, substitute, and solve for c.\n\nExample: the table has the point (1, 5) and you worked out m = 3.\n\ny = 3x + c\n5 = 3 × 1 + c\n5 = 3 + c\nc = 2\n\nSo the rule is y = 3x + 2. You can also just work **backwards** along the pattern to where x would be 0."
+   },
+   {
+    "unit": "Intercepts",
+    "heading": "What the two intercepts mean",
+    "body": "The **x-intercept** is where the line crosses the **x-axis**. Anywhere on the x-axis, **y = 0**.\n\nThe **y-intercept** is where the line crosses the **y-axis**. Anywhere on the y-axis, **x = 0**.\n\nThe swap catches people out constantly. Remember it this way: the **x**-intercept is the one where **y is zero** - the letters are opposite to what you expect.\n\nWrite both as coordinates, not single numbers. x-intercept **(a, 0)**, y-intercept **(0, b)**.",
+    "diagram": "<svg viewBox=\"0 0 380 260\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\"><title>The x-intercept where the line crosses the x-axis and the y-intercept where it crosses the y-axis</title><style>.g{stroke:#e6e8f5;stroke-width:1}.ax{stroke:#3b3a6b;stroke-width:2}.ln{stroke:#6c63ff;stroke-width:3}.d{fill:#c8452f}.t{font:12px sans-serif;fill:#3b3a6b}.s{font:11px sans-serif;fill:#6b6a8f}</style><g class=\"g\"><line x1=\"40\" y1=\"30\" x2=\"40\" y2=\"230\"/><line x1=\"90\" y1=\"30\" x2=\"90\" y2=\"230\"/><line x1=\"140\" y1=\"30\" x2=\"140\" y2=\"230\"/><line x1=\"190\" y1=\"30\" x2=\"190\" y2=\"230\"/><line x1=\"240\" y1=\"30\" x2=\"240\" y2=\"230\"/><line x1=\"290\" y1=\"30\" x2=\"290\" y2=\"230\"/><line x1=\"340\" y1=\"30\" x2=\"340\" y2=\"230\"/><line x1=\"40\" y1=\"30\" x2=\"340\" y2=\"30\"/><line x1=\"40\" y1=\"80\" x2=\"340\" y2=\"80\"/><line x1=\"40\" y1=\"130\" x2=\"340\" y2=\"130\"/><line x1=\"40\" y1=\"180\" x2=\"340\" y2=\"180\"/><line x1=\"40\" y1=\"230\" x2=\"340\" y2=\"230\"/></g><line class=\"ax\" x1=\"40\" y1=\"130\" x2=\"340\" y2=\"130\"/><line class=\"ax\" x1=\"140\" y1=\"30\" x2=\"140\" y2=\"230\"/><line class=\"ln\" x1=\"60\" y1=\"205\" x2=\"320\" y2=\"53\"/><circle class=\"d\" cx=\"190\" cy=\"130\" r=\"6\"/><text class=\"t\" x=\"196\" y=\"152\">x-intercept</text><text class=\"s\" x=\"196\" y=\"168\">y = 0 here</text><circle class=\"d\" cx=\"140\" cy=\"159\" r=\"6\"/><text class=\"t\" x=\"20\" y=\"196\">y-intercept</text><text class=\"s\" x=\"20\" y=\"212\">x = 0 here</text></svg>",
+    "diagramCaption": "x-intercept sits on the x-axis where y = 0. y-intercept sits on the y-axis where x = 0."
+   },
+   {
+    "unit": "Intercepts",
+    "heading": "Finding intercepts from a table",
+    "body": "Easiest case. Just read them off.\n\n**y-intercept**: look for **x = 0** in the top row, read the y underneath.\n\n**x-intercept**: look for **y = 0** in the bottom row, read the x above it.\n\nIf there is no zero in the row you need, the intercept is not in the table - you would have to extend the pattern or use the rule."
+   },
+   {
+    "unit": "Intercepts",
+    "heading": "Finding intercepts from a rule by substitution",
+    "body": "This is the method the revision sheet asks for, and it is worth learning properly because it works for any rule.",
+    "steps": [
+     {
+      "do": "For the x-intercept, substitute y = 0",
+      "why": "Every point on the x-axis has y = 0."
+     },
+     {
+      "art": "y = 2x - 8\n0 = 2x - 8\n8 = 2x\nx = 4      so the x-intercept is (4, 0)",
+      "why": "Add 8 to both sides, then divide both sides by 2."
+     },
+     {
+      "do": "For the y-intercept, substitute x = 0",
+      "why": "Every point on the y-axis has x = 0."
+     },
+     {
+      "art": "y = 2(0) - 8\ny = -8     so the y-intercept is (0, -8)",
+      "why": "Anything times zero is zero, so y is just the c on the end."
+     },
+     {
+      "do": "Plot the two points and rule a line through them",
+      "why": "Two points is all you need to sketch a straight line."
+     }
+    ]
+   },
+   {
+    "unit": "Intercepts",
+    "heading": "Sketching from the intercepts",
+    "body": "A **sketch** is not a full plotted graph. You do not need graph paper or every point.\n\nMark the two intercepts on the axes, rule a line through them, and label the line with its rule. Label each intercept with its coordinates.\n\nThat is normally full marks, and it takes about twenty seconds."
+   },
+   {
+    "unit": "Gradient",
+    "heading": "The four types of gradient",
+    "body": "Before calculating anything, you should be able to look at a line and say which of these it is.\n\n**Positive** - goes **up** as you read left to right.\n**Negative** - goes **down** as you read left to right.\n**Zero** - a **horizontal** line. Its rule looks like y = 4.\n**Undefined** - a **vertical** line. Its rule looks like x = 4.\n\nA question asking *is the gradient positive or negative?* is asking you to read the direction, nothing more.",
+    "diagram": "<svg viewBox=\"0 0 620 170\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\"><title>Positive, negative, zero and undefined gradients</title><style>.ax{stroke:#c9cdfa;stroke-width:1.5}.ln{stroke:#3b3a6b;stroke-width:3;fill:none}.t{font:11.5px sans-serif;fill:#3b3a6b;text-anchor:middle}.b{font:bold 12px sans-serif;fill:#3b3a6b;text-anchor:middle}</style><g><line class=\"ax\" x1=\"20\" y1=\"110\" x2=\"130\" y2=\"110\"/><line class=\"ax\" x1=\"75\" y1=\"30\" x2=\"75\" y2=\"120\"/><line class=\"ln\" x1=\"30\" y1=\"105\" x2=\"120\" y2=\"40\"/><text class=\"b\" x=\"75\" y=\"146\">Positive</text><text class=\"t\" x=\"75\" y=\"162\">goes up</text></g><g><line class=\"ax\" x1=\"170\" y1=\"110\" x2=\"280\" y2=\"110\"/><line class=\"ax\" x1=\"225\" y1=\"30\" x2=\"225\" y2=\"120\"/><line class=\"ln\" x1=\"180\" y1=\"40\" x2=\"270\" y2=\"105\"/><text class=\"b\" x=\"225\" y=\"146\">Negative</text><text class=\"t\" x=\"225\" y=\"162\">goes down</text></g><g><line class=\"ax\" x1=\"320\" y1=\"110\" x2=\"430\" y2=\"110\"/><line class=\"ax\" x1=\"375\" y1=\"30\" x2=\"375\" y2=\"120\"/><line class=\"ln\" x1=\"330\" y1=\"70\" x2=\"420\" y2=\"70\"/><text class=\"b\" x=\"375\" y=\"146\">Zero</text><text class=\"t\" x=\"375\" y=\"162\">flat, y = a number</text></g><g><line class=\"ax\" x1=\"470\" y1=\"110\" x2=\"580\" y2=\"110\"/><line class=\"ax\" x1=\"525\" y1=\"30\" x2=\"525\" y2=\"120\"/><line class=\"ln\" x1=\"545\" y1=\"35\" x2=\"545\" y2=\"115\"/><text class=\"b\" x=\"525\" y=\"146\">Undefined</text><text class=\"t\" x=\"525\" y=\"162\">vertical, x = a number</text></g></svg>",
+    "diagramCaption": "Read left to right: up is positive, down is negative, flat is zero, vertical is undefined."
+   },
+   {
+    "unit": "Gradient",
+    "heading": "Gradient = rise over run",
+    "body": "**gradient = rise ÷ run**\n\n**Rise** is how far the line goes **up** between two points. **Run** is how far it goes **across**.\n\nPick two points where the line crosses the grid neatly - that keeps the numbers whole. Draw the right-angled triangle between them.\n\nIf the line goes **down**, the rise is **negative**, so the gradient comes out negative. That is the only difference.",
+    "diagram": "<svg viewBox=\"0 0 360 230\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\"><title>Gradient equals rise over run, shown as a triangle under the line</title><style>.ax{stroke:#3b3a6b;stroke-width:2}.ln{stroke:#6c63ff;stroke-width:3}.tri{stroke:#c8452f;stroke-width:2;fill:none;stroke-dasharray:5 4}.d{fill:#3b3a6b}.t{font:12px sans-serif;fill:#3b3a6b}.r{font:bold 12px sans-serif;fill:#c8452f}</style><line class=\"ax\" x1=\"40\" y1=\"190\" x2=\"330\" y2=\"190\"/><line class=\"ax\" x1=\"60\" y1=\"20\" x2=\"60\" y2=\"205\"/><line class=\"ln\" x1=\"70\" y1=\"175\" x2=\"300\" y2=\"45\"/><circle class=\"d\" cx=\"110\" cy=\"152\" r=\"5\"/><circle class=\"d\" cx=\"250\" cy=\"73\" r=\"5\"/><line class=\"tri\" x1=\"110\" y1=\"152\" x2=\"250\" y2=\"152\"/><line class=\"tri\" x1=\"250\" y1=\"152\" x2=\"250\" y2=\"73\"/><text class=\"r\" x=\"165\" y=\"172\">run (across)</text><text class=\"r\" x=\"258\" y=\"118\">rise (up)</text><text class=\"t\" x=\"70\" y=\"146\">first point</text><text class=\"t\" x=\"196\" y=\"66\">second point</text></svg>",
+    "diagramCaption": "Pick two clean points, draw the triangle, then divide rise by run."
+   },
+   {
+    "unit": "Gradient",
+    "heading": "Gradient between two points",
+    "body": "If you are given coordinates instead of a picture, the rise and run come from subtracting.",
+    "steps": [
+     {
+      "do": "Label the points (x₁, y₁) and (x₂, y₂)",
+      "why": "It does not matter which is which, as long as you keep the order the same in both subtractions."
+     },
+     {
+      "art": "gradient = (y₂ - y₁) ÷ (x₂ - x₁)\n\n(1, 3) and (4, 9):\n  = (9 - 3) ÷ (4 - 1)\n  = 6 ÷ 3\n  = 2",
+      "why": "The top is the rise, the bottom is the run."
+     },
+     {
+      "do": "Check the sign against the picture",
+      "why": "If the line clearly goes down but you got a positive answer, you have subtracted in different orders."
+     }
+    ]
+   },
+   {
+    "unit": "Gradient",
+    "heading": "Gradient straight from a table",
+    "body": "You do not need a graph at all. If the x values go up by **1** each time, the gradient is just **how much y changes** each step.\n\nx: 0, 1, 2, 3\ny: 9, 6, 3, 0\n\ny drops by 3 every step, so the gradient is **-3**.\n\nIf the x values go up by **2** each time, the y change covers two steps - so **halve it**. Always check the x row before trusting the y pattern."
+   }
+  ],
+  "terms": [
+   {
+    "term": "Gradient",
+    "unit": "Gradient",
+    "definition": "How steep a line is, and which way it slopes. Found by rise divided by run."
+   },
+   {
+    "term": "Rise",
+    "unit": "Gradient",
+    "definition": "How far a line goes up between two points. Going down counts as a negative rise."
+   },
+   {
+    "term": "Run",
+    "unit": "Gradient",
+    "definition": "How far a line goes across between two points."
+   },
+   {
+    "term": "Positive gradient",
+    "unit": "Gradient",
+    "definition": "A line that goes up as you read from left to right."
+   },
+   {
+    "term": "Negative gradient",
+    "unit": "Gradient",
+    "definition": "A line that goes down as you read from left to right."
+   },
+   {
+    "term": "Zero gradient",
+    "unit": "Gradient",
+    "definition": "A horizontal line. Its rule looks like y = 4."
+   },
+   {
+    "term": "Undefined gradient",
+    "unit": "Gradient",
+    "definition": "A vertical line. Its rule looks like x = 4."
+   },
+   {
+    "term": "x-intercept",
+    "unit": "Intercepts",
+    "definition": "Where the line crosses the x-axis. At that point y = 0, written (a, 0)."
+   },
+   {
+    "term": "y-intercept",
+    "unit": "Intercepts",
+    "definition": "Where the line crosses the y-axis. At that point x = 0, written (0, b)."
+   },
+   {
+    "term": "Substitution",
+    "unit": "Intercepts",
+    "definition": "Replacing a letter in a rule with a number, then working out what is left."
+   },
+   {
+    "term": "Sketch",
+    "unit": "Intercepts",
+    "definition": "A quick graph showing the key points - usually the two intercepts - rather than every plotted point."
+   },
+   {
+    "term": "y = mx + c",
+    "unit": "Finding the Rule",
+    "definition": "The general rule for any straight line, where m is the gradient and c is the y-intercept."
+   },
+   {
+    "term": "m",
+    "unit": "Finding the Rule",
+    "definition": "The gradient - the pattern in the y values as x goes up by 1."
+   },
+   {
+    "term": "c",
+    "unit": "Finding the Rule",
+    "definition": "The y-intercept - the y value when x is 0."
+   },
+   {
+    "term": "Rule",
+    "unit": "Finding the Rule",
+    "definition": "The equation linking x and y, so that any x gives you its y."
+   },
+   {
+    "term": "Table of values",
+    "unit": "Tables & Graphs",
+    "definition": "A row of x values with the matching y values underneath. Each column is one point."
+   },
+   {
+    "term": "Coordinate",
+    "unit": "Tables & Graphs",
+    "definition": "A pair (x, y) giving the position of a point - across first, then up."
+   },
+   {
+    "term": "Origin",
+    "unit": "Tables & Graphs",
+    "definition": "The point (0, 0), where the two axes cross."
+   },
+   {
+    "term": "Axes",
+    "unit": "Tables & Graphs",
+    "definition": "The two number lines on a graph: x across, y up."
+   },
+   {
+    "term": "Linear",
+    "unit": "Tables & Graphs",
+    "definition": "Making a straight line. The y values change by the same amount each step."
+   }
+  ],
+  "cards": [
+   {
+    "front": "What is the general rule for a straight line?",
+    "back": "y = mx + c"
+   },
+   {
+    "front": "In y = mx + c, what is m?",
+    "back": "The gradient - how much y changes each time x goes up by 1."
+   },
+   {
+    "front": "In y = mx + c, what is c?",
+    "back": "The y-intercept - the y value when x = 0."
+   },
+   {
+    "front": "At the x-intercept, which variable is zero?",
+    "back": "y = 0. The x-intercept sits on the x-axis."
+   },
+   {
+    "front": "At the y-intercept, which variable is zero?",
+    "back": "x = 0. The y-intercept sits on the y-axis."
+   },
+   {
+    "front": "How do you find the x-intercept from a rule?",
+    "back": "Substitute y = 0 and solve for x."
+   },
+   {
+    "front": "How do you find the y-intercept from a rule?",
+    "back": "Substitute x = 0. The answer is just c."
+   },
+   {
+    "front": "Write the gradient formula.",
+    "back": "gradient = rise ÷ run"
+   },
+   {
+    "front": "Gradient between (x₁, y₁) and (x₂, y₂)?",
+    "back": "(y₂ - y₁) ÷ (x₂ - x₁)"
+   },
+   {
+    "front": "A line goes up left to right. Gradient?",
+    "back": "Positive."
+   },
+   {
+    "front": "A line goes down left to right. Gradient?",
+    "back": "Negative."
+   },
+   {
+    "front": "Gradient of a horizontal line?",
+    "back": "Zero. Its rule looks like y = 4."
+   },
+   {
+    "front": "Gradient of a vertical line?",
+    "back": "Undefined. Its rule looks like x = 4."
+   },
+   {
+    "front": "How do you get the gradient from a table?",
+    "back": "How much y changes each time x goes up by 1."
+   },
+   {
+    "front": "How do you get c from a table?",
+    "back": "Read the y value directly under x = 0."
+   },
+   {
+    "front": "Table: x 0,1,2,3 and y 9,6,3,0. Gradient?",
+    "back": "-3, because y drops by 3 every step."
+   },
+   {
+    "front": "Table: x 0,1,2,3 and y 9,6,3,0. The rule?",
+    "back": "y = -3x + 9"
+   },
+   {
+    "front": "What if the table has no x = 0?",
+    "back": "Find m from the pattern, substitute any point into y = mx + c and solve for c."
+   },
+   {
+    "front": "What if x goes up by 2 each time, not 1?",
+    "back": "The y change covers two steps, so halve it to get the gradient."
+   },
+   {
+    "front": "How many points do you need to sketch a line?",
+    "back": "Two. The two intercepts are the easiest pair."
+   },
+   {
+    "front": "y = 2x - 8. What is the y-intercept?",
+    "back": "(0, -8)"
+   },
+   {
+    "front": "y = 2x - 8. What is the x-intercept?",
+    "back": "(4, 0), because 0 = 2x - 8 gives x = 4."
+   },
+   {
+    "front": "How do you write an intercept properly?",
+    "back": "As a coordinate: (4, 0) or (0, -8), not just a number."
+   },
+   {
+    "front": "Your plotted points are not in a line. What now?",
+    "back": "You made an arithmetic mistake. Recheck the substitutions - do not draw a curve."
+   },
+   {
+    "front": "What does linear mean?",
+    "back": "It makes a straight line - y changes by the same amount each step."
+   },
+   {
+    "front": "Table: x -2,-1,0,1 and y 5,6,7,8. The rule?",
+    "back": "y = x + 7"
+   }
+  ],
+  "quick": [
+   {
+    "q": "What does the m stand for in y = mx + c?",
+    "unit": "Finding the Rule",
+    "options": [
+     "The y-intercept",
+     "The gradient",
+     "The x-intercept",
+     "The origin"
+    ],
+    "answer": 1,
+    "why": "m is the gradient - how much y changes each time x goes up by 1."
+   },
+   {
+    "q": "What does the c stand for in y = mx + c?",
+    "unit": "Finding the Rule",
+    "options": [
+     "The gradient",
+     "The x-intercept",
+     "The run",
+     "The y-intercept"
+    ],
+    "answer": 3,
+    "why": "c is the y value when x = 0, which is the y-intercept."
+   },
+   {
+    "q": "At the x-intercept, what is y equal to?",
+    "unit": "Intercepts",
+    "options": [
+     "1",
+     "x",
+     "c",
+     "0"
+    ],
+    "answer": 3,
+    "why": "Every point on the x-axis has y = 0."
+   },
+   {
+    "q": "At the y-intercept, what is x equal to?",
+    "unit": "Intercepts",
+    "options": [
+     "1",
+     "y",
+     "m",
+     "0"
+    ],
+    "answer": 3,
+    "why": "Every point on the y-axis has x = 0."
+   },
+   {
+    "q": "To find the x-intercept of a rule you substitute...",
+    "unit": "Intercepts",
+    "options": [
+     "x = 0",
+     "m = 0",
+     "y = 0",
+     "c = 0"
+    ],
+    "answer": 2,
+    "why": "Put y = 0 and solve for x."
+   },
+   {
+    "q": "To find the y-intercept of y = 3x - 6 you get...",
+    "unit": "Intercepts",
+    "options": [
+     "(-6, 0)",
+     "(0, -6)",
+     "(0, 3)",
+     "(2, 0)"
+    ],
+    "answer": 1,
+    "why": "Substitute x = 0: y = 3(0) - 6 = -6, so (0, -6)."
+   },
+   {
+    "q": "The x-intercept of y = 3x - 6 is...",
+    "unit": "Intercepts",
+    "options": [
+     "(0, 2)",
+     "(2, 0)",
+     "(6, 0)",
+     "(-2, 0)"
+    ],
+    "answer": 1,
+    "why": "0 = 3x - 6, so 3x = 6 and x = 2."
+   },
+   {
+    "q": "A line goes down as you read left to right. Its gradient is...",
+    "unit": "Gradient",
+    "options": [
+     "Positive",
+     "Zero",
+     "Undefined",
+     "Negative"
+    ],
+    "answer": 3,
+    "why": "Down from left to right means a negative gradient."
+   },
+   {
+    "q": "A horizontal line has a gradient of...",
+    "unit": "Gradient",
+    "options": [
+     "One",
+     "Zero",
+     "Undefined",
+     "Negative"
+    ],
+    "answer": 1,
+    "why": "It never rises, so rise ÷ run = 0."
+   },
+   {
+    "q": "A vertical line has a gradient that is...",
+    "unit": "Gradient",
+    "options": [
+     "Zero",
+     "One",
+     "Undefined",
+     "Negative"
+    ],
+    "answer": 2,
+    "why": "The run is 0, and you cannot divide by zero."
+   },
+   {
+    "q": "The gradient formula is...",
+    "unit": "Gradient",
+    "options": [
+     "rise ÷ run",
+     "run ÷ rise",
+     "rise × run",
+     "rise + run"
+    ],
+    "answer": 0,
+    "why": "gradient = rise ÷ run - how far up over how far across."
+   },
+   {
+    "q": "A line rises 6 and runs 3. Its gradient is...",
+    "unit": "Gradient",
+    "options": [
+     "2",
+     "3",
+     "18",
+     "0.5"
+    ],
+    "answer": 0,
+    "why": "6 ÷ 3 = 2."
+   },
+   {
+    "q": "The gradient between (1, 3) and (4, 9) is...",
+    "unit": "Gradient",
+    "options": [
+     "3",
+     "6",
+     "0.5",
+     "2"
+    ],
+    "answer": 3,
+    "why": "(9 - 3) ÷ (4 - 1) = 6 ÷ 3 = 2."
+   },
+   {
+    "q": "Table: x 0,1,2,3 and y 9,6,3,0. The gradient is...",
+    "unit": "Gradient",
+    "options": [
+     "3",
+     "9",
+     "-3",
+     "-9"
+    ],
+    "answer": 2,
+    "why": "y drops by 3 every time x goes up by 1."
+   },
+   {
+    "q": "Table: x -3,-2,-1,0 and y 8,7,6,5. The rule is...",
+    "unit": "Finding the Rule",
+    "options": [
+     "y = x + 5",
+     "y = -x - 5",
+     "y = -x + 5",
+     "y = 5x"
+    ],
+    "answer": 2,
+    "why": "y falls by 1 each step so m = -1, and at x = 0 y = 5 so c = 5."
+   },
+   {
+    "q": "Table: x -3,-2,-1,0,1,2 and y -3,-1,1,3,5,7. The rule is...",
+    "unit": "Finding the Rule",
+    "options": [
+     "y = 2x + 3",
+     "y = 2x - 3",
+     "y = 3x + 2",
+     "y = x + 3"
+    ],
+    "answer": 0,
+    "why": "y rises by 2 each step, and at x = 0 y = 3."
+   },
+   {
+    "q": "Table: x -2,-1,0,1 and y 5,6,7,8. The rule is...",
+    "unit": "Finding the Rule",
+    "options": [
+     "y = 7x",
+     "y = x - 7",
+     "y = x + 7",
+     "y = 2x + 7"
+    ],
+    "answer": 2,
+    "why": "y rises by 1 each step so m = 1, and at x = 0 y = 7."
+   },
+   {
+    "q": "In a table, how do you read c off directly?",
+    "unit": "Finding the Rule",
+    "options": [
+     "The first y value",
+     "The last y value",
+     "The y value under x = 0",
+     "The biggest y value"
+    ],
+    "answer": 2,
+    "why": "c is the y-intercept, which is the y value when x = 0."
+   },
+   {
+    "q": "A table has no x = 0 column. What do you do?",
+    "unit": "Finding the Rule",
+    "options": [
+     "Give up, it has no rule",
+     "Find m, then substitute a point to get c",
+     "Use the first y value as c",
+     "Use the gradient as c"
+    ],
+    "answer": 1,
+    "why": "Find m from the pattern, then solve y = mx + c using any column."
+   },
+   {
+    "q": "In a table of values, each column gives you...",
+    "unit": "Tables & Graphs",
+    "options": [
+     "A coordinate",
+     "A gradient",
+     "An intercept",
+     "A rule"
+    ],
+    "answer": 0,
+    "why": "The x on top and the y underneath make the point (x, y)."
+   },
+   {
+    "q": "The point (0, 0) is called the...",
+    "unit": "Tables & Graphs",
+    "options": [
+     "Intercept",
+     "Gradient",
+     "Axis",
+     "Origin"
+    ],
+    "answer": 3,
+    "why": "The origin is where the two axes cross."
+   },
+   {
+    "q": "In the coordinate (3, -5), which is the x value?",
+    "unit": "Tables & Graphs",
+    "options": [
+     "3",
+     "-5",
+     "Both",
+     "Neither"
+    ],
+    "answer": 0,
+    "why": "Coordinates are across first, then up: x then y."
+   },
+   {
+    "q": "Using y = 2x - 2, what is y when x = -3?",
+    "unit": "Tables & Graphs",
+    "options": [
+     "-4",
+     "-8",
+     "4",
+     "8"
+    ],
+    "answer": 1,
+    "why": "2 × (-3) - 2 = -6 - 2 = -8."
+   },
+   {
+    "q": "Your plotted points do not lie in a straight line. Most likely...",
+    "unit": "Tables & Graphs",
+    "options": [
+     "You made an arithmetic mistake",
+     "The rule is curved",
+     "You need more points",
+     "The graph paper is wrong"
+    ],
+    "answer": 0,
+    "why": "A rule like y = mx + c is always straight, so recheck the substitutions."
+   }
+  ],
+  "practice": [
+   {
+    "topic": "Finding the Rule",
+    "q": "Table: x = -3,-2,-1,0,1,2 and y = -3,-1,1,3,5,7. Write the rule.",
+    "answer": "y = 2x + 3",
+    "accept": [
+     "y=2x+3",
+     "2x+3",
+     "y = 2x+3"
+    ],
+    "why": "y goes up 2 each step so m = 2. At x = 0, y = 3 so c = 3."
+   },
+   {
+    "topic": "Finding the Rule",
+    "q": "Table: x = -1,0,1,2,3,4 and y = 1,4,7,10,13,16. Write the rule.",
+    "answer": "y = 3x + 4",
+    "accept": [
+     "y=3x+4",
+     "3x+4",
+     "y = 3x+4"
+    ],
+    "why": "y goes up 3 each step, and at x = 0 y = 4."
+   },
+   {
+    "topic": "Finding the Rule",
+    "q": "Table: x = -2,-1,0,1,2,3 and y = 5,6,7,8,9,10. Write the rule.",
+    "answer": "y = x + 7",
+    "accept": [
+     "y=x+7",
+     "x+7",
+     "y = 1x + 7"
+    ],
+    "why": "y goes up 1 each step so m = 1, and at x = 0 y = 7."
+   },
+   {
+    "topic": "Finding the Rule",
+    "q": "Table: x = -3,-2,-1,0,1,2 and y = 8,7,6,5,4,3. Write the rule.",
+    "answer": "y = -x + 5",
+    "accept": [
+     "y=-x+5",
+     "-x+5",
+     "y = 5 - x",
+     "y=5-x"
+    ],
+    "why": "y falls by 1 each step so m = -1, and at x = 0 y = 5."
+   },
+   {
+    "topic": "Finding the Rule",
+    "q": "Table: x = -2,-1,0,1,2,3 and y = -3,-4,-5,-6,-7,-8. Write the rule.",
+    "answer": "y = -x - 5",
+    "accept": [
+     "y=-x-5",
+     "-x-5",
+     "y = -5 - x"
+    ],
+    "why": "y falls by 1 each step so m = -1, and at x = 0 y = -5."
+   },
+   {
+    "topic": "Finding the Rule",
+    "q": "Table: x = 0,1,2,3,4,5 and y = 9,6,3,0,-3,-6. Write the rule.",
+    "answer": "y = -3x + 9",
+    "accept": [
+     "y=-3x+9",
+     "-3x+9",
+     "y = 9 - 3x",
+     "y=9-3x"
+    ],
+    "why": "y falls by 3 each step so m = -3, and at x = 0 y = 9."
+   },
+   {
+    "topic": "Finding the Rule",
+    "q": "Table: x = -3,-2,-1,0,1,2,3 and y = -8,-6,-4,-2,0,2,4. Write the rule.",
+    "answer": "y = 2x - 2",
+    "accept": [
+     "y=2x-2",
+     "2x-2",
+     "y = 2x-2"
+    ],
+    "why": "y goes up 2 each step, and at x = 0 y = -2."
+   },
+   {
+    "topic": "Finding the Rule",
+    "q": "A line has gradient 3 and passes through (1, 5). Find c in y = mx + c.",
+    "answer": "2",
+    "accept": [
+     "c = 2",
+     "c=2"
+    ],
+    "why": "5 = 3(1) + c, so c = 2 and the rule is y = 3x + 2."
+   },
+   {
+    "topic": "Intercepts",
+    "q": "For the table x = -3,-2,-1,0,1,2,3 and y = -8,-6,-4,-2,0,2,4, write the y-intercept as a coordinate.",
+    "answer": "(0, -2)",
+    "accept": [
+     "(0,-2)",
+     "0,-2"
+    ],
+    "why": "Read the y value under x = 0."
+   },
+   {
+    "topic": "Intercepts",
+    "q": "For the same table, write the x-intercept as a coordinate.",
+    "answer": "(1, 0)",
+    "accept": [
+     "(1,0)",
+     "1,0"
+    ],
+    "why": "Find y = 0 in the bottom row and read the x above it."
+   },
+   {
+    "topic": "Intercepts",
+    "q": "Find the x-intercept of y = 2x - 8 by substitution. Give a coordinate.",
+    "answer": "(4, 0)",
+    "accept": [
+     "(4,0)",
+     "4,0"
+    ],
+    "why": "0 = 2x - 8, so 2x = 8 and x = 4."
+   },
+   {
+    "topic": "Intercepts",
+    "q": "Find the y-intercept of y = 2x - 8. Give a coordinate.",
+    "answer": "(0, -8)",
+    "accept": [
+     "(0,-8)",
+     "0,-8"
+    ],
+    "why": "Substitute x = 0: y = -8."
+   },
+   {
+    "topic": "Intercepts",
+    "q": "Find the x-intercept of y = -3x + 9. Give a coordinate.",
+    "answer": "(3, 0)",
+    "accept": [
+     "(3,0)",
+     "3,0"
+    ],
+    "why": "0 = -3x + 9, so 3x = 9 and x = 3."
+   },
+   {
+    "topic": "Intercepts",
+    "q": "Find the y-intercept of y = -x + 5. Give a coordinate.",
+    "answer": "(0, 5)",
+    "accept": [
+     "(0,5)",
+     "0,5"
+    ],
+    "why": "Substitute x = 0: y = 5."
+   },
+   {
+    "topic": "Intercepts",
+    "q": "Find the x-intercept of y = x + 7. Give a coordinate.",
+    "answer": "(-7, 0)",
+    "accept": [
+     "(-7,0)",
+     "-7,0"
+    ],
+    "why": "0 = x + 7, so x = -7."
+   },
+   {
+    "topic": "Intercepts",
+    "q": "Find the x-intercept of y = 4x + 12. Give a coordinate.",
+    "answer": "(-3, 0)",
+    "accept": [
+     "(-3,0)",
+     "-3,0"
+    ],
+    "why": "0 = 4x + 12, so 4x = -12 and x = -3."
+   },
+   {
+    "topic": "Intercepts",
+    "q": "At the x-intercept, what is the value of y?",
+    "answer": "0",
+    "accept": [
+     "y = 0",
+     "zero"
+    ],
+    "why": "Every point on the x-axis has y = 0."
+   },
+   {
+    "topic": "Gradient",
+    "q": "A line rises 8 and runs 4. What is its gradient?",
+    "answer": "2",
+    "accept": [
+     "2",
+     "+2"
+    ],
+    "why": "8 ÷ 4 = 2."
+   },
+   {
+    "topic": "Gradient",
+    "q": "A line drops 6 over a run of 2. What is its gradient?",
+    "answer": "-3",
+    "accept": [
+     "-3"
+    ],
+    "why": "Going down means a rise of -6, and -6 ÷ 2 = -3."
+   },
+   {
+    "topic": "Gradient",
+    "q": "Find the gradient between (1, 3) and (4, 9).",
+    "answer": "2",
+    "accept": [
+     "2",
+     "+2"
+    ],
+    "why": "(9 - 3) ÷ (4 - 1) = 6 ÷ 3 = 2."
+   },
+   {
+    "topic": "Gradient",
+    "q": "Find the gradient between (0, 5) and (2, 1).",
+    "answer": "-2",
+    "accept": [
+     "-2"
+    ],
+    "why": "(1 - 5) ÷ (2 - 0) = -4 ÷ 2 = -2."
+   },
+   {
+    "topic": "Gradient",
+    "q": "Find the gradient between (-2, -1) and (2, 7).",
+    "answer": "2",
+    "accept": [
+     "2",
+     "+2"
+    ],
+    "why": "(7 - (-1)) ÷ (2 - (-2)) = 8 ÷ 4 = 2."
+   },
+   {
+    "topic": "Gradient",
+    "q": "What is the gradient of the line y = 7?",
+    "answer": "0",
+    "accept": [
+     "zero",
+     "0"
+    ],
+    "why": "It is horizontal, so it never rises."
+   },
+   {
+    "topic": "Gradient",
+    "q": "What is the gradient of the line x = 3?",
+    "answer": "Undefined",
+    "accept": [
+     "undefined",
+     "none",
+     "cannot be found"
+    ],
+    "why": "It is vertical, so the run is 0 and you cannot divide by zero."
+   },
+   {
+    "topic": "Tables & Graphs",
+    "q": "Using y = 2x - 2, what is y when x = -3?",
+    "answer": "-8",
+    "accept": [
+     "-8"
+    ],
+    "why": "2 × (-3) - 2 = -6 - 2 = -8."
+   },
+   {
+    "topic": "Tables & Graphs",
+    "q": "Using y = 2x - 2, what is y when x = 3?",
+    "answer": "4",
+    "accept": [
+     "4"
+    ],
+    "why": "2 × 3 - 2 = 6 - 2 = 4."
+   },
+   {
+    "topic": "Tables & Graphs",
+    "q": "Using y = -3x + 9, what is y when x = 4?",
+    "answer": "-3",
+    "accept": [
+     "-3"
+    ],
+    "why": "-3 × 4 + 9 = -12 + 9 = -3."
+   },
+   {
+    "topic": "Tables & Graphs",
+    "q": "Write the coordinate from the column where x = -1 and y = -4.",
+    "answer": "(-1, -4)",
+    "accept": [
+     "(-1,-4)",
+     "-1,-4"
+    ],
+    "why": "Coordinates are x first, then y."
+   }
+  ],
+  "quiz": [
+   {
+    "q": "Explain, in your own words, what m and c mean in y = mx + c.",
+    "a": "m is the gradient. It tells you how much y changes each time x goes up by 1, and whether the line slopes up (positive) or down (negative). c is the y-intercept - the y value when x is 0, which is where the line crosses the y-axis.",
+    "hint": "One is about steepness and direction, the other is about where it crosses an axis."
+   },
+   {
+    "q": "A table shows x = -3, -2, -1, 0, 1, 2 with y = -3, -1, 1, 3, 5, 7. Find the rule, showing how you got m and c.",
+    "a": "Each time x goes up by 1, y goes up by 2, so m = 2. When x = 0 the table shows y = 3, so c = 3. The rule is y = 2x + 3. Checking with x = 2: 2 x 2 + 3 = 7, which matches the table.",
+    "hint": "Find the pattern in the y row first, then look under x = 0."
+   },
+   {
+    "q": "Explain the difference between the x-intercept and the y-intercept, and how you find each one from a rule.",
+    "a": "The x-intercept is where the line crosses the x-axis, and at that point y = 0, so you substitute y = 0 into the rule and solve for x. The y-intercept is where the line crosses the y-axis, and at that point x = 0, so you substitute x = 0, which just leaves c. Both should be written as coordinates: (a, 0) and (0, b).",
+    "hint": "For each one, ask which variable is zero there."
+   },
+   {
+    "q": "Find both intercepts of y = 2x - 8 by substitution, and describe how you would sketch the graph.",
+    "a": "For the x-intercept substitute y = 0: 0 = 2x - 8, so 2x = 8 and x = 4, giving (4, 0). For the y-intercept substitute x = 0: y = 2(0) - 8 = -8, giving (0, -8). To sketch it, mark those two points on the axes, rule a straight line through them, label each intercept with its coordinates and label the line y = 2x - 8.",
+    "hint": "Two points are enough for a straight line."
+   },
+   {
+    "q": "Describe the four types of gradient and give an example rule for the last two.",
+    "a": "A positive gradient goes up from left to right. A negative gradient goes down from left to right. A zero gradient is a horizontal line, for example y = 4. An undefined gradient is a vertical line, for example x = 4 - it is undefined because the run is zero and you cannot divide by zero.",
+    "hint": "Read every line from left to right, then think about what makes rise over run break."
+   },
+   {
+    "q": "A line passes through (0, 5) and (2, 1). Find its gradient and write its rule.",
+    "a": "Gradient = (1 - 5) divided by (2 - 0) = -4 divided by 2 = -2. The point (0, 5) is on the y-axis, so c = 5. The rule is y = -2x + 5. Checking with x = 2: -2 x 2 + 5 = 1, which matches.",
+    "hint": "One of the given points is already the y-intercept."
+   },
+   {
+    "q": "A table has x = 1, 2, 3, 4 with y = 5, 8, 11, 14. There is no x = 0 column. Find the rule.",
+    "a": "y goes up by 3 each time x goes up by 1, so m = 3. Substitute a point into y = 3x + c, for example (1, 5): 5 = 3(1) + c, so c = 2. The rule is y = 3x + 2. Checking with x = 4: 3 x 4 + 2 = 14, which matches.",
+    "hint": "Find m first, then use any column to solve for c."
+   },
+   {
+    "q": "Explain why the x-intercept is the point where y = 0, not where x = 0.",
+    "a": "The x-intercept is where the line crosses the x-axis. Every point sitting on the x-axis has a height of zero, which means its y value is 0. The x value there can be anything - that is the number you are trying to find. It catches people out because the names feel swapped, but the intercept is named after the axis it crosses, not the variable that is zero.",
+    "hint": "Think about what is true of every point sitting on that axis."
+   },
+   {
+    "q": "A student calculates the gradient between (1, 3) and (4, 9) as 0.5. Explain their mistake and give the correct answer.",
+    "a": "They have divided run by rise instead of rise by run. The rise is 9 - 3 = 6 and the run is 4 - 1 = 3, so the gradient is 6 divided by 3 = 2. They worked out 3 divided by 6 = 0.5 instead. Gradient is always rise over run.",
+    "hint": "Their answer is the right numbers the wrong way up."
+   },
+   {
+    "q": "You complete a table from a rule and plot the points, but they do not lie on a straight line. What has gone wrong and what should you do?",
+    "a": "A rule in the form y = mx + c always makes a straight line, so the rule is not the problem - one of the substitutions must be wrong. The most likely cause is a mistake with negative numbers. Go back through each column, redo the substitution, and check the y values change by the same amount each step. The one that breaks the pattern is the one to fix. You should never join the points with a curve to make them fit.",
+    "hint": "The rule cannot be wrong, so what is left?"
+   },
+   {
+    "q": "From a table where x goes up in steps of 2 and y goes up by 6 each time, find the gradient. Explain why the answer is not 6.",
+    "a": "The gradient is how much y changes when x goes up by 1, but here x is jumping 2 at a time. The y change of 6 covers two steps, so one step is 6 divided by 2 = 3. The gradient is 3. Answering 6 would assume the x values went up by 1, so you have to check the x row before trusting the y pattern.",
+    "hint": "Gradient is always per one step of x."
+   },
+   {
+    "q": "Explain how to complete a table of values from the rule y = 2x - 2, using x = -3 as your example.",
+    "a": "Substitute each x value into the rule one at a time. For x = -3: y = 2 x (-3) - 2. Multiply first to get -6, then subtract 2 to get -8, so the point is (-3, -8). Repeat for every x in the table. As a check, the finished y row should change by the same amount each step - here it goes up by 2 every time.",
+    "hint": "Multiply before you subtract, and keep brackets around negatives."
+   }
+  ],
+  "exam": {
+   "minutes": 40
+  }
  }
 ];

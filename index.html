@@ -609,6 +609,27 @@
 .lockbox p{margin:0 0 12px;font-size:14px;color:var(--ink-soft)}
 .trialbar{background:#eef7f1;border:1px solid #bfe3cd;color:#14603c;border-radius:12px;
   padding:10px 14px;font-size:13.5px;margin:0 0 14px}
+/* Mock exam */
+.mockq{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px;background:#fff}
+.mockq .mn{font-size:12px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em}
+.mockq .mq{font-size:16px;font-weight:600;margin:4px 0 10px}
+.mockq input[type=text]{width:100%}
+.mockopt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;
+  border-radius:10px;padding:10px 12px;margin-bottom:7px;font:inherit;font-size:14.5px;cursor:pointer}
+.mockopt:hover{border-color:var(--brand-line)}
+.mockopt.picked{border-color:var(--brand);background:var(--brand-soft)}
+.mockopt.right{border-color:#1a8a55;background:#e8f7ef}
+.mockopt.wrong{border-color:#c8452f;background:#fdeeea}
+.scorebig{font-size:44px;font-weight:800;line-height:1}
+.brk{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:14px}
+.brkrow{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:14px}
+.brkrow:last-child{border-bottom:0}
+.brkname{flex:1;min-width:120px}
+.brkbar{display:inline-block;width:120px;height:8px;border-radius:999px;background:#eceef6;overflow:hidden}
+.brkfill{display:block;height:100%;background:#1a8a55;border-radius:999px}
+.brkfill.mid{background:#e0a02a}
+.brkfill.low{background:#c8452f}
+.brkpct{width:56px;text-align:right;font-weight:700}
 </style>
 </head>
 <body>
@@ -664,7 +685,7 @@
     lastRequestAt: null, // their most recent free request, straight from the server
     allow: null,         // how many requests they have left, decided by the database
     qp: null,            // per-question memory for the open pack
-    trialEnds: null,     // when the free week runs out, if they are on it
+    trialEnds: null,     // when the free week runs out, if they are on it\n    mock: null,          // a mock exam in progress\n    mockSeed: 0,
     adminRows: null,
     codeRows: null,      // plan codes, admin only
     codeSummary: null,
@@ -1992,7 +2013,17 @@
     pool = pool.slice(0, Math.min(GAME_QS, pool.length));
     S.gameMsg = null;
     SB.rpc("create_game", { p_pack_id: packId, p_question_ids: pool }).then(function (res) {
-      if (res.error) { S.gameMsg = "Could not start a game just then. Try again."; render(); return; }
+      if (res.error) {
+        var m = String(res.error.message || "");
+        S.gameMsg = /HOST_NOT_ALLOWED/.test(m)
+            ? "Hosting a game needs Plus or Pro - and every new account gets a free week of it."
+          : /HOST_LIMIT/.test(m)
+            ? "That is your class game for today. Plus gets one a day, Pro is unlimited."
+          : /SIGN_IN_REQUIRED/.test(m)
+            ? "Sign in first so the game knows who is running it."
+          : "Could not start a game just then. Try again.";
+        render(); return;
+      }
       var row = res.data && res.data[0];
       S.game = { role: "host", id: row.game_id, code: row.code, packId: packId,
                  status: "lobby", questionNo: 0, questions: pool, players: [],
@@ -2522,6 +2553,192 @@
     render();
   };
 
+  /* ---------------- Pro mock exam ---------------- */
+  /* The Full exam tab is a written paper you mark yourself. This one is
+     built only from questions the site can mark on its own, so it can hand
+     back a real score and say which topics lost the marks. */
+
+  function mockUnitOf(item, kind) {
+    return (item && (item.unit || item.topic)) || null;
+  }
+
+  function buildMock(p) {
+    var picks = [];
+    (p.quick || []).forEach(function (q, i) { picks.push({ kind: "quick", i: i, item: q }); });
+    (p.practice || []).forEach(function (q, i) { picks.push({ kind: "practice", i: i, item: q }); });
+    // deterministic-ish shuffle so a retake is not the identical order
+    var seed = (S.mockSeed = (S.mockSeed || 1) + 7);
+    for (var k = picks.length - 1; k > 0; k--) {
+      seed = (seed * 1103515245 + 12345) % 2147483648;
+      var j = seed % (k + 1);
+      var t = picks[k]; picks[k] = picks[j]; picks[j] = t;
+    }
+    return picks.slice(0, Math.min(25, picks.length));
+  }
+
+  window.startMock = function () {
+    var p = pack();
+    if (!p || !canMock()) { go("plans"); return; }
+    var qs = buildMock(p);
+    if (!qs.length) return;
+    S.mock = { qs: qs, answers: {}, done: false,
+               secondsLeft: Math.max(10, Math.round(qs.length * 1.2)) * 60 };
+    stopTimer();
+    mockTick();
+    window.scrollTo(0, 0);
+    render();
+  };
+
+  var mockTimerId = null;
+  function mockTick() {
+    if (mockTimerId) clearInterval(mockTimerId);
+    mockTimerId = setInterval(function () {
+      if (!S.mock || S.mock.done) { clearInterval(mockTimerId); mockTimerId = null; return; }
+      S.mock.secondsLeft--;
+      if (S.mock.secondsLeft <= 0) { window.finishMock(); return; }
+      var el = document.getElementById("mockClk");
+      if (el) el.textContent = mmss(S.mock.secondsLeft);
+    }, 1000);
+  }
+
+  window.quitMock = function () {
+    if (mockTimerId) { clearInterval(mockTimerId); mockTimerId = null; }
+    S.mock = null; window.scrollTo(0, 0); render();
+  };
+
+  window.finishMock = function () {
+    var m = S.mock, p = pack();
+    if (!m || m.done) return;
+    if (mockTimerId) { clearInterval(mockTimerId); mockTimerId = null; }
+    m.done = true;
+    m.marked = m.qs.map(function (q, n) {
+      var given = m.answers[n];
+      var ok;
+      if (q.kind === "quick") ok = (given === q.item.answer);
+      else ok = (given !== undefined && given !== null && String(given).trim() !== "" &&
+                 isRight(q.item, String(given)));
+      // every mock answer feeds the same memory the drill uses
+      recordAnswer(p, q.kind, q.i, mockUnitOf(q.item, q.kind), ok);
+      return { ok: !!ok, unit: mockUnitOf(q.item, q.kind) || "Untagged" };
+    });
+    window.scrollTo(0, 0);
+    render();
+  };
+
+  function mockBreakdown(m) {
+    var by = {};
+    m.marked.forEach(function (r) {
+      if (!by[r.unit]) by[r.unit] = { got: 0, out: 0 };
+      by[r.unit].out++;
+      if (r.ok) by[r.unit].got++;
+    });
+    return Object.keys(by).map(function (u) {
+      return { unit: u, got: by[u].got, out: by[u].out,
+               pct: Math.round((by[u].got / by[u].out) * 100) };
+    }).sort(function (a, b) { return a.pct - b.pct; });
+  }
+
+  function canMock() {
+    return S.plan === "pro" || S.plan === "trial";
+  }
+
+  function mockView(p) {
+    var m = S.mock;
+
+    if (m.done) {
+      var got = m.marked.filter(function (r) { return r.ok; }).length;
+      var out = m.marked.length;
+      var pct = Math.round((got / out) * 100);
+      var rows = mockBreakdown(m);
+      var untagged = rows.length === 1 && rows[0].unit === "Untagged";
+      return '<div class="sheet">' +
+        '<span class="kicker">Mock exam</span>' +
+        '<h2 style="margin:4px 0 12px">Marked</h2>' +
+        '<div class="scorebig">' + pct + '%</div>' +
+        '<p class="lead" style="margin:6px 0 0">' + got + ' out of ' + out + ' right.</p>' +
+        (untagged
+          ? '<p class="help" style="margin-top:12px">This pack\'s questions are not tagged by topic yet, ' +
+            'so there is no breakdown. Newer packs are, and they will show one here.</p>'
+          : '<h3 style="margin:20px 0 0;font-size:17px">Where the marks went</h3>' +
+            '<div class="brk">' + rows.map(function (r) {
+              var tone = r.pct >= 70 ? "" : (r.pct >= 40 ? " mid" : " low");
+              return '<div class="brkrow"><span class="brkname">' + esc(r.unit) + '</span>' +
+                '<span class="brkbar"><span class="brkfill' + tone + '" style="width:' + r.pct + '%"></span></span>' +
+                '<span class="brkpct">' + r.pct + '%</span>' +
+                '<span class="mwhen">' + r.got + '/' + r.out + '</span></div>';
+            }).join("") + '</div>' +
+            '<p class="help" style="margin-top:12px">Weakest topic first. Everything you got wrong ' +
+            'has gone into your weak questions, so the drill will bring it back.</p>') +
+        '<div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">' +
+          '<button class="btn btn-primary" onclick="startMock()">Sit another one</button>' +
+          '<button class="btn" onclick="quitMock()">Back to My Study</button>' +
+        '</div></div>';
+    }
+
+    var body = m.qs.map(function (q, n) {
+      var given = m.answers[n];
+      if (q.kind === "quick") {
+        var opts = q.item.options.map(function (o, j) {
+          return '<button class="mockopt' + (given === j ? " picked" : "") + '" ' +
+            'data-mk="' + n + '" data-mo="' + j + '">' +
+            '<strong>' + String.fromCharCode(65 + j) + '</strong> &nbsp;' + esc(o) + '</button>';
+        }).join("");
+        return '<div class="mockq"><div class="mn">Question ' + (n + 1) + '</div>' +
+          '<div class="mq">' + esc(q.item.q) + '</div>' + opts + '</div>';
+      }
+      return '<div class="mockq"><div class="mn">Question ' + (n + 1) + ' &middot; type your answer</div>' +
+        '<div class="mq">' + esc(q.item.q) + '</div>' +
+        '<input type="text" data-mt="' + n + '" value="' + esc(given === undefined ? "" : given) + '" ' +
+        'placeholder="Your answer"></div>';
+    }).join("");
+
+    var answered = Object.keys(m.answers).length;
+    return '<div class="timerbar">' +
+        '<span class="clock' + (m.secondsLeft <= 120 ? " low" : "") + '" id="mockClk">' +
+          mmss(m.secondsLeft) + '</span>' +
+        '<span class="lbl">left &middot; ' + answered + ' of ' + m.qs.length + ' answered</span>' +
+        '<span class="spacer"></span>' +
+        '<button class="btn btn-primary btn-sm" onclick="finishMock()">Finish &amp; mark</button>' +
+      '</div>' +
+      '<div class="sheet">' + body +
+      '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">' +
+        '<button class="btn btn-primary btn-lg" onclick="finishMock()">Finish &amp; mark</button>' +
+        '<button class="btn" onclick="quitMock()">Give up</button>' +
+      '</div></div>';
+  }
+
+  function wireMock() {
+    Array.prototype.forEach.call(app.querySelectorAll("[data-mk]"), function (b) {
+      b.addEventListener("click", function () {
+        if (!S.mock || S.mock.done) return;
+        S.mock.answers[this.getAttribute("data-mk")] = parseInt(this.getAttribute("data-mo"), 10);
+        var y = window.scrollY; render(); window.scrollTo(0, y);
+      });
+    });
+    Array.prototype.forEach.call(app.querySelectorAll("[data-mt]"), function (inp) {
+      inp.addEventListener("input", function () {
+        if (!S.mock || S.mock.done) return;
+        S.mock.answers[this.getAttribute("data-mt")] = this.value;
+      });
+    });
+  }
+
+  function mockPanel(p) {
+    var n = (p.quick || []).length + (p.practice || []).length;
+    if (!n) return "";
+    if (!canMock()) {
+      return '<div class="lockbox"><h3>Mock exam</h3>' +
+        '<p>A timed paper the site marks for you, with a breakdown of which topics lost the marks. ' +
+        'Pro, and included in your free week.</p>' +
+        '<button class="btn" onclick="go(\'plans\')">See plans</button></div>';
+    }
+    return '<div class="drillbox" style="background:#fff"><strong>Mock exam</strong>' +
+      'A timed paper marked the moment you finish, with a breakdown of which topics lost marks. ' +
+      'Everything you get wrong goes straight into your weak questions.' +
+      '<div style="margin-top:12px"><button class="btn btn-primary" onclick="startMock()">Sit a mock exam</button></div>' +
+    '</div>';
+  }
+
   function streakLine(st) {
     var n = (st && st.streak) || 0;
     if (!n) return "Do today's tasks to start a streak.";
@@ -2586,6 +2803,7 @@
   }
 
   window.startSession = function () {
+    if (!fullStudy()) { go("plans"); return; }
     var p = pack();
     var st = S.study || {};
     var plan = buildPlan(p, st.exam_date, st.minutes_a_day || 20);
@@ -2886,13 +3104,18 @@
       '<p class="help">' + streakLine(st) + '</p>' +
       trialBar() +
       (fullStudy() ? readinessPanel(p) + weakDrillPanel(p) : studyLockedPanel()) +
+      mockPanel(p) +
 
       (today ? '<div class="todaybox">' +
         '<h3 style="margin:0 0 4px">Today &middot; ' + esc(today.unit) + '</h3>' +
         '<p class="help" style="margin:0 0 12px">About ' +
           Math.round(today.tasks.reduce(function (a, t) { return a + t.mins; }, 0)) + ' minutes.</p>' +
         taskList(today, true) +
-        (doneToday
+        (!fullStudy()
+          ? '<p class="help" style="margin:10px 0 0">Work through the list above yourself, ' +
+            'or let StudyPacks walk you through it one step at a time with Plus. ' +
+            '<button class="linkbtn" onclick="go(\'plans\')">See plans</button></p>'
+          : doneToday
           ? '<p class="donenote">✓ Done for today. See you tomorrow.</p>' +
             '<button class="btn" onclick="startSession()">Go through it again anyway</button>'
           : '<button class="btn btn-primary btn-lg" onclick="startSession()">Start today\'s study</button>' +
@@ -2979,6 +3202,13 @@
     if (S.planLapsed) {
       return '<p class="lead">Your plan has run out, so you are back on <strong>Free</strong>. ' +
         'Another code puts you straight back on.</p>';
+    }
+    if (S.plan === "trial") {
+      var td = S.trialEnds
+        ? Math.ceil((new Date(S.trialEnds).getTime() - Date.now()) / 86400000) : 0;
+      return '<p class="lead">You are on your <strong>free week</strong>' +
+        (td > 0 ? ', with <strong>' + td + (td === 1 ? " day" : " days") + '</strong> left' : "") +
+        '. That is everything Pro has, with 3 pack requests and 1 class game a day.</p>';
     }
     if (S.plan === "free") return '<p class="lead">You are on <strong>Free</strong>.</p>';
     var d = daysLeft();
@@ -3662,20 +3892,42 @@
       : "";
     var current = planStanding();
 
+    // Keep this list honest. Everything here is either enforced by the
+    // database or is a real screen that exists.
     var tiers = [
-      { id: "free", name: "Free", price: "$0",
-        perks: ["Browse all StudyPacks", "Join class games", "My Study (basic)", "Save packs", "Request packs (3-day limit)"] },
-      { id: "plus", name: "Plus", price: "$2 a month",
-        perks: ["Everything in Free", "Host class games", "Higher limits", "Better My Study tools", "Guided sessions"] },
-      { id: "pro", name: "Pro", price: "$5 a month",
-        perks: ["Everything in Plus", "Highest limits", "Best / most detailed packs", "Priority features later"] }
+      { id: "free", name: "Free", price: "$0", note: "Everything you need to study.",
+        perks: [
+          "Every study pack, all of it",
+          "Flashcards, quick questions, practice and the timed exam",
+          "Join any class game with a code",
+          "My Study: exam countdown, day-by-day plan and streak",
+          "1 pack request a week"
+        ] },
+      { id: "plus", name: "Plus", price: "$2 a month", note: "The bit that makes you improve.",
+        perks: [
+          "Everything in Free",
+          "Guided session - told exactly what to do, one step at a time",
+          "Your weak 10 - drills the exact questions you keep getting wrong",
+          "Spaced repetition - wrong answers come back until they stick",
+          "Exam readiness score",
+          "Host 1 class game a day",
+          "2 pack requests a day"
+        ] },
+      { id: "pro", name: "Pro", price: "$5 a month", note: "For the week before the exam.",
+        perks: [
+          "Everything in Plus",
+          "Mock exam - timed, marked, with a breakdown of which topics lost marks",
+          "Unlimited class games",
+          "5 pack requests a day"
+        ] }
     ];
 
     var cards = tiers.map(function (t) {
       var on = (S.plan === t.id);
       return '<div class="sheet" style="flex:1;min-width:200px' + (on ? ";border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft)" : "") + '">' +
         '<span class="kicker">' + (on ? "Your plan" : t.price) + '</span>' +
-        '<h2 style="margin:4px 0 10px">' + esc(t.name) + '</h2>' +
+        '<h2 style="margin:4px 0 2px">' + esc(t.name) + '</h2>' +
+        '<p class="help" style="margin:0 0 10px">' + esc(t.note || "") + '</p>' +
         '<ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.6">' +
           t.perks.map(function (p) { return "<li>" + esc(p) + "</li>"; }).join("") +
         "</ul></div>";
@@ -3711,10 +3963,28 @@
 
     return '<section class="hero" style="padding-bottom:0"><h1>Plans</h1>' +
       current + '</section>' +
-      '<div class="panel">' + msg + codeBox +
+      '<div class="panel">' + msg + trialNotice() + codeBox +
         '<div style="display:flex;flex-wrap:wrap;gap:14px">' + cards + '</div>' +
         howToPay() + teacherBox() +
       '</div>';
+  }
+
+  // Everyone gets a week of the full thing. Worth saying loudly, because it
+  // is the cheapest way to show what Plus and Pro actually do.
+  function trialNotice() {
+    if (S.plan === "trial" && S.trialEnds) {
+      var d = Math.ceil((new Date(S.trialEnds).getTime() - Date.now()) / 86400000);
+      if (d > 0) {
+        return '<div class="trialbar" style="font-size:15px;padding:14px 16px">' +
+          '<strong>Your free week is running</strong> &middot; ' + d +
+          (d === 1 ? " day" : " days") + ' left. You have everything Pro has, ' +
+          'with 3 pack requests and 1 class game a day.</div>';
+      }
+    }
+    if (S.plan === "plus" || S.plan === "pro") return "";
+    return '<div class="trialbar" style="font-size:15px;padding:14px 16px">' +
+      '<strong>Every new account gets a free week</strong> &middot; everything Pro has, ' +
+      'with 3 pack requests and 1 class game a day. No code needed - it starts by itself.</div>';
   }
 
   function howToPay() {
@@ -3874,6 +4144,15 @@
       bannerEl.innerHTML = ""; navEl.innerHTML = "";
       app.innerHTML = '<div class="panel">' + sessionView(p) + '</div>';
       wireSession(p);
+      return;
+    }
+
+    // The mock exam takes over the page the same way.
+    if (S.mock) {
+      document.documentElement.setAttribute("data-theme", p.theme || "purple");
+      bannerEl.innerHTML = ""; navEl.innerHTML = "";
+      app.innerHTML = '<div class="panel">' + mockView(p) + '</div>';
+      wireMock();
       return;
     }
 
