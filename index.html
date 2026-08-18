@@ -1992,11 +1992,24 @@
         render(); return;
       }
       var row = res.data && res.data[0];
-      var p = null;
-      for (var i = 0; i < PACKS.length; i++) if (PACKS[i].id === row.pack_id) p = PACKS[i];
-      S.game = { role: "player", id: row.game_id, code: code, packId: row.pack_id,
-                 playerId: row.player_id, token: row.player_token, nickname: nick,
-                 status: row.status, questionNo: 0, questions: null, players: [],
+      if (!row) { S.gameMsg = "Could not join just then."; render(); return; }
+      // join_game returns its columns prefixed with out_ (out_player_id,
+      // out_token, out_game_id, out_pack_id, out_status). Reading the
+      // unprefixed names gave undefined for every one of them, so the
+      // player joined on the server but their screen had no game, no pack
+      // and no token - which is why they could never answer anything.
+      var gameId = row.out_game_id || row.game_id;
+      var packId = row.out_pack_id || row.pack_id;
+      var playerId = row.out_player_id || row.player_id;
+      var token = row.out_token || row.token || row.player_token;
+      var status = row.out_status || row.status || "lobby";
+      if (!gameId || !playerId || !token) {
+        S.gameMsg = "Joined, but the game did not load properly. Try again.";
+        render(); return;
+      }
+      S.game = { role: "player", id: gameId, code: code, packId: packId,
+                 playerId: playerId, token: token, nickname: nick,
+                 status: status, questionNo: 0, questions: null, players: [],
                  chosen: null, scored: false };
       // players need the question order too
       SB.from("games").select("question_ids,question_no,status").eq("id", row.game_id).limit(1)
@@ -2020,8 +2033,20 @@
     var right = (j === q.answer);
     if (right && g.role === "player" && !g.scored) {
       g.scored = true;
+      // A silent catch here is how a whole broken game went unnoticed: the
+      // player saw "correct" while the server recorded nothing.
       SB.rpc("score_answer", { p_player: g.playerId, p_token: g.token, p_points: POINTS_RIGHT })
-        .then(function () {})["catch"](function () {});
+        .then(function (res) {
+          if (res && res.error) {
+            g.scored = false;
+            S.gameMsg = "That point did not save. Your score may be behind.";
+            render();
+          }
+        })["catch"](function () {
+          g.scored = false;
+          S.gameMsg = "That point did not save. Your score may be behind.";
+          render();
+        });
     }
     render();
   };

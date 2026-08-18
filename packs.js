@@ -5144,5 +5144,1332 @@ window.PACKS = [
   "exam": {
    "minutes": 50
   }
+ },
+ {
+  "id": "science-y8-energy",
+  "subject": "Science",
+  "year": "Year 8",
+  "title": "Energy — Transfers, Transformations and Efficiency",
+  "blurb": "Everything from the Term 3 physics booklet: energy types, transfers, circuits, efficiency and the practicals.",
+  "topics": [
+   "What energy is",
+   "Kinetic and potential",
+   "Transfers and transformations",
+   "Circuits and efficiency",
+   "Practicals"
+  ],
+  "created": "2026-08-17",
+  "custom": false,
+  "theme": "green",
+  "focus": "memory",
+  "emoji": "⚡",
+  "examInfo": "Year 8 Science · Term 3 · Physics (Energy)",
+  "homeTitle": "The whole Term 3 energy unit, in one place",
+  "homeIntro": "This follows your booklet from Lesson 1 through the practicals. The two things worth getting perfect are telling a transfer apart from a transformation, and the efficiency calculation — they come up again and again.",
+  "studyTip": "Most of this is recall, but the efficiency and GPE questions are worth the most marks per question. Learn the two formulas early, then hammer the flashcards for everything else.",
+  "unitInfo": {
+   "What Energy Is": {
+    "blurb": "What energy actually means, and why it is not a substance."
+   },
+   "Kinetic & Potential": {
+    "blurb": "The two big families, the forms of each, and conservation of energy."
+   },
+   "Transfers & Transformations": {
+    "blurb": "Energy moving versus energy changing form, and where the wasted bit goes."
+   },
+   "Circuits & Efficiency": {
+    "blurb": "Simple circuits, and working out how much energy actually does the job."
+   },
+   "Practicals & Exam Skills": {
+    "blurb": "The marble, skate park, water wheel and bouncy ball investigations."
+   }
+  },
+  "overview": [
+   {
+    "heading": "What energy is",
+    "points": [
+     "**Energy** is what is needed for change, movement, heating, sound, light or work to happen.",
+     "Energy is **not a substance**. You cannot hold it or put it in a jar.",
+     "Energy **is** measurable. The unit is the **joule (J)**.",
+     "Energy is involved in every single change you can name — nothing happens without it."
+    ]
+   },
+   {
+    "heading": "The two families",
+    "points": [
+     "**Kinetic energy** is the energy of things that are moving.",
+     "**Potential energy** is stored energy, waiting to be used.",
+     "**Law of Conservation of Energy**: energy cannot be created or destroyed, only transferred or transformed.",
+     "Forms of **potential**: gravitational, elastic, chemical, magnetic, electrical, nuclear.",
+     "Forms of **kinetic**: translational (movement), thermal, radiant (light), sound, electrical."
+    ]
+   },
+   {
+    "heading": "Transfers and transformations",
+    "points": [
+     "**Transfer** = energy MOVES from one place or object to another, staying the same type.",
+     "**Transformation** = energy CHANGES from one type into another.",
+     "An **energy flow diagram** uses arrows from the input to the useful output.",
+     "**Useful energy** does the job you wanted. A **by-product** is energy produced that is not useful.",
+     "Heat is the most common by-product, and it is almost always where the wasted energy ends up."
+    ]
+   },
+   {
+    "heading": "Heat transfer and circuits",
+    "points": [
+     "**Conduction** — touching particles pass energy on. Mostly solids, especially metals.",
+     "**Convection** — warm fluid rises and cool sinks, forming a current. Liquids and gases.",
+     "**Radiation** — energy travels as waves and needs no particles, so it crosses empty space.",
+     "A circuit needs a **power supply**, a **conducting path** and a **load**.",
+     "**Voltage** is the push; **current** is the flow of charge."
+    ]
+   },
+   {
+    "heading": "Efficiency",
+    "points": [
+     "**Efficiency** is the percentage of the energy in that comes out as useful energy.",
+     "**Efficiency = (useful energy out ÷ total energy in) × 100**",
+     "**GPE = mass × gravity × height**, using g = 9.8 m/s² in your booklet.",
+     "**LED** bulbs are the most efficient, then **CFL**, with **incandescent** worst.",
+     "No system is 100% efficient — there is always some energy lost as heat or sound."
+    ]
+   }
+  ],
+  "notes": [
+   {
+    "unit": "What Energy Is",
+    "heading": "What energy actually is",
+    "body": "**Energy** is involved whenever change, movement, heating, sound, light or work happens.\n\nThe thing most people get wrong: energy is **not a substance**. It is not a liquid inside a battery, and it is not stuff you can hold. It is a property of a system — a measure of what that system is able to make happen.\n\nBut it **can** be measured. The unit is the **joule (J)**, and one joule is roughly the energy it takes to lift a small apple one metre.\n\nIf your exam asks *is energy a substance?*, the answer is no."
+   },
+   {
+    "unit": "What Energy Is",
+    "heading": "Spotting energy in everyday life",
+    "body": "Almost every question in this unit starts with naming the energy present. Practise looking at an ordinary object and listing them.",
+    "table": {
+     "head": [
+      "Situation",
+      "Energy you should name"
+     ],
+     "rows": [
+      [
+       "A phone charging",
+       "Electrical, chemical (stored in the battery), thermal by-product"
+      ],
+      [
+       "A campfire",
+       "Chemical stored in wood, then thermal, radiant and sound"
+      ],
+      [
+       "A person running",
+       "Chemical from food, then kinetic and thermal"
+      ],
+      [
+       "A stretched rubber band",
+       "Elastic potential"
+      ],
+      [
+       "A book on a high shelf",
+       "Gravitational potential"
+      ],
+      [
+       "A speaker playing",
+       "Electrical, then sound and thermal"
+      ]
+     ]
+    }
+   },
+   {
+    "unit": "Kinetic & Potential",
+    "heading": "The two big families",
+    "body": "Every form of energy fits into one of two groups.\n\n**Kinetic energy** is the energy of movement. If something is moving — a car, a particle, a wave — it has kinetic energy.\n\n**Potential energy** is stored energy. It is waiting, and it will do something when it is released.\n\nA useful way to remember it: **kinetic is the move, potential is the wait.**\n\nA ball held above the ground has gravitational potential energy. Let it go and that stored energy becomes kinetic energy as it falls."
+   },
+   {
+    "unit": "Kinetic & Potential",
+    "heading": "Law of Conservation of Energy",
+    "body": "**Energy cannot be created or destroyed. It can only be transferred or transformed.**\n\nThis is the single most important sentence in the unit, and it is worth learning word for word.\n\nIt explains why 'using up' energy is a bit of a lie. When your phone battery goes flat, that energy has not vanished — it has become light, sound and heat that spread out into the room.\n\nWhen a question asks *where did the energy go?*, the answer is never *it disappeared*. It is always *it turned into something else*, and usually that something is heat."
+   },
+   {
+    "unit": "Kinetic & Potential",
+    "heading": "The forms of potential energy",
+    "body": "You are expected to name these and give an example of each.",
+    "table": {
+     "head": [
+      "Form",
+      "What it means",
+      "Example"
+     ],
+     "rows": [
+      [
+       "Gravitational",
+       "Stored because something is up high",
+       "A diver on a diving board; a book on a shelf"
+      ],
+      [
+       "Elastic",
+       "Stored by stretching or squashing",
+       "A stretched rubber band or slingshot"
+      ],
+      [
+       "Chemical",
+       "Stored in the bonds between atoms",
+       "Food, petrol, chocolate, a torch battery"
+      ],
+      [
+       "Magnetic",
+       "Stored by magnets pushing or pulling",
+       "Two magnets attracting or repelling"
+      ],
+      [
+       "Electrical",
+       "Charge stored before it flows",
+       "Lightning before it discharges"
+      ],
+      [
+       "Nuclear",
+       "Stored in the nucleus of an atom",
+       "Energy in atoms before a nuclear reaction"
+      ]
+     ]
+    }
+   },
+   {
+    "unit": "Kinetic & Potential",
+    "heading": "The forms of kinetic energy",
+    "body": "Same again for the moving family.",
+    "table": {
+     "head": [
+      "Form",
+      "What it means",
+      "Example"
+     ],
+     "rows": [
+      [
+       "Translational",
+       "A whole object moving along",
+       "A moving car, a rolling ball, a turbine blade"
+      ],
+      [
+       "Thermal",
+       "Particles jiggling faster",
+       "A heater warming a room"
+      ],
+      [
+       "Radiant",
+       "Energy travelling as light waves",
+       "Light from the Sun or a lamp"
+      ],
+      [
+       "Sound",
+       "Vibrations travelling through a material",
+       "A guitar string or a speaker"
+      ],
+      [
+       "Electrical",
+       "Charge actually moving",
+       "Electricity flowing through a wire"
+      ]
+     ]
+    }
+   },
+   {
+    "unit": "Kinetic & Potential",
+    "heading": "Gravitational and elastic potential in systems",
+    "body": "**Gravitational potential energy (GPE)** depends on how heavy something is and how high it is. Lift it higher, or make it heavier, and it stores more.\n\n**Elastic potential energy** is stored when something is stretched or squashed and wants to spring back — a rubber band, a spring, a drawn bow.\n\nThe classic exam example is the rollercoaster. At the top of the first hill the carriage has the most GPE and is barely moving. As it drops, that GPE transforms into kinetic energy, so it speeds up. Climbing the next hill, kinetic turns back into GPE and it slows down.\n\nThe total never goes up. It slowly goes down, because friction keeps skimming a little off as heat and sound.",
+    "diagram": "<svg viewBox=\"0 0 560 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\"><title>Rollercoaster showing maximum gravitational potential energy at the top and maximum kinetic energy at the bottom</title><style>.tr{fill:none;stroke:#3b3a6b;stroke-width:4}.c{fill:#1a8a55}.t{font:12px sans-serif;fill:#3b3a6b;text-anchor:middle}.s{font:11px sans-serif;fill:#6b6a8f;text-anchor:middle}.g{stroke:#c9cdfa;stroke-width:1.5;stroke-dasharray:4 4}</style><path class=\"tr\" d=\"M20,40 C110,40 120,180 200,180 C280,180 300,80 380,80 C450,80 470,180 540,180\"/><line class=\"g\" x1=\"20\" y1=\"40\" x2=\"540\" y2=\"40\"/><line class=\"g\" x1=\"20\" y1=\"180\" x2=\"540\" y2=\"180\"/><circle class=\"c\" cx=\"20\" cy=\"34\" r=\"8\"/><text class=\"t\" x=\"60\" y=\"22\">A</text><text class=\"s\" x=\"62\" y=\"66\">most GPE</text><circle class=\"c\" cx=\"200\" cy=\"174\" r=\"8\"/><text class=\"t\" x=\"200\" y=\"152\">B</text><text class=\"s\" x=\"200\" y=\"204\">most KE</text><circle class=\"c\" cx=\"380\" cy=\"74\" r=\"8\"/><text class=\"t\" x=\"380\" y=\"58\">C</text><text class=\"s\" x=\"380\" y=\"106\">GPE again</text><text class=\"s\" x=\"470\" y=\"152\">energy is never lost,</text><text class=\"s\" x=\"470\" y=\"166\">it just swaps form</text></svg>",
+    "diagramCaption": "Most GPE at the top, most kinetic energy at the bottom."
+   },
+   {
+    "unit": "Transfers & Transformations",
+    "heading": "Transfer versus transformation",
+    "body": "This is the distinction your booklet spends the most time on, and the one most likely to cost marks.\n\n**Energy transfer** is energy **moving** from one place or object to another. The type stays the same. A hot drink warming your hands is thermal energy transferring from the cup to you.\n\n**Energy transformation** is energy **changing** from one type into another. A torch transforms chemical energy into electrical, then into light and heat.\n\nSimple way to remember it:\n\n**Transfer = it moved.**\n**Transform = it changed.**\n\nMost real systems do both at once, so a good answer often names both."
+   },
+   {
+    "unit": "Transfers & Transformations",
+    "heading": "Energy flow diagrams",
+    "body": "An **energy flow diagram** shows the transformations in a system using arrows, running from the energy input to the useful energy output.\n\nThe rule students most often break: **only useful outputs go in the chain.** Energy that is not useful is drawn separately as a **by-product**.\n\nFor a mobile phone, heat is a by-product — nobody buys a phone to warm their hands — so heat does not belong in the main arrow chain.",
+    "diagram": "<svg viewBox=\"0 0 620 150\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\"><title>Energy flow diagram for a torch: chemical to electrical to light, with heat as a by-product</title><style>.b{fill:#e8f7ef;stroke:#1a8a55;stroke-width:2}.w{fill:#fdf6e7;stroke:#c99a1e;stroke-width:2}.a{stroke:#1a8a55;stroke-width:2.5;fill:none;marker-end:url(#ah)}.aw{stroke:#c99a1e;stroke-width:2;fill:none;stroke-dasharray:5 4;marker-end:url(#aw)}.t{font:12px sans-serif;fill:#14603c;text-anchor:middle}.tw{font:11px sans-serif;fill:#6b4d12;text-anchor:middle}</style><defs><marker id=\"ah\" markerWidth=\"8\" markerHeight=\"8\" refX=\"7\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#1a8a55\"/></marker><marker id=\"aw\" markerWidth=\"8\" markerHeight=\"8\" refX=\"7\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#c99a1e\"/></marker></defs><rect class=\"b\" x=\"8\" y=\"34\" width=\"150\" height=\"46\" rx=\"6\"/><text class=\"t\" x=\"83\" y=\"54\">Chemical</text><text class=\"t\" x=\"83\" y=\"70\">(battery)</text><line class=\"a\" x1=\"160\" y1=\"57\" x2=\"222\" y2=\"57\"/><rect class=\"b\" x=\"228\" y=\"34\" width=\"140\" height=\"46\" rx=\"6\"/><text class=\"t\" x=\"298\" y=\"54\">Electrical</text><text class=\"t\" x=\"298\" y=\"70\">(in the wires)</text><line class=\"a\" x1=\"370\" y1=\"57\" x2=\"432\" y2=\"57\"/><rect class=\"b\" x=\"438\" y=\"34\" width=\"140\" height=\"46\" rx=\"6\"/><text class=\"t\" x=\"508\" y=\"54\">Light</text><text class=\"t\" x=\"508\" y=\"70\">USEFUL</text><line class=\"aw\" x1=\"298\" y1=\"82\" x2=\"298\" y2=\"116\"/><rect class=\"w\" x=\"228\" y=\"116\" width=\"140\" height=\"30\" rx=\"6\"/><text class=\"tw\" x=\"298\" y=\"136\">Heat — by-product</text></svg>",
+    "diagramCaption": "The useful chain runs left to right. The by-product branches off."
+   },
+   {
+    "unit": "Transfers & Transformations",
+    "heading": "Useful energy and by-products",
+    "body": "**Useful energy** is the energy that produces the output you actually wanted.\n\nA **by-product** is energy produced that is not useful for that job.\n\nThe catch is that useful depends on the job, not on the type of energy. Heat from a light globe is a by-product, because you wanted light. Heat from a toaster is the useful energy, because heat is the whole point. Same energy, opposite answer.\n\nIf an exam asks you to identify the useful energy, first ask *what is this device for?*"
+   },
+   {
+    "unit": "Transfers & Transformations",
+    "heading": "The three ways heat transfers",
+    "body": "**Conduction** happens when particles that are touching pass energy along. It works best in solids, and best of all in metals, because their particles are packed tightly.\n\n**Convection** happens in liquids and gases. Warmed fluid expands, becomes less dense and rises; cooler fluid sinks to take its place, forming a convection current.\n\n**Radiation** travels as waves and needs no particles at all, which is why the Sun's energy reaches us across empty space.",
+    "diagram": "<svg viewBox=\"0 0 600 170\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\"><title>Conduction through a solid, convection in a liquid or gas, and radiation through empty space</title><style>.bx{fill:#f7f8fd;stroke:#6c63ff;stroke-width:2;rx:6}.h{font:bold 12px sans-serif;fill:#3b3a6b;text-anchor:middle}.t{font:11px sans-serif;fill:#6b6a8f;text-anchor:middle}.f{fill:none;stroke:#e0663a;stroke-width:2.5}.d{fill:#e0663a}</style><rect class=\"bx\" x=\"10\" y=\"10\" width=\"180\" height=\"120\"/><text class=\"h\" x=\"100\" y=\"34\">Conduction</text><rect fill=\"#d9d9ea\" x=\"40\" y=\"60\" width=\"120\" height=\"16\"/><circle class=\"d\" cx=\"50\" cy=\"68\" r=\"5\"/><circle class=\"d\" cx=\"75\" cy=\"68\" r=\"4\"/><circle class=\"d\" cx=\"100\" cy=\"68\" r=\"3\"/><circle class=\"d\" cx=\"125\" cy=\"68\" r=\"2.5\"/><text class=\"t\" x=\"100\" y=\"100\">touching particles pass it on</text><text class=\"t\" x=\"100\" y=\"116\">solids, especially metals</text><rect class=\"bx\" x=\"210\" y=\"10\" width=\"180\" height=\"120\"/><text class=\"h\" x=\"300\" y=\"34\">Convection</text><path class=\"f\" d=\"M260,100 C260,60 340,60 340,100\"/><path class=\"f\" d=\"M340,100 C340,112 260,112 260,100\"/><circle class=\"d\" cx=\"300\" cy=\"60\" r=\"4\"/><text class=\"t\" x=\"300\" y=\"100\">warm rises, cool sinks</text><text class=\"t\" x=\"300\" y=\"116\">liquids and gases</text><rect class=\"bx\" x=\"410\" y=\"10\" width=\"180\" height=\"120\"/><text class=\"h\" x=\"500\" y=\"34\">Radiation</text><circle fill=\"#ffd97a\" stroke=\"#c99a1e\" stroke-width=\"2\" cx=\"452\" cy=\"72\" r=\"15\"/><path class=\"f\" d=\"M472,72 h60 M472,60 h50 M472,84 h50\"/><text class=\"t\" x=\"500\" y=\"108\">waves, no particles needed</text><text class=\"t\" x=\"500\" y=\"124\">works through empty space</text></svg>",
+    "diagramCaption": "Conduction needs contact, convection needs a fluid, radiation needs nothing."
+   },
+   {
+    "unit": "Transfers & Transformations",
+    "heading": "Following the energy path",
+    "body": "Your marble lesson asks you to trace energy through a whole system. The method works for any of these questions.",
+    "steps": [
+     {
+      "do": "Name the energy at the start",
+      "why": "Usually gravitational potential if something is up high, or chemical if there is a battery or food."
+     },
+     {
+      "do": "Name what it becomes as things move",
+      "why": "Almost always kinetic once movement starts."
+     },
+     {
+      "do": "Name what is given off along the way",
+      "why": "Sound and heat from friction. This is the bit students forget, and it is usually worth a mark."
+     },
+     {
+      "do": "Say whether each step is a transfer or a transformation",
+      "why": "Changing type is a transformation; moving to another object is a transfer."
+     },
+     {
+      "do": "Explain why it stops",
+      "why": "Friction keeps transforming kinetic energy into heat and sound until none is left for movement."
+     }
+    ]
+   },
+   {
+    "unit": "Circuits & Efficiency",
+    "heading": "The parts of a circuit",
+    "body": "Every simple circuit needs three things.\n\nThe **power supply** (a cell or battery) provides the energy. The **conducting path** — the wires — carries it. The **load** is the component that transforms it into something useful, like a globe or a motor.\n\n**Voltage** is the push that drives the charge around. **Current** is the flow of charge itself.\n\nThe wording that scores well: electrical energy is **transferred** along the wires and **transformed** at the load.",
+    "diagram": "<svg viewBox=\"0 0 420 200\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\"><title>A simple circuit showing the power supply, conducting path and load</title><style>.w{fill:none;stroke:#3b3a6b;stroke-width:3}.p{stroke:#3b3a6b;stroke-width:3}.g{fill:#fff3c4;stroke:#c99a1e;stroke-width:2.5}.t{font:11px sans-serif;fill:#3b3a6b;text-anchor:middle}</style><rect class=\"w\" x=\"60\" y=\"45\" width=\"300\" height=\"110\" rx=\"6\"/><line class=\"p\" x1=\"60\" y1=\"85\" x2=\"60\" y2=\"95\" stroke-width=\"0\"/><rect fill=\"#fff\" x=\"44\" y=\"80\" width=\"32\" height=\"40\"/><line class=\"p\" x1=\"52\" y1=\"88\" x2=\"52\" y2=\"112\"/><line class=\"p\" x1=\"64\" y1=\"80\" x2=\"64\" y2=\"120\"/><text class=\"t\" x=\"60\" y=\"140\">power supply</text><text class=\"t\" x=\"60\" y=\"34\">(the cell)</text><circle class=\"g\" cx=\"360\" cy=\"100\" r=\"20\"/><line class=\"p\" x1=\"348\" y1=\"88\" x2=\"372\" y2=\"112\"/><line class=\"p\" x1=\"372\" y1=\"88\" x2=\"348\" y2=\"112\"/><text class=\"t\" x=\"360\" y=\"150\">load (globe)</text><text class=\"t\" x=\"210\" y=\"36\">conducting path</text><text class=\"t\" x=\"210\" y=\"176\">electrical energy is TRANSFERRED along the wires,</text><text class=\"t\" x=\"210\" y=\"192\">then TRANSFORMED into light and heat at the load</text></svg>",
+    "diagramCaption": "Power supply, conducting path, load — plus what happens where."
+   },
+   {
+    "unit": "Circuits & Efficiency",
+    "heading": "Calculating efficiency",
+    "body": "**Efficiency = (useful energy out ÷ total energy in) × 100**\n\nThe answer is a percentage, and it can never be more than 100%. If you get more than 100, you have divided the wrong way round.",
+    "steps": [
+     {
+      "do": "Write down the useful energy out and the total energy in",
+      "why": "The total in is always the bigger number."
+     },
+     {
+      "art": "  useful out\n  ---------- × 100\n   total in",
+      "why": "Useful on top. Getting this upside down is the most common mistake."
+     },
+     {
+      "do": "Divide, then multiply by 100",
+      "why": "115 J in and 10 J of light gives 10 ÷ 115 = 0.087"
+     },
+     {
+      "do": "Round sensibly and add the % sign",
+      "why": "0.087 × 100 = 8.7%. A bulb that poor is incandescent, not LED."
+     }
+    ]
+   },
+   {
+    "unit": "Circuits & Efficiency",
+    "heading": "Comparing light globes",
+    "body": "The efficiency question in your booklet uses light globes, so know the ranking and why.",
+    "table": {
+     "head": [
+      "Globe",
+      "Roughly how efficient",
+      "Where the rest goes"
+     ],
+     "rows": [
+      [
+       "Incandescent",
+       "About 5% — very poor",
+       "Almost all of it becomes heat"
+      ],
+      [
+       "Compact fluorescent (CFL)",
+       "About 20% — better",
+       "Still a fair amount of heat"
+      ],
+      [
+       "LED",
+       "About 80% — best",
+       "Only a little heat"
+      ]
+     ]
+    }
+   },
+   {
+    "unit": "Circuits & Efficiency",
+    "heading": "Why nothing is 100% efficient",
+    "body": "Every real system loses some energy to its surroundings, nearly always as heat, and often as sound too.\n\nThis does not break the Law of Conservation of Energy. The energy is all still there — it has just spread out into the room where it is no longer useful to anybody.\n\nA good exam answer says both parts: the energy is **not destroyed**, it is **transformed into a form that is not useful**."
+   },
+   {
+    "unit": "Practicals & Exam Skills",
+    "heading": "Gravitational potential energy calculations",
+    "body": "**GPE = mass × gravity × height**, with gravity taken as **9.8 m/s²**.\n\nMass must be in kilograms and height in metres, or the answer will be wrong.",
+    "steps": [
+     {
+      "do": "Convert the mass to kilograms",
+      "why": "58 g becomes 0.058 kg. Forgetting this is the most common error in the bouncy ball prac."
+     },
+     {
+      "art": "GPE = m × g × h\n    = 0.058 × 9.8 × 1\n    = 0.57 J",
+      "why": "A tennis ball held at one metre stores about 0.57 joules."
+     },
+     {
+      "do": "Use the rebound height for the second calculation",
+      "why": "Same ball, same gravity, just a smaller height."
+     },
+     {
+      "do": "Put the two into the efficiency formula",
+      "why": "Because mass and gravity are the same both times, efficiency is really just rebound height ÷ drop height × 100."
+     }
+    ]
+   },
+   {
+    "unit": "Practicals & Exam Skills",
+    "heading": "The bouncy ball investigation",
+    "body": "You drop different balls from one metre and measure how high each rebounds.\n\nThe reason a ball never returns to its starting height is that some kinetic energy is transformed into **heat and sound** on impact, so less is left to become gravitational potential on the way back up.\n\nDifferent balls have different efficiencies because they deform differently. A ball that squashes a lot and stays squashed loses more energy than one that springs straight back.\n\n**Fair testing** matters here: same drop height, same surface, released rather than thrown, and repeated three times so you can average out mistakes."
+   },
+   {
+    "unit": "Practicals & Exam Skills",
+    "heading": "Skate park and water wheel",
+    "body": "**Skate park (PhET):** with friction off, the total energy bar stays the same height while the green and blue bars swap — that is conservation of energy in a picture. Turn friction on and a thermal bar appears and grows, while the skater gradually slows. Changing the skater's mass changes the total energy but **not** how high they can get, because a heavier skater has more GPE and more kinetic energy in the same proportion.\n\n**Water wheel:** gravitational potential energy in the raised water transforms into kinetic energy as it falls, which is transferred to the wheel and becomes rotational movement. Adding more load means each turn has to lift more, so the wheel turns fewer times."
+   },
+   {
+    "unit": "Practicals & Exam Skills",
+    "heading": "First Nations fire-making",
+    "body": "First Nations Australians have long used friction methods such as a fire drill to make fire, and your booklet asks you to explain the energy involved.\n\nA good answer names the whole chain: **chemical energy** stored in the person's muscles becomes **kinetic energy** as they spin the drill. Friction between the drill and the base transforms that kinetic energy into **thermal energy**. Once the wood dust gets hot enough it ignites, releasing the **chemical energy** stored in the wood as heat and light.\n\nWhy it works: friction concentrates the heat into a very small spot rather than spreading it out, and dry tinder needs only a small amount of energy to catch."
+   },
+   {
+    "unit": "Practicals & Exam Skills",
+    "heading": "How to answer the long questions",
+    "body": "The four-mark questions in this unit follow a pattern. Marks come from naming energy types precisely and using the right verb.\n\n**Use the full names.** *Gravitational potential energy*, not *potential*. *Thermal energy*, not *heat energy* if you can avoid it.\n\n**Use transfer and transform correctly.** Getting these the wrong way round loses marks even when the rest is right.\n\n**Always mention the by-product.** Almost every system loses something as heat or sound, and saying so shows you understand conservation.\n\n**Answer the actual question.** If it says *give a reason*, one sentence of reason is a whole mark sitting there."
+   }
+  ],
+  "terms": [
+   {
+    "term": "Energy",
+    "unit": "What Energy Is",
+    "definition": "What is needed for change, movement, heating, sound, light or work to happen. Measured in joules."
+   },
+   {
+    "term": "Joule (J)",
+    "unit": "What Energy Is",
+    "definition": "The unit energy is measured in."
+   },
+   {
+    "term": "Work",
+    "unit": "What Energy Is",
+    "definition": "What happens when a force moves something. Doing work transfers energy."
+   },
+   {
+    "term": "System",
+    "unit": "What Energy Is",
+    "definition": "The object or group of objects you are looking at when tracking energy."
+   },
+   {
+    "term": "Kinetic energy",
+    "unit": "Kinetic & Potential",
+    "definition": "The energy of anything that is moving."
+   },
+   {
+    "term": "Potential energy",
+    "unit": "Kinetic & Potential",
+    "definition": "Stored energy, waiting to be released."
+   },
+   {
+    "term": "Law of Conservation of Energy",
+    "unit": "Kinetic & Potential",
+    "definition": "Energy cannot be created or destroyed, only transferred or transformed."
+   },
+   {
+    "term": "Gravitational potential energy",
+    "unit": "Kinetic & Potential",
+    "definition": "Energy stored in an object because of its height above the ground."
+   },
+   {
+    "term": "Elastic potential energy",
+    "unit": "Kinetic & Potential",
+    "definition": "Energy stored in something that has been stretched or squashed."
+   },
+   {
+    "term": "Chemical potential energy",
+    "unit": "Kinetic & Potential",
+    "definition": "Energy stored in the bonds between atoms, as in food, fuel or a battery."
+   },
+   {
+    "term": "Magnetic potential energy",
+    "unit": "Kinetic & Potential",
+    "definition": "Energy stored by magnets attracting or repelling each other."
+   },
+   {
+    "term": "Nuclear energy",
+    "unit": "Kinetic & Potential",
+    "definition": "Energy stored in the nucleus of an atom, released in a nuclear reaction."
+   },
+   {
+    "term": "Translational kinetic energy",
+    "unit": "Kinetic & Potential",
+    "definition": "The energy of a whole object moving from place to place."
+   },
+   {
+    "term": "Thermal energy",
+    "unit": "Kinetic & Potential",
+    "definition": "The energy of particles vibrating and moving. Felt as heat."
+   },
+   {
+    "term": "Radiant energy",
+    "unit": "Kinetic & Potential",
+    "definition": "Energy travelling as light waves, such as sunlight."
+   },
+   {
+    "term": "Sound energy",
+    "unit": "Kinetic & Potential",
+    "definition": "Energy carried by vibrations travelling through a material."
+   },
+   {
+    "term": "Energy transfer",
+    "unit": "Transfers & Transformations",
+    "definition": "Energy moving from one place or object to another without changing type."
+   },
+   {
+    "term": "Energy transformation",
+    "unit": "Transfers & Transformations",
+    "definition": "Energy changing from one type into another."
+   },
+   {
+    "term": "Energy flow diagram",
+    "unit": "Transfers & Transformations",
+    "definition": "A diagram using arrows to show the transformations from input to useful output."
+   },
+   {
+    "term": "Useful energy",
+    "unit": "Transfers & Transformations",
+    "definition": "The energy that produces the output the device was designed for."
+   },
+   {
+    "term": "By-product",
+    "unit": "Transfers & Transformations",
+    "definition": "Energy produced by a system that is not useful for its job, usually heat."
+   },
+   {
+    "term": "Conduction",
+    "unit": "Transfers & Transformations",
+    "definition": "Heat transfer by touching particles passing energy on. Best in solids, especially metals."
+   },
+   {
+    "term": "Convection",
+    "unit": "Transfers & Transformations",
+    "definition": "Heat transfer in liquids and gases where warm fluid rises and cool fluid sinks."
+   },
+   {
+    "term": "Radiation",
+    "unit": "Transfers & Transformations",
+    "definition": "Heat transfer by waves, needing no particles, so it works through empty space."
+   },
+   {
+    "term": "Friction",
+    "unit": "Transfers & Transformations",
+    "definition": "A force between surfaces rubbing together that transforms kinetic energy into heat and sound."
+   },
+   {
+    "term": "Circuit",
+    "unit": "Circuits & Efficiency",
+    "definition": "A complete loop that lets charge flow from a power supply through a load and back."
+   },
+   {
+    "term": "Power supply",
+    "unit": "Circuits & Efficiency",
+    "definition": "The cell or battery that provides the energy for a circuit."
+   },
+   {
+    "term": "Conducting path",
+    "unit": "Circuits & Efficiency",
+    "definition": "The wires that carry the electrical energy around the circuit."
+   },
+   {
+    "term": "Load",
+    "unit": "Circuits & Efficiency",
+    "definition": "The component that transforms electrical energy into something useful, like a globe or motor."
+   },
+   {
+    "term": "Voltage",
+    "unit": "Circuits & Efficiency",
+    "definition": "The push that drives charge around a circuit."
+   },
+   {
+    "term": "Current",
+    "unit": "Circuits & Efficiency",
+    "definition": "The flow of electric charge through a circuit."
+   },
+   {
+    "term": "Efficiency",
+    "unit": "Circuits & Efficiency",
+    "definition": "The percentage of the energy put in that comes out as useful energy."
+   },
+   {
+    "term": "Incandescent globe",
+    "unit": "Circuits & Efficiency",
+    "definition": "An old-style bulb that is only about 5% efficient, wasting most energy as heat."
+   },
+   {
+    "term": "LED",
+    "unit": "Circuits & Efficiency",
+    "definition": "A light emitting diode, the most efficient common globe at roughly 80%."
+   },
+   {
+    "term": "Fair test",
+    "unit": "Practicals & Exam Skills",
+    "definition": "An experiment where only one thing is changed and everything else is kept the same."
+   },
+   {
+    "term": "Variable",
+    "unit": "Practicals & Exam Skills",
+    "definition": "Anything in an experiment that could change, such as drop height or ball type."
+   },
+   {
+    "term": "Average",
+    "unit": "Practicals & Exam Skills",
+    "definition": "Adding your repeat results and dividing by how many there were, to reduce the effect of mistakes."
+   },
+   {
+    "term": "Rebound height",
+    "unit": "Practicals & Exam Skills",
+    "definition": "How high a ball bounces back up after being dropped."
+   }
+  ],
+  "cards": [
+   {
+    "front": "Define energy.",
+    "back": "What is needed for change, movement, heating, sound, light or work to happen."
+   },
+   {
+    "front": "Is energy a substance?",
+    "back": "No. It is not stuff you can hold — but it can be measured, in joules."
+   },
+   {
+    "front": "What unit is energy measured in?",
+    "back": "The joule (J)."
+   },
+   {
+    "front": "What is kinetic energy?",
+    "back": "The energy of anything that is moving."
+   },
+   {
+    "front": "What is potential energy?",
+    "back": "Stored energy, waiting to be released."
+   },
+   {
+    "front": "State the Law of Conservation of Energy.",
+    "back": "Energy cannot be created or destroyed, only transferred or transformed."
+   },
+   {
+    "front": "Name the six forms of potential energy.",
+    "back": "Gravitational, elastic, chemical, magnetic, electrical and nuclear."
+   },
+   {
+    "front": "Name five forms of kinetic energy.",
+    "back": "Translational, thermal, radiant, sound and electrical."
+   },
+   {
+    "front": "What is gravitational potential energy?",
+    "back": "Energy stored in an object because of its height above the ground."
+   },
+   {
+    "front": "What is elastic potential energy?",
+    "back": "Energy stored in something stretched or squashed, like a rubber band."
+   },
+   {
+    "front": "A stretched slingshot stores which energy?",
+    "back": "Elastic potential energy."
+   },
+   {
+    "front": "Food before your body uses it stores which energy?",
+    "back": "Chemical potential energy."
+   },
+   {
+    "front": "Difference between energy transfer and transformation?",
+    "back": "Transfer means it moved; transformation means it changed type."
+   },
+   {
+    "front": "A hot cup warming your hands is transfer or transformation?",
+    "back": "Transfer — thermal energy moves from the cup to your hands."
+   },
+   {
+    "front": "A torch turning on is transfer or transformation?",
+    "back": "Transformation — chemical becomes electrical, then light and heat."
+   },
+   {
+    "front": "What is useful energy?",
+    "back": "The energy that produces the output the device was designed for."
+   },
+   {
+    "front": "What is a by-product?",
+    "back": "Energy produced that is not useful for the job, usually heat."
+   },
+   {
+    "front": "Is heat from a toaster useful or a by-product?",
+    "back": "Useful — heating the bread is the whole point of a toaster."
+   },
+   {
+    "front": "Is heat from a light globe useful or a by-product?",
+    "back": "A by-product — you wanted light, not heat."
+   },
+   {
+    "front": "What goes in an energy flow diagram?",
+    "back": "Arrows from the input to the useful outputs only. By-products are shown separately."
+   },
+   {
+    "front": "What is conduction?",
+    "back": "Heat transfer by touching particles passing energy on. Best in solids, especially metals."
+   },
+   {
+    "front": "What is convection?",
+    "back": "Heat transfer in liquids and gases as warm fluid rises and cool fluid sinks."
+   },
+   {
+    "front": "What is radiation?",
+    "back": "Heat transfer as waves, needing no particles, so it works through empty space."
+   },
+   {
+    "front": "Which heat transfer works through empty space?",
+    "back": "Radiation — that is how the Sun's energy reaches Earth."
+   },
+   {
+    "front": "Name the three parts of a simple circuit.",
+    "back": "Power supply, conducting path and load."
+   },
+   {
+    "front": "What is the load in a circuit?",
+    "back": "The component that transforms electrical energy into something useful, like a globe."
+   },
+   {
+    "front": "Difference between voltage and current?",
+    "back": "Voltage is the push; current is the flow of charge."
+   },
+   {
+    "front": "Write the efficiency formula.",
+    "back": "Efficiency = (useful energy out ÷ total energy in) × 100"
+   },
+   {
+    "front": "Write the GPE formula.",
+    "back": "GPE = mass × gravity × height, with g = 9.8 m/s²"
+   },
+   {
+    "front": "Rank incandescent, CFL and LED by efficiency.",
+    "back": "LED best (~80%), then CFL (~20%), incandescent worst (~5%)."
+   },
+   {
+    "front": "Why is no system 100% efficient?",
+    "back": "Some energy is always transformed into heat or sound that spreads out and is no longer useful."
+   },
+   {
+    "front": "Why does a bouncing ball never return to its drop height?",
+    "back": "Some kinetic energy becomes heat and sound on impact, so less is left to become GPE."
+   },
+   {
+    "front": "On a rollercoaster, where is GPE greatest?",
+    "back": "At the highest point of the track."
+   },
+   {
+    "front": "On a rollercoaster, where is kinetic energy greatest?",
+    "back": "At the lowest point of the track."
+   },
+   {
+    "front": "Why does a marble eventually stop rolling?",
+    "back": "Friction keeps transforming its kinetic energy into heat and sound."
+   },
+   {
+    "front": "Energy transformation in a fire drill?",
+    "back": "Chemical in muscles → kinetic spinning → thermal from friction → wood ignites, releasing heat and light."
+   }
+  ],
+  "quick": [
+   {
+    "q": "Which of the following is a form of potential energy?",
+    "options": [
+     "Thermal energy",
+     "Sound energy",
+     "Chemical energy",
+     "Light energy"
+    ],
+    "answer": 2,
+    "why": "Chemical energy is stored in bonds, so it is potential. The others are all energy in action."
+   },
+   {
+    "q": "What happens to an object's gravitational potential energy as it falls?",
+    "options": [
+     "It decreases",
+     "It increases",
+     "It stays the same",
+     "It turns into mass"
+    ],
+    "answer": 0,
+    "why": "It loses height, so GPE decreases while kinetic energy increases."
+   },
+   {
+    "q": "Electrical energy moving along a wire to a lamp is an example of...",
+    "options": [
+     "Energy transformation",
+     "Energy creation",
+     "Energy destruction",
+     "Energy transfer"
+    ],
+    "answer": 3,
+    "why": "It moves without changing type, so it is a transfer. The transformation happens at the lamp."
+   },
+   {
+    "q": "A filament globe gets very hot. That heat is best described as...",
+    "options": [
+     "Useful energy",
+     "Potential energy",
+     "Chemical energy",
+     "A by-product"
+    ],
+    "answer": 3,
+    "why": "You wanted light, so the heat is not useful for the job."
+   },
+   {
+    "q": "Energy is measured in...",
+    "options": [
+     "Newtons",
+     "Joules",
+     "Watts",
+     "Volts"
+    ],
+    "answer": 1,
+    "why": "The joule (J) is the unit of energy."
+   },
+   {
+    "q": "Is energy a substance?",
+    "options": [
+     "Yes, it is a fluid",
+     "No, but it can be measured",
+     "Yes, it is a gas",
+     "No, and it cannot be measured"
+    ],
+    "answer": 1,
+    "why": "Energy is not stuff you can hold, but it is measurable in joules."
+   },
+   {
+    "q": "State what the Law of Conservation of Energy says.",
+    "options": [
+     "Energy always increases",
+     "Energy can be created but not destroyed",
+     "Energy cannot be created or destroyed, only transferred or transformed",
+     "Energy is destroyed by friction"
+    ],
+    "answer": 2,
+    "why": "Learn this wording — it is worth marks on its own."
+   },
+   {
+    "q": "A book resting on a high shelf has which energy?",
+    "options": [
+     "Elastic potential",
+     "Kinetic",
+     "Sound",
+     "Gravitational potential"
+    ],
+    "answer": 3,
+    "why": "It is stored because of its height."
+   },
+   {
+    "q": "A stretched rubber band stores which energy?",
+    "options": [
+     "Chemical",
+     "Elastic potential",
+     "Thermal",
+     "Radiant"
+    ],
+    "answer": 1,
+    "why": "Stretching or squashing stores elastic potential energy."
+   },
+   {
+    "q": "Which is a form of kinetic energy?",
+    "options": [
+     "Nuclear",
+     "Magnetic",
+     "Sound",
+     "Elastic"
+    ],
+    "answer": 2,
+    "why": "Sound is vibrations travelling, so it is energy in action."
+   },
+   {
+    "q": "Warm water rising and cool water sinking is...",
+    "options": [
+     "Conduction",
+     "Convection",
+     "Radiation",
+     "Insulation"
+    ],
+    "answer": 1,
+    "why": "Convection currents happen in liquids and gases."
+   },
+   {
+    "q": "Which heat transfer needs no particles at all?",
+    "options": [
+     "Radiation",
+     "Conduction",
+     "Convection",
+     "All of them need particles"
+    ],
+    "answer": 0,
+    "why": "Radiation travels as waves, which is how sunlight crosses space."
+   },
+   {
+    "q": "Heat travelling along a metal spoon is...",
+    "options": [
+     "Convection",
+     "Radiation",
+     "Conduction",
+     "Transformation"
+    ],
+    "answer": 2,
+    "why": "Touching particles pass the energy along, and metals do it best."
+   },
+   {
+    "q": "A toaster's heat is...",
+    "options": [
+     "A by-product",
+     "Potential energy",
+     "Useful energy",
+     "Wasted energy"
+    ],
+    "answer": 2,
+    "why": "Heating the bread is the job, so here heat is the useful output."
+   },
+   {
+    "q": "In an energy flow diagram you should show...",
+    "options": [
+     "Every output including heat",
+     "Only the useful outputs in the chain",
+     "Only the input",
+     "Only the by-products"
+    ],
+    "answer": 1,
+    "why": "By-products are noted separately, not in the main arrow chain."
+   },
+   {
+    "q": "Which part of a circuit transforms electrical energy into something useful?",
+    "options": [
+     "The power supply",
+     "The wires",
+     "The voltage",
+     "The load"
+    ],
+    "answer": 3,
+    "why": "The load — for example a globe or a motor."
+   },
+   {
+    "q": "Voltage is best described as...",
+    "options": [
+     "The flow of charge",
+     "The heat produced",
+     "The resistance",
+     "The push that drives charge"
+    ],
+    "answer": 3,
+    "why": "Voltage pushes; current is the flow itself."
+   },
+   {
+    "q": "The efficiency formula is...",
+    "options": [
+     "(useful out ÷ total in) × 100",
+     "(total in ÷ useful out) × 100",
+     "useful out × total in",
+     "total in − useful out"
+    ],
+    "answer": 0,
+    "why": "Useful output on top. Upside down gives an answer over 100%."
+   },
+   {
+    "q": "A globe takes in 100 J and gives out 5 J of light. Its efficiency is...",
+    "options": [
+     "20%",
+     "50%",
+     "5%",
+     "95%"
+    ],
+    "answer": 2,
+    "why": "5 ÷ 100 × 100 = 5%, which is typical of an incandescent globe."
+   },
+   {
+    "q": "A motor takes in 250 J and gives 200 J of movement. Its efficiency is...",
+    "options": [
+     "80%",
+     "20%",
+     "50%",
+     "125%"
+    ],
+    "answer": 0,
+    "why": "200 ÷ 250 × 100 = 80%."
+   },
+   {
+    "q": "Which globe is the most efficient?",
+    "options": [
+     "LED",
+     "Incandescent",
+     "CFL",
+     "They are all the same"
+    ],
+    "answer": 0,
+    "why": "LEDs are roughly 80% efficient; incandescent globes are around 5%."
+   },
+   {
+    "q": "Why is no system ever 100% efficient?",
+    "options": [
+     "Energy is destroyed",
+     "The formula is wrong",
+     "Some energy always becomes heat or sound",
+     "Energy is created"
+    ],
+    "answer": 2,
+    "why": "The energy still exists, it has just spread out where it is no longer useful."
+   },
+   {
+    "q": "GPE is calculated using...",
+    "options": [
+     "mass ÷ height",
+     "mass × gravity × height",
+     "mass × speed",
+     "height ÷ gravity"
+    ],
+    "answer": 1,
+    "why": "GPE = m × g × h, with g taken as 9.8 m/s²."
+   },
+   {
+    "q": "A 2 kg object is 3 m above the ground. Its GPE is...",
+    "options": [
+     "6 J",
+     "58.8 J",
+     "29.4 J",
+     "19.6 J"
+    ],
+    "answer": 1,
+    "why": "2 × 9.8 × 3 = 58.8 J."
+   },
+   {
+    "q": "On a rollercoaster, kinetic energy is greatest...",
+    "options": [
+     "At the lowest point",
+     "At the highest point",
+     "Halfway up",
+     "It never changes"
+    ],
+    "answer": 0,
+    "why": "Lowest point means least GPE, so the most has become kinetic."
+   },
+   {
+    "q": "Why does a bouncing ball not return to its original height?",
+    "options": [
+     "Energy is destroyed on impact",
+     "Gravity gets stronger",
+     "It gains mass",
+     "Some energy becomes heat and sound"
+    ],
+    "answer": 3,
+    "why": "Less energy is left to turn back into GPE, so the rebound is lower."
+   },
+   {
+    "q": "In the skate park simulation, adding friction causes...",
+    "options": [
+     "The total energy bar to grow",
+     "The skater to speed up",
+     "Nothing to change",
+     "A thermal energy bar to appear and grow"
+    ],
+    "answer": 3,
+    "why": "Friction transforms kinetic energy into thermal energy."
+   },
+   {
+    "q": "A fire drill makes fire because friction transforms kinetic energy into...",
+    "options": [
+     "Thermal energy",
+     "Chemical energy",
+     "Sound energy only",
+     "Nuclear energy"
+    ],
+    "answer": 0,
+    "why": "Friction concentrates heat in a small spot until the wood dust ignites."
+   }
+  ],
+  "practice": [
+   {
+    "topic": "What Energy Is",
+    "q": "What unit is energy measured in? Give the name and the symbol.",
+    "answer": "Joule (J)",
+    "accept": [
+     "joules",
+     "joule",
+     "j"
+    ],
+    "why": "All energy values in this unit are in joules."
+   },
+   {
+    "topic": "Kinetic & Potential",
+    "q": "State the Law of Conservation of Energy.",
+    "answer": "Energy cannot be created or destroyed, only transferred or transformed",
+    "accept": [
+     "energy cannot be created or destroyed",
+     "it can only be transferred or transformed"
+    ],
+    "why": "Worth learning word for word."
+   },
+   {
+    "topic": "Kinetic & Potential",
+    "q": "Name the type of potential energy stored in a drawn bow.",
+    "answer": "Elastic potential energy",
+    "accept": [
+     "elastic",
+     "elastic potential"
+    ],
+    "why": "The bow has been bent, so it stores elastic potential energy."
+   },
+   {
+    "topic": "Kinetic & Potential",
+    "q": "Name the energy stored in a torch battery before it is switched on.",
+    "answer": "Chemical potential energy",
+    "accept": [
+     "chemical",
+     "chemical potential"
+    ],
+    "why": "Stored in the bonds between atoms inside the cell."
+   },
+   {
+    "topic": "Transfers & Transformations",
+    "q": "In one sentence, what is the difference between an energy transfer and an energy transformation?",
+    "answer": "A transfer moves energy from one place to another without changing its type, while a transformation changes energy from one type into another",
+    "accept": [
+     "transfer moves it, transformation changes it",
+     "transfer is moving, transformation is changing"
+    ],
+    "why": "Transfer = it moved. Transform = it changed."
+   },
+   {
+    "topic": "Transfers & Transformations",
+    "q": "Name the heat transfer that works through empty space.",
+    "answer": "Radiation",
+    "accept": [
+     "radiation",
+     "radiant"
+    ],
+    "why": "It travels as waves and needs no particles."
+   },
+   {
+    "topic": "Transfers & Transformations",
+    "q": "A light globe produces light and heat. Which is the by-product?",
+    "answer": "Heat",
+    "accept": [
+     "thermal energy",
+     "the heat",
+     "heat energy"
+    ],
+    "why": "You wanted light, so the heat is not useful for that job."
+   },
+   {
+    "topic": "Circuits & Efficiency",
+    "q": "Name the three parts every simple circuit needs.",
+    "answer": "Power supply, conducting path and load",
+    "accept": [
+     "power supply conducting path load",
+     "battery wires and load",
+     "power supply, wires, load"
+    ],
+    "why": "Energy is transferred along the path and transformed at the load."
+   },
+   {
+    "topic": "Circuits & Efficiency",
+    "q": "Write the formula for efficiency.",
+    "answer": "Efficiency = (useful energy out ÷ total energy in) × 100",
+    "accept": [
+     "useful out / total in x 100",
+     "(useful/total) x 100",
+     "useful energy out divided by total energy in times 100"
+    ],
+    "why": "Useful output goes on top."
+   },
+   {
+    "topic": "Circuits & Efficiency",
+    "q": "A light bulb turns 115 J of electrical energy into 10 J of light. Calculate its efficiency to one decimal place.",
+    "answer": "8.7%",
+    "accept": [
+     "8.7",
+     "8.7 %",
+     "8.70%"
+    ],
+    "why": "10 ÷ 115 = 0.08695..., × 100 = 8.7%."
+   },
+   {
+    "topic": "Circuits & Efficiency",
+    "q": "A device takes in 500 J and produces 100 J of useful energy. What is its efficiency?",
+    "answer": "20%",
+    "accept": [
+     "20",
+     "20 %"
+    ],
+    "why": "100 ÷ 500 = 0.2, × 100 = 20%."
+   },
+   {
+    "topic": "Circuits & Efficiency",
+    "q": "A motor takes in 2000 J and gives out 1500 J of movement. What is its efficiency?",
+    "answer": "75%",
+    "accept": [
+     "75",
+     "75 %"
+    ],
+    "why": "1500 ÷ 2000 = 0.75, × 100 = 75%."
+   },
+   {
+    "topic": "Circuits & Efficiency",
+    "q": "Which globe is the most efficient: incandescent, CFL or LED?",
+    "answer": "LED",
+    "accept": [
+     "led",
+     "l.e.d",
+     "light emitting diode"
+    ],
+    "why": "About 80%, against roughly 20% for CFL and 5% for incandescent."
+   },
+   {
+    "topic": "Practicals & Exam Skills",
+    "q": "Write the formula for gravitational potential energy.",
+    "answer": "GPE = mass × gravity × height",
+    "accept": [
+     "gpe = mgh",
+     "mgh",
+     "m x g x h",
+     "mass x gravity x height"
+    ],
+    "why": "Use g = 9.8 m/s², mass in kilograms, height in metres."
+   },
+   {
+    "topic": "Practicals & Exam Skills",
+    "q": "Calculate the GPE of a 2 kg book held 3 m above the floor. Use g = 9.8.",
+    "answer": "58.8 J",
+    "accept": [
+     "58.8",
+     "58.8j",
+     "58.8 joules"
+    ],
+    "why": "2 × 9.8 × 3 = 58.8 J."
+   },
+   {
+    "topic": "Practicals & Exam Skills",
+    "q": "Calculate the GPE of a 0.5 kg ball held 1.2 m above the ground. Use g = 9.8.",
+    "answer": "5.88 J",
+    "accept": [
+     "5.88",
+     "5.88j",
+     "5.9",
+     "5.9 J"
+    ],
+    "why": "0.5 × 9.8 × 1.2 = 5.88 J."
+   },
+   {
+    "topic": "Practicals & Exam Skills",
+    "q": "A 58 g tennis ball is held at 1 m. Calculate its GPE to two decimal places. Use g = 9.8.",
+    "answer": "0.57 J",
+    "accept": [
+     "0.57",
+     "0.568",
+     "0.5684",
+     "0.57j"
+    ],
+    "why": "Convert to 0.058 kg first: 0.058 × 9.8 × 1 = 0.5684, so 0.57 J."
+   },
+   {
+    "topic": "Practicals & Exam Skills",
+    "q": "A ball dropped from 1.0 m rebounds to 0.55 m. What is its efficiency?",
+    "answer": "55%",
+    "accept": [
+     "55",
+     "55 %"
+    ],
+    "why": "Mass and gravity are the same both times, so efficiency is just 0.55 ÷ 1.0 × 100 = 55%."
+   },
+   {
+    "topic": "Practicals & Exam Skills",
+    "q": "Give one reason a bouncing ball never returns to the height it was dropped from.",
+    "answer": "Some kinetic energy is transformed into heat and sound on impact, so less is left to become gravitational potential energy",
+    "accept": [
+     "energy is lost as heat and sound",
+     "some becomes heat and sound",
+     "heat and sound"
+    ],
+    "why": "The energy is not destroyed, just transformed into forms that do not lift the ball."
+   }
+  ],
+  "quiz": [
+   {
+    "q": "Define energy and explain why it is incorrect to describe it as a substance.",
+    "a": "Energy is what is needed for change, movement, heating, sound, light or work to happen. It is not a substance because it is not a material you can hold, store in a container or weigh — it is a property of a system that describes what that system is able to make happen. It can, however, be measured, and its unit is the joule.",
+    "hint": "Define it, say what it is not, then say what is still true about it."
+   },
+   {
+    "q": "Explain the difference between kinetic and potential energy, giving two examples of each.",
+    "a": "Kinetic energy is the energy of anything that is moving, such as a rolling ball or a moving car. Potential energy is stored energy that is waiting to be released, such as a book on a high shelf storing gravitational potential energy, or a stretched rubber band storing elastic potential energy. Potential energy becomes kinetic energy when it is released.",
+    "hint": "Define both, give two examples each, then link them."
+   },
+   {
+    "q": "State the Law of Conservation of Energy and explain what it means for a phone battery going flat.",
+    "a": "Energy cannot be created or destroyed, only transferred or transformed. When a phone battery goes flat the energy has not disappeared: the chemical potential energy stored in it has been transformed into electrical energy, and then into light from the screen, sound from the speaker and heat from the components. That energy has spread out into the surroundings where it is no longer useful, but the total amount of energy is unchanged.",
+    "hint": "State the law, then trace where the energy actually went."
+   },
+   {
+    "q": "Identify the main form of potential energy stored in a drawn bow, and explain how it is transformed when the arrow is released.",
+    "a": "A drawn bow stores elastic potential energy, because the limbs and string have been bent and stretched out of shape. When it is released, the bow springs back and that elastic potential energy is transformed into kinetic energy in the arrow, which flies forward. Small amounts are also transformed into sound energy and thermal energy, which is why a bow makes a noise when it is fired.",
+    "hint": "Name the energy, then follow it through the release, including what is wasted."
+   },
+   {
+    "q": "Explain the difference between energy transfer and energy transformation, giving one example of each.",
+    "a": "An energy transfer is energy moving from one place or object to another while staying the same type — for example, thermal energy moving from a hot drink into your hands. An energy transformation is energy changing from one type into another — for example, a torch changing chemical energy in the battery into electrical energy and then into light. Many systems do both: electrical energy is transferred along a wire and then transformed at the globe.",
+    "hint": "Transfer moved, transform changed. Give a clear example of each."
+   },
+   {
+    "q": "Describe the three ways heat can transfer, and state where each one mainly happens.",
+    "a": "Conduction is when particles that are touching pass energy along, and it happens mainly in solids, especially metals, because their particles are packed closely together. Convection happens in liquids and gases, where warmed fluid becomes less dense and rises while cooler fluid sinks, creating a current. Radiation is energy travelling as waves and needs no particles at all, which is why the Sun's energy can reach Earth across empty space.",
+    "hint": "Name all three, say how each works, and say where it happens."
+   },
+   {
+    "q": "What is meant by useful energy and by-product energy? Explain why heat can be either one.",
+    "a": "Useful energy is the energy that produces the output a device was designed for, and a by-product is energy the system produces that is not useful for that job. Heat can be either, depending on the purpose. In a toaster the heat is the useful energy, because heating the bread is the whole point. In a light globe the heat is a by-product, because you wanted light. This shows that whether energy is useful depends on the job, not on the type of energy.",
+    "hint": "Define both, then use two devices to show the same energy classified differently."
+   },
+   {
+    "q": "At which point on a rollercoaster does a carriage have maximum gravitational potential energy, and where is kinetic energy greatest? Give reasons.",
+    "a": "Gravitational potential energy is greatest at the highest point of the track, because GPE depends on height and the carriage is as far from the ground as it gets. Kinetic energy is greatest at the lowest point, because by then most of the stored gravitational potential energy has been transformed into movement. The total stays roughly constant but slowly decreases overall, as friction transforms some of it into heat and sound.",
+    "hint": "Answer both, give the reason for each, and mention what friction does."
+   },
+   {
+    "q": "Construct an energy flow diagram in words for a battery-powered torch, identifying the useful energy and the by-product.",
+    "a": "Chemical potential energy in the battery is transformed into electrical energy, which is transferred along the wires and then transformed at the globe into light energy. The light is the useful energy, because producing light is the purpose of a torch. Thermal energy is also produced at the globe, and this is a by-product because it is not useful for lighting. In a flow diagram only the light would appear in the main arrow chain, with heat shown separately.",
+    "hint": "Follow the chain in order, then say which output is useful and which is not."
+   },
+   {
+    "q": "A light bulb turns 115 J of electrical energy into 10 J of light. Calculate its efficiency, then state whether it is more likely to be an incandescent or an LED globe, with a reason.",
+    "a": "Efficiency = (useful out ÷ total in) × 100 = (10 ÷ 115) × 100 = 8.7% to one decimal place. This is much more likely to be an incandescent globe, because incandescent globes are only about 5% efficient while LEDs are around 80%. An efficiency below 10% means almost all the electrical energy is being transformed into heat rather than light.",
+    "hint": "Show the formula, the substitution and the answer, then compare with typical values."
+   },
+   {
+    "q": "Explain why no energy system can ever be 100% efficient, and say why this does not break the Law of Conservation of Energy.",
+    "a": "Every real system transforms some of its input energy into forms that are not useful for the job, almost always thermal energy from friction or resistance, and often sound as well. That means the useful output is always less than the total input, so efficiency is always below 100%. This does not break the Law of Conservation of Energy because none of that energy has been destroyed — it has simply been transformed and spread out into the surroundings where it can no longer be used.",
+    "hint": "Say where the missing energy goes, then explain that going is not the same as being destroyed."
+   },
+   {
+    "q": "First Nations Australians have traditionally used friction methods such as a fire drill to start fires. Describe the energy transformations involved and explain why the method works.",
+    "a": "Chemical potential energy stored in the person's muscles, originally from food, is transformed into kinetic energy as they spin the drill against the base. Friction between the two surfaces transforms that kinetic energy into thermal energy, and sound energy is produced as a by-product. Once the wood dust becomes hot enough it ignites, releasing the chemical potential energy stored in the wood as thermal and radiant energy. It works because friction concentrates the thermal energy into a very small area rather than letting it spread out, and dry tinder needs only a small amount of energy to catch alight.",
+    "hint": "Start at the muscles and follow the chain to the flame, then explain why concentrating the heat matters."
+   },
+   {
+    "q": "In the skate park simulation, explain what happens to the energy bars when friction is switched on, and what happens to the skater over time.",
+    "a": "With friction off, the kinetic and gravitational potential bars swap size as the skater moves while the total energy bar stays the same height, showing conservation of energy. When friction is switched on, a thermal energy bar appears and grows steadily, and the kinetic and potential bars get smaller as a result. Over time the skater moves more and more slowly and eventually stops, because friction keeps transforming the energy of movement into thermal energy which cannot be turned back into motion.",
+    "hint": "Describe the bars before and after, then explain the effect on the skater."
+   },
+   {
+    "q": "In the bouncy ball investigation, explain why different balls have different efficiencies, and describe two things you would keep the same to make it a fair test.",
+    "a": "Different balls have different efficiencies because they deform differently on impact. A ball that squashes a lot and is slow to spring back transforms more of its kinetic energy into thermal and sound energy, leaving less to become gravitational potential energy on the way up, so it rebounds lower. To make it a fair test you would keep the drop height the same for every ball, and use the same floor surface every time. You would also release each ball rather than throwing it, and repeat each drop three times and average the results.",
+    "hint": "Explain the energy loss first, then name specific controlled variables."
+   },
+   {
+    "q": "In the water wheel investigation, describe the energy transformations from the raised water to the turning wheel, and explain why adding more load changes the number of rotations.",
+    "a": "The raised water stores gravitational potential energy. As it is poured and falls, that is transformed into kinetic energy. When the moving water hits the paddles, energy is transferred to the wheel and becomes rotational kinetic energy, turning it. Some is also lost as sound and as heat from friction in the axle. Adding more load means each rotation has to lift a heavier mass, so more energy is needed per turn. Since the amount of water and the height it falls from stay the same, the same input energy produces fewer rotations.",
+    "hint": "Trace the chain first, then reason about a fixed amount of energy doing a harder job."
+   }
+  ],
+  "exam": {
+   "minutes": 50
+  }
  }
 ];
